@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "AutoLayout的小吐槽"
-date:   2014-12-08 11:00:00 +0800
-categories: ios
+date:   2014-12-08 11:00:00
+categories: 技术
 tags: [iOS]
 ---
 

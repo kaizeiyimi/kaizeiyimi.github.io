@@ -2,12 +2,9 @@
 layout: post
 title:  "XLYAutoLayoutEasy"
 date:   2014-12-08 16:00:00 +0800
-categories: ios
-tags: [GitHub iOS]
+categories: 技术
+tags: [GitHub,iOS]
 ---
-
-
-## AutoLayoutEasy简化代码描写约束
 
 开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.
 

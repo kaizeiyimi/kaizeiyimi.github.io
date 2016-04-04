@@ -2,11 +2,10 @@
 layout: post
 title:  "Coding Guidelines for Cocoa 翻译"
 date:   2014-06-10 13:00:00 +0800
-categories: ios
+categories: 技术
 tags: [iOS]
+description: "读罢文档, 对于理解Apple的系统和API设计有了新的认识, 觉得iOS开发都应该认真读一下.翻译算是做个mark, 也加深一下自己的理解."
 ---
-
-## Coding Guidelines for Cocoa  
 
 > 很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。
 翻译不那么准确，如果觉得有问题可以参看Apple自家的文档。[coding Guidelines for Cocoa](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146i). 欢迎拍砖。

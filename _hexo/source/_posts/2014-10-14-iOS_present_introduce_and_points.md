@@ -2,11 +2,11 @@
 layout: post
 title:  "iOS present 场景切换的演化和要点"
 date:   2014-10-14 14:30:00 +0800
-categories: ios
+categories: 技术
 tags: [iOS]
 ---
 
-# Present的演化
+
 iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UISplitViewController的replace在storyboard也被认为是一种切换(iPad专用, too). 本文将讨论present在不同版本的iOS SDK中的变化以及present的一些需要注意的问题. 本文的测试和讲述都是在xcode6.0.1中使用SDK8版本.
 
 present是在app中可以帮助用户理解app行为, 划分app功能模块, 是一种极其常用的场景切换方式. 最常用的方式就是:

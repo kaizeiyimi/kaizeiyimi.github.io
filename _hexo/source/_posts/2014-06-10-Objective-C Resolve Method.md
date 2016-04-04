@@ -2,11 +2,11 @@
 layout: post
 title:  "Objective-C Resolve Method"
 date:   2014-06-10 12:00:00 +0800
-categories: ios
+categories: 技术
 tags: [iOS]
 ---
 
-## objective-c中的动态消息决议
+本文简单介绍了一下`objective-c`中为类在运行时动态添加方法的技术.
 
 > [apple runtime 文档](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048) 文档中介绍了runtime知识以及resolve method的一些内容，但是不详细。。。。
 

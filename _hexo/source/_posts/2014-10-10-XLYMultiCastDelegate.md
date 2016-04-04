@@ -2,17 +2,15 @@
 layout: post
 title:  "XLYMultiCastDelegate 多播代理"
 date:   2014-10-10 16:00:00 +0800
-categories: github
-tags: [GitHub iOS]
+categories: 技术
+tags: [GitHub,iOS]
 ---
 
 [XLYMultiCastDelegate]: https://github.com/kaizeiyimi/XLYMultiCastDelegate
 [runtime doc]: https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html
 [swift]: https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/index.html
 
-## 通知中心NSNotificationCenter
-
-通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼.
+通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼. 本文介绍一种利用**消息转发**和**代理**来做广播的想法.
 
 记得做第一个项目时(一年多前...), 需要做聊天, 当时因为很多原因没有重新开发, 而是使用了之前项目的聊天模块代码, 结构十分混乱, 大量的使用了Notification并且很多地方的用法是错误的. 虽然开发得很不爽, 总之是硬扛下去了, 不堪回首. 期间积累了一些想法, 也写过一些demo验证了一些, 其中一个就是本文介绍的`MultiCastDelegate`. 
 

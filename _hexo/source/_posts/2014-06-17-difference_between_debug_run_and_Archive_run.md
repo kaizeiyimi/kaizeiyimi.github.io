@@ -2,8 +2,8 @@
 layout: post
 title:  "iOS 编译运行部署和发布部署的一个差异"
 date:   2014-06-17 13:00:00 +0800
-categories: xcode
-tags: [XCode iOS]
+categories: 技术
+tags: [XCode,iOS]
 ---
  
 不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。
