@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>kaizeiとyimi</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2016-04-04T14:04:23.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>kaizei</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2016 年后小总结</title>
+    <link href="http://yoursite.com/2016/03/15/%E5%B9%B4%E5%90%8E%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2016/03/15/年后小总结/</id>
+    <published>2016-03-15T07:00:00.000Z</published>
+    <updated>2016-04-04T14:04:23.000Z</updated>
+    
+    <content type="html">&lt;p&gt;问: 不应该年前写总结么?&lt;/p&gt;
+&lt;p&gt;答: 是的, 但是...&lt;/p&gt;
+&lt;p&gt;每个人都有自己可以填在但是后面的话, 我的是什么? 不告诉你.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;正文&lt;/h2&gt;
+&lt;p&gt;过完年了, 嗯, 不用提醒我已经过了1个多月了. 去年一年很颠簸, 跳了两次槽, 2月份离开人人去了tango, 然后8月份离开tango来到了现在的公司--财说. &lt;/p&gt;
+&lt;p&gt;技术上还是那样, iOS为主, 公司使用swift开发, 经历了1到2的迁移, 我们的代码质量蛮高, 结构也比较合理, 很少的时间就完成了. 年底用swift开发了几个库, &lt;a href=&quot;https://github.com/kaizeiyimi/XLYAnimatedImage&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;动图播放&lt;/a&gt;, &lt;a href=&quot;https://github.com/kaizeiyimi/XAutoLayout&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XAutoLayout&lt;/a&gt;,  &lt;a href=&quot;https://github.com/kaizeiyimi/XLYTextKitExtension&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;扩展TextKit&lt;/a&gt;, &lt;a href=&quot;https://github.com/kaizeiyimi/Phantom&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Phantom&lt;/a&gt;, 前两个的质量高一些, 后面两个更像是试验品. 吐槽一句: 用swift开发和只是站在旁边学习是完全不一样的. 😛&lt;/p&gt;
+&lt;p&gt; 有空倒腾了一下web技术, 感觉web技术才是未来的霸主. 断断续续看了一些js的书籍, 也倒腾了一些工具, &lt;code&gt;gulp&lt;/code&gt;, &lt;code&gt;browser-sync&lt;/code&gt;之类的, 还挺有意思的.&lt;/p&gt;
+&lt;p&gt;生活上有点儿悲催. 工作性质加上我一般比较投入, 久坐较多, 人胖了, 气色差了, 头发少了, 脾气也没以前好了, 总之整个人都不好了. 搬家也搬了两次, 租房住的悲哀. 现在又回到了最开始的地荒--立水桥. 立水桥还是那个立水桥, 但是房租已经不是那个价位的房租了. 卖方市场下的我们也只能挣扎却无法摆脱年年涨租的问题.&lt;/p&gt;
+&lt;p&gt;今年要多多锻炼身体, 多看点儿文学书籍. 篮球已经瘪了, 要打气了. 吉他上的灰很多, 要擦一下了. &lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;color:rgb(179,62,170)&quot;&gt;darling&lt;/span&gt;说, 身上的肉肥了, 再不锻炼就该割了!&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      kaizei的2015小总结. 总算也是写了总结了...
+    
+    </summary>
+    
+      <category term="日常" scheme="http://yoursite.com/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+      <category term="年终总结" scheme="http://yoursite.com/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XLYAutoLayoutEasy</title>
+    <link href="http://yoursite.com/2014/12/08/XLYAutoLayoutEasy/"/>
+    <id>http://yoursite.com/2014/12/08/XLYAutoLayoutEasy/</id>
+    <published>2014-12-08T08:00:00.000Z</published>
+    <updated>2016-04-04T10:07:09.000Z</updated>
+    
+    <content type="html">&lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;如何创建一个约束&lt;/h2&gt;
+&lt;p&gt;苹果在NSLayoutConstraint中提供了一个类方法&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+(instancetype)constraintWithItem:(id)view1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        attribute:(NSLayoutAttribute)attr1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        relatedBy:(NSLayoutRelation)relation&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                           toItem:(id)view2 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                        attribute:(NSLayoutAttribute)attr2 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       multiplier:(CGFloat)multiplier &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                         constant:(CGFloat)c;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;用于创建两个item之间的约束, 一次只能描述某两个属性的关系. 比如需要view1的left和view2的right保持10的偏移量. 那么这里的调用就是这样:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[NSLayoutConstraint constraintWithItem:view1 &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                             attribute:NSLayoutAttributeLeft&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                             relatedBy:NSLayoutRelationEqual&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                                toItem:view2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                             attribute:NSLayoutAttributeRight&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                            multiplier:1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                              constant:10];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;好长有木有, 但是很清晰, 至少明确地表达了两个view的两个属性间的关系. VFL的描写方式就不写了. 这里获取到了一个constraint对象, 下一步我需要让它生效, 我需要找到一个view去调用&lt;code&gt;[view addConstraint:constraint]&lt;/code&gt;, 这个view必须是view1和view2的一个公共父view. 完成操作后, 等到下一个刷新周期约束就会生效了.&lt;/p&gt;
+&lt;h2 id=&quot;xlyautolayouteasy&quot;&gt;XLYAutoLayoutEasy&lt;/h2&gt;
+&lt;p&gt;虽然创建约束的方法很直观, 但是我仍然认为它太复杂, 太长了. 屏幕杀手. 先看一眼我的lib如何描写一个约束.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view1.layoutLeft.equalTo(view2.layoutRight).constant(10);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;怎么看都更加简单. &lt;strong&gt;简化约束的创建是XLYAutoLayoutEasy的核心&lt;/strong&gt;, 所有的约束创建都使用类似的方法. 如果firstItem和secondItem使用相同的layout属性, 可以不用书写secondItem的layout属性. 如下:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//view1的宽度等于view2的宽度乘1再加上10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;view1.layoutWidth.equalTo(view2).constant(10);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果是根superView的对应属性做约束, 甚至可以写成这样:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//等同view1.layoutLeading.equalTo(superView.layoutLeading).constant(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;view1.layoutLeading.equalTo(100);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面的单行代码创建的是XLYConstraint对象, 需要调用resultConstraint来获取NSLayoutConstraint对象.&lt;/p&gt;
+&lt;p&gt;XLYAutoLayoutEasy还顺带提供了一些helper方法, 辅助激活, 更新和重建约束. &lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;批量创建约束&lt;/h4&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[UIView makeConstraints:^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  testView.layoutTop.equalTo(self.topLayoutGuideView.layoutBottom).constant(50);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  testView.layoutTrailing.equalTo(self.view).constant(-50);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  testView.layoutLeading.equalToConstant(50);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  testView.layoutHeight.equalToConstant(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用makeConstraint的方法会自动将block里面创建的约束激活, 无需再自行寻找公共父view进行添加.&lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;更新约束&lt;/h4&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[UIView updateConstraints:^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutLeading.equalTo(self.view).constant(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutHeight.equalTo(50);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;所有在updateConstraints里面创建的约束会首先查找有没有一个约束和创建出来的约束相似(后文会解释相似的判定), 如果有, 则修改constant, 否则添加新创建的约束. 
+如果使用iOS的方法, 则需要记录下之前创建的约束来修改constant. &lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;重建约束&lt;/h4&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[UIView remakeConstraints:^&amp;#123;  self.testView.layoutBottom.equalTo(self.bottomLayoutGuideView.layoutTop).constant(-100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	self.testView.layoutWidth.equalTo(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	self.testView.layoutHeight.equalTo(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	self.testView.layoutLeading.equalTo(self.view.layoutLeading);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;方法会记录所有在remakeConstraints中出现的作为firstItem的view, 并把跟这些view相关的所有约束去掉(不包含hugging, compression resistance 的约束), 然后重新激活新创建的约束.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;灵感&lt;/h2&gt;
+&lt;p&gt;大前提是&lt;code&gt;translatesAutoresizingMaskIntoConstraints = NO&lt;/code&gt;. 否则无法玩耍了. 既然使用了autoLayout就不要再搭着AutoResizingMask了.&lt;/p&gt;
+&lt;p&gt;简单描述一下XLYAutoLayoutEasy的设计灵感来源. 在storyboard中编辑一个约束时, 我发现xcode标注了firstItem, relation, secondItem, constant, priority, multiplier. 其中firstItem和secondItem显示的是view.width这样的形式, 整个约束看起来十分清晰. 于是想到如果能在代码里面用&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view1.width equalTo view2.width, constant 50, priority 1000, multiplier 1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这样的形式描述那多好.一下就看明白了. 于是想到给UIView添加分类, 提供类似width, height, leading这样的property. 为了准确表达是布局的属性, 在前面添加了layout, 于是就成了layoutWidth, layoutHeight, layoutLeading. 没有添加xly_的前缀是为了书写方便.
+ 首先定义了最基础的API:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view.layoutWidth.equalTo(view2.layoutWidth);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;关系有等于, 大于等于, 小于等于. constant, priority以及multiplier都有默认值, 分别是0, 1000, 1. 如果需要修改的话, 就在上面的表达式后面继续书写:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view.layoutWidth.equalTo(view2.layoutWidth).constant(100).priority(750).multiplier(1.5);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这三个属性书写的顺序可以随意交换.但是一定是在关系之后.&lt;/p&gt;
+&lt;p&gt;这样的形式更像c或者swift的语法, OC里面怎么做呢? 用block. block在调用时是block()的形式. 只要返回值可以使用&lt;code&gt;.&lt;/code&gt; 进行调用的话这样的书写就没有问题. 因此就诞生了如下的方法:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (XLYConstraint *(^)(id attr))equalTo;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (XLYConstraint *(^)(CGFloat constant))constant;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;用block作为返回值, 然后用()进行调用, 得到XLYConstraint的对象, 然后重复. 这样就能写出上面所展示的那种代码了. 我觉得这里如果用&lt;code&gt;[]&lt;/code&gt; 进行方法调用的话, 可读性会比较差, 所以...&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;view.layoutXXX&lt;/code&gt;这样的属性是XLYViewAttribute类型, 调用equalTo等描述关系的方法后才产生XLYConstraint对象, 这样做一方面是为了从概念上区分出约束的item和其他参数, 另一方面也方便了代码的分布.&lt;/p&gt;
+&lt;p&gt;通过这样的调用最终生成的XLYConstraint对象记录了一个约束所需要的8个参数. 然后调用其&lt;code&gt;resultConstraint&lt;/code&gt;方法将生成所对应的NSLayoutConstraint对象.&lt;/p&gt;
+&lt;h2 id=&quot;helper-&quot;&gt;helper方法&lt;/h2&gt;
+&lt;p&gt;一个约束被创建后需要激活. ios7及以下系统需要自己寻找公共父view并添加, 因此我需要一个寻找两个view公共父view的方法. ios8及以上系统只需要设置active为YES即可.
+在更新约束时, 我需要寻找到和当前约束&amp;#39;类似&amp;#39;的约束. 
+在重建约束时, 我需要找到跟一个view相关联的所有约束.&lt;/p&gt;
+&lt;p&gt;以上就是make, update和remake所依赖的核心方法.&lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;激活约束&lt;/h4&gt;
+&lt;p&gt;给NSLayoutConstraint添加了一个分类, 提供了xly_install 和 xly_uninstall方法来进行激活和移除操作, 方法中根据系统版本进行区别调用. 如果是ios8及以上只需设置active属性, ios7及以下则需要寻找最低公共父view来进行添加.&lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;更新约束&lt;/h4&gt;
+&lt;p&gt;更新约束时, 首先是创建了在block里面书写的约束, 然后去寻找是否有一个相似的约束, 如果没有的话就直接激活约束, 如果有就替换constant的值.&lt;/p&gt;
+&lt;p&gt;什么是相似? 从NSLayoutConstraint中能看出来, 创建完一个约束后能修改的值只有priority和constant, priority还不建议在约束激活后再修改. 虽然经过测试发现只要优先级不是1000, 并且改动后的值也不是1000就没有问题, 否则崩溃. 这里尊重苹果的文档, 把优先级不同的约束当成不同的约束. 因此,相似的概念就是除了constant以外, 其他的值是&lt;strong&gt;逻辑相等&lt;/strong&gt;的. 为什么不是完全相等? 因为约束并不是单向的, 它是一个双向的限制, 约束的公式如下:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view1.attr1 = view2.attr2 * multiplier + constant&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这个计算规则等同于下面这一个:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view2.attr2 = view1.attr1 * ( 1/multiplier) - constant/multiplier&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;因此, 在寻找相似的约束时必须考虑第二种形式. 我定义相似的结果为3种, 相似, 逆向相似以及不相似. 查找时还得小心一种很特别的约束, 是通过设置view的hugging和compression resistance生成的. 这种约束的类是&lt;code&gt;NSContentSizeLayoutConstraint&lt;/code&gt;, 需要过滤掉. 最后一个细节就是相似的约束可能不止一个, 这种情况下多半是代码有问题, 约束加多了, 但是不管怎么着, 我只取最新的一个, 即最后添加的那个, 因此我会倒序遍历constraints数组来进行查找.&lt;/p&gt;
+&lt;h4 id=&quot;-&quot;&gt;重建约束&lt;/h4&gt;
+&lt;p&gt;重建, 就得先毁灭再重生. 应该被毁灭的是哪些呢? 我善做主张, 将所有关联的约束全部干掉. 比如代码这么写:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[UIView remakeConstraints:^&amp;#123;  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutBottom.equalTo(self.bottomLayoutGuideView.layoutTop).constant(-100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutWidth.equalTo(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutHeight.equalTo(100);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.testView.layoutLeading.equalTo(self.view.layoutLeading);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  //这里不再多写了, view2也进行重建&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  self.view2 ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;block里创建了多个约束, 作为firstItem出现的是testView和view2, 因此所有和testView和view2有关联的约束全部干掉. 约束是双向的, 有关联就是约束的firstItem或者secondItem等于这个view. 在寻找关联的约束时只能从自己开始, 逐步往window遍历所有的约束, 将关联的约束记下. 这里本来想利用runtime去替换addConstant和setActive方法, 在方法中进行记录的, 但是发现了iOS的一些诡异得无法解释的现象, 放弃了这条路, 只能每次遍历查找了, 效率相对低点儿. 这里同样要去掉&lt;code&gt;NSContentSizeLayoutConstraint&lt;/code&gt;类型的约束.&lt;/p&gt;
+&lt;h2 id=&quot;-swift&quot;&gt;兼顾swift&lt;/h2&gt;
+&lt;p&gt;以上的代码如果bridge到swift使用将显得很funny. 因为方法返回的是一个闭包, OC直接使用()就可以跟在后面继续调用, 但是swift会变成这样:&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;view1.layoutLeft.equalTo()(view2.layoutRight).constant()(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;因此, 我专门为swift添加了两个头文件, 使得swift里面也能跟OC的写法一样.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//其中一个, 另一个见代码&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (XLYConstraint *)equalTo:(id)attr;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (XLYConstraint *)greaterThanOrEqualTo:(id)attr;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (XLYConstraint *)lessThanOrEqualTo:(id)attr;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;也专门弄了一个给swift bridge header用的&lt;code&gt;XLYAutoLayoutEasy-swift.h&lt;/code&gt;以区分import的头文件.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
+&lt;p&gt;写代码, 多思考, 想清楚了需要什么再写. 多画图有助于思考.&lt;/p&gt;
+&lt;p&gt;另外, 感谢我的她对我的包容和支持.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="GitHub" scheme="http://yoursite.com/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AutoLayout的小吐槽</title>
+    <link href="http://yoursite.com/2014/12/08/talk_about_autolayout/"/>
+    <id>http://yoursite.com/2014/12/08/talk_about_autolayout/</id>
+    <published>2014-12-08T03:00:00.000Z</published>
+    <updated>2016-04-04T10:07:40.000Z</updated>
+    
+    <content type="html">&lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
+&lt;h2 id=&quot;autoresizing-autolayout-&quot;&gt;AutoResizing -- AutoLayout之前的布局&lt;/h2&gt;
+&lt;p&gt;做app必然涉及到布局, 现在改为自动布局的话, 那么以前的布局是什么, AutoLayout解决了什么问题?&lt;/p&gt;
+&lt;p&gt; 以前的布局方式我觉得可以叫做半自动布局. 因为AutoResizing是一种spring-strut方式, 仅描述了view在其superView大小变化时自身如何变化. 它可以描述一个view相对于superView的上下左右四个边距是否固定, 自身的宽高是否可以拉伸这么6个属性, 对于大部分的app来讲AutoResizing已经足够描述布局规则了. &lt;/p&gt;
+&lt;p&gt; 但是如果view的大小不好计算(依赖内容)或者有多个view有相互依赖的关系, AutoResizing就不够用了, 并且布局将变得很繁琐无聊容易出错.&lt;/p&gt;
+&lt;p&gt; 布局的方式大致如下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你可能需要对view调用sizeToFit 或者其他方法来将view的frame调整到一个合适的大小.&lt;/li&gt;
+&lt;li&gt;也可以在某个父view的layoutSubviews方法中根据需求调整这些view的大小并计算这些view的各种位置. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中最麻烦的就是字体相关的布局计算, 因为文字渲染后的行高都略大于字号, 没法直接设定label高度, 必须用NSString的一个分类方法计算在一定条件下的渲染大小, 然后才能参与计算.&lt;/p&gt;
+&lt;h2 id=&quot;autolayout-&quot;&gt;AutoLayout 解决的问题&lt;/h2&gt;
+&lt;p&gt;AutoLayout试图解决控件大小变化以及位置变化的问题. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;控件大小的问题: 比如label控件默认情况下会有比较低的优先级阻止自身变大, 相对较高的优先级阻止自身被压缩, 在不引起变大或者压缩的情况下, label会保持和内容一样大. 你仍然可以固定它的大小, 但是不建议. 当你改变了text, label自动就会调整大小, 不需要你再去为了label的宽高抓狂了. 当然, 有的场景仍然需要手动计算文字渲染后大小.  另外一种大小问题是相对计算的, 比如一个view的大小或者位置会影响到另一个view的大小, 当这个view变化时另一个的大小也会相应变化.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;控件位置问题: AutoLayout最直接的表现就是能够定义两个控件之间的相对位置. 比如view1相对view2保持10的间距, 那么当view1的origin改变时, view2的origin也会随之变化.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;显然用AutoLayout进行布局看起来是很好的, 事实上也是很好的, 尽管不是那么完美. storyboard和AutoLayout可以帮助开发者将绝大部分的UI逻辑和业务逻辑分离开, 并且修改和维护的复杂性也还能接受, 习惯了的话也是能很较快速地调整约束的.&lt;/p&gt;
+&lt;p&gt;AutoLayout中一次只能描述一个view的宽高或者描述两个view之间的关系. 能描述的属性很多, 但是不是随便用的, 比如不能描述一个view的宽和另一个view的leading相等, iOS直接崩溃并告诉你这两个属性不能配对. 当你描述好了一个约束后, 你需要将其激活, 怎么激活? UIView有一个addConstraint的方法, 需要你自己添加. 那么该让谁来add呢? 经过一些测试发现, 这个调用add的view必须是约束中两个view的公共父view, 不一定是最低的那个, 只要是公共父view即可. 但是建议添加在最低公共父view中. 如果不想要一个约束了怎么办? UIView也有removeConstraint的方法, 去掉你不想要的即可.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;开始吐槽&lt;/h2&gt;
+&lt;p&gt;然后我要开始吐槽了. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;激活的问题.
+ 这算什么? 我自己去找公共父view? kidding me? 这个过程明显可以自动搞定啊. 然后发现iOS8支持了新的API. NSLayoutConstraint中多了一个active属性, 设置为YES即激活, NO即干掉. 但是对于iOS7及以下系统仍然需要自己找view去add和remove.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;NSLayoutConstraint类方法创建约束
+NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7个参数. 这7个参数不包含priority, 如果要设置要优先级还需要在创建约束后修改. 这个方法写起来简直就是屏幕杀手, 如果要规范一点一个参数一行,那么就是7行, 多写几个就轻松过一屏. 如果不折行, 那堆在一起的代码简直让人受不了. 那真是一坨一坨的.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;VFL
+也许苹果也觉得用一个带7个参数的方法去创建1个约束的方式有点儿不那么美观和方便, 于是开发了Visual Format Language, 目的是为了帮助开发者快速创建约束. 但是问题是, 这真的有效么? 使用VFL能一次性在一个方向上创建多个约束, 然后返回一个数组. 但是, 如果我需要根据需求调整其中一个约束呢? 我怎么获取到我想要的那个约束? 很遗憾, 你必须把VFL拆散, 对于你要的那一个约束, 要么你用NSLayoutConstraint的类方法去创建, 要么你用VFL去描述你要的那一个约束, 然后数组里面应该就只有那一个你要的约束了.
+另外一点, 用VFL要注意的就是metrics和views两个字典, 一个是记录format里面的各种标量, 另一个记录出现在format里面的view, 也挺麻烦的.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;动画
+貌似苹果还没有想好怎么比较方便地将约束和动画结合起来. 每次想动画呈现约束的变化, 都需要先改constant, 然后单独写一个动画, 在block里面找到一个view调用layoutIfNeeded. ╮(╯▽╰)╭, 为什么就不能稍微方便一点, 在animation的block里面修改约束就自动动画搞起呢? 技术上完全可行的说, 因为修改frame, alpha这些参数都是OK的.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;吐槽的基本上都是代码中编写AutoLayout相关代码的部分, 实际项目中也确实有不少需求是需要比较动态的布局的. 如果app比较简单, 使用storyboard就能完成布局描述的话就最好了, 那样将省掉非常多的编辑和调试约束的时间, 并且以后的维护也相对方便.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
+&lt;p&gt;另外, 本人开发了一个用于简化代码编写AutoLayout约束的小库 &lt;a href=&quot;https://github.com/kaizeiyimi/XLYAutoLayoutEasy&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYAutoLayoutEasy&lt;/a&gt;, 个人感觉更具有可读性和可维护性, 还支持swift哦.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
+&lt;h2 id=&quot;a
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS present 场景切换的演化和要点</title>
+    <link href="http://yoursite.com/2014/10/14/iOS_present_introduce_and_points/"/>
+    <id>http://yoursite.com/2014/10/14/iOS_present_introduce_and_points/</id>
+    <published>2014-10-14T06:30:00.000Z</published>
+    <updated>2016-04-04T10:09:36.000Z</updated>
+    
+    <content type="html">&lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UISplitViewController的replace在storyboard也被认为是一种切换(iPad专用, too). 本文将讨论present在不同版本的iOS SDK中的变化以及present的一些需要注意的问题. 本文的测试和讲述都是在xcode6.0.1中使用SDK8版本.&lt;/p&gt;
+&lt;p&gt;present是在app中可以帮助用户理解app行为, 划分app功能模块, 是一种极其常用的场景切换方式. 最常用的方式就是:&lt;/p&gt;
+&lt;figure class=&quot;highlight objc&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[ViewControllerA presentViewController:ViewControllerB animated:&lt;span class=&quot;literal&quot;&gt;YES&lt;/span&gt; completion:&lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;调用后会在A的上方展示B, 用户需要在B中进行一些操作才能会能回到A, 在B展示的期间, A不能直接与用户交互.&lt;/p&gt;
+&lt;h2 id=&quot;segue-from-ios5&quot;&gt;segue from iOS5&lt;/h2&gt;
+&lt;p&gt;在很久以前, present能够定制的地方很少, 展示的方式在iPhone尺寸上只能全屏, iPad有formSheet等可以进行非全屏的展示. 而动画则只能在4个默认设置中选择(直上直下, 反转, 翻页, 淡入淡出). iOS5开始提供了segue来抽象一个跳转, 可以创建自定义的segue去做动画, 但是这样的做法会导致场景切换的动画和切换的逻辑过程是分离的, viewWillAppear和viewDidAppear的调用时机是不正确的. 简单来说就是用动画模拟了切换的过程, 但其实切换是一瞬间, 一般实现是在动画结束的completion里面调用无动画的present. 先看看苹果给出的代码:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)perform&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// Add your own animation code here.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [[self sourceViewController] presentModalViewController:[self destinationViewController] animated:NO];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;``` &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;如果按照苹果文档上给的代码去填上动画,  比如:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```objective-c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)perform&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *toView = [self.destinationViewController view];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *sourceView = [self.sourceViewController view];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    //寻找一个临时的view作为superview, 否则没有动画效果, 因为view不在window上&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [sourceView.superview addSubview:toView];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    toView.transform = CGAffineTransformMakeScale(0.5, 0.5);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [UIView animateWithDuration:0.5 animations:^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        toView.transform = CGAffineTransformIdentity;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; completion:^&amp;#123;/* ... */&amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [self.sourceViewController presentViewController:self.destinationViewController animated:NO completion:nil];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;很不幸, 这个逻辑是有问题的. 问题就在addSubview那里. 为了做动画, view需要在window上, 而addSubview的时候toView进入window, 然后viewWillAppear和viewDidAppear就会立即被调用, 这中调用时机是不对的. 然后下面又立即做了present, SDK8中会得到这样一个warning: &lt;code&gt;Unbalanced calls to begin/end appearance transitions for &amp;lt;YourViewController: 0x7fc46bd7e860&amp;gt;.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果把present的语句放到动画的completion中, 没有warning, 但是viewWillAppear和viewDidAppear会在addSubview处连续调用一次, 然后动画结束时调用present又被连续调用一次, 导致各被调用两次. 注意这里&lt;strong&gt;不会&lt;/strong&gt;调用disappear相关的两个生命周期方法. 是不是很无语? 而如果去掉addSubview的调用, 将没有动画效果.&lt;/p&gt;
+&lt;p&gt;网上有一些帖子里面的方法会在completion中, 在present之前多一个&lt;code&gt;[toView removeFromSuperview]&lt;/code&gt;的调用. 很不幸, 这样带来的问题更多了, 在SDK8中,会得到willAppear, didAppear, 动画结束时得到willDisappear, willAppear, 没有didAppear! 然后又得到前文提到的warning. 这真是让人沮丧的事情.&lt;/p&gt;
+&lt;p&gt;所以我的建议是不要使用自定义的segue, viewController的生命周期完全得不到保障. 使用segue去模拟的方式会导致生命周期方法的调用和视觉过程不一致. 导致开发者在不同生命周期里配置的不同的逻辑的执行顺序和时机都不正确.&lt;/p&gt;
+&lt;h2 id=&quot;transitioning-from-ios7&quot;&gt;Transitioning from iOS7&lt;/h2&gt;
+&lt;p&gt;一个真正的场景切换对于目标viewController来讲应该是viewWillAppear, 然后动画, 然后才是viewDidAppear.  iOS7中提供了transition的概念, 用于给场景切换提供自定义动画. 这套机制把场景切换的过程进行了拆分, 将其中的动画部分交由开发者提供, present调用还和以前一样, 也仍然可以使用系统提供的segue(系统内部是正确的, 只是开发者没有办法), 只是在真正开始present流程前设置一下presentedViewController.transitioningDelegate = someDelegate. 这样保证了viewController切换时的生命周期调用时机, 而且也可以创造出各种各样的动画效果. 简单看看使用方式:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if (![segue.identifier isEqualToString:@&amp;quot;your present segue identifier&amp;quot;]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        UIViewController *viewController = segue.destinationViewController;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        viewController.transitioningDelegate = someDelegate;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        //文档要求设置为custom才会根据delegate去获取自定义动画,实际测试结果是不需要设置也OK. 而且设置了反而会在ios8中产生另外的问题, 后文描述&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        viewController.modalPresentationStyle = UIModalPresentationCustom;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;苹果的文档说明:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Discussion
+  When this view controller’s &lt;em&gt;modalPresentationStyle&lt;/em&gt; property is &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;, UIKit uses the object in this property to retrieve the objects needed to present this view controller onscreen. The transitioning delegate must conform to the &lt;em&gt;UIViewControllerTransitioningDelegate&lt;/em&gt; protocol. Its job is to vend the animator objects used to animate this view controller’s view onscreen &lt;strong&gt;and an optional presentation controller to provide any additional chrome and animations&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;加粗的是ios8才有的. 下面是someDelegate实现的方法:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (id&amp;lt;UIViewControllerAnimatedTransitioning&amp;gt;)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return [CustomPresentAnimation new];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (id&amp;lt;UIViewControllerAnimatedTransitioning&amp;gt;)animationControllerForDismissedController:(UIViewController *)dismissed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return [CustomDismissAnimation new];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这里只是简单列举一下方法, 使用的动画对象没有自定义的属性因此就直接new了. 动画对象需要实现&lt;em&gt;UIViewControllerAnimatedTransitioning&lt;/em&gt; 或者 &lt;em&gt;UIViewControllerInteractiveTransitioning&lt;/em&gt; 协议, 后者从名字上能看出来是交互式切换. 从屏幕左边往右滑动去触发pop操作, 并且让UI跟随手指运动的切换方式就是交互式的.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)animateTransition:(id&amp;lt;UIViewControllerContextTransitioning&amp;gt;)transitionContext&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *containerView = [transitionContext containerView];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *toView = [transitionContext viewForKey:UITransitionContextToViewKey];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [containerView insertSubview:toView atIndex:0];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    toView.alpha = 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fromView.transform = CGAffineTransformMakeScale(1.5, 1.5);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fromView.alpha = 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        toView.alpha = 1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; completion:^(BOOL finished) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        [transitionContext completeTransition:YES];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (NSTimeInterval)transitionDuration:(id&amp;lt;UIViewControllerContextTransitioning&amp;gt;)transitionContext&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 1.0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;``` &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;上面这段代码对于present或者dismiss都可以使用, 效果就是当前fromView会变大并变透明, toView会从透明到完全不透明. 更深入的用法以及交互式动画的控制这里不讨论, 苹果的文档和示例代码都有很好的说明. &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;关于是否设置*UIModalPresentationCustom*的问题, 虽然文档要求设置, 但是测试是不需要. 如果设置了delegate并且使用*UIModalPresentationCurrentContext*, 会达到currentContext起作用并且自定义动画也起作用的现象. 算bug么? (关于currentContext的使用后文有介绍)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;尽管在iOS7中开放了场景切换的动画控制, 对于present的一些需求仍然没有达到. 举一个简单的例子: 我不想在present调用后将presenter的View从window上移除, 因为我需要它作为一个背景, 就像iPad上的formSheet一样. 但是很遗憾, iPhone上不可以, presentingViewController的view会被移除, 当然你可以截屏, 但是无法同步内容了, 或者, 可以创建一个window, 指定一个相对较高的windowLevel, 将presentedController放到新的window中来达到需求(这也是我现在的做法...). 但是用window的麻烦就是不容易控制, app中其他的部分和这个viewController只有数据交互, viewController和view的层级结构被完全剥离了. 不是很好的解决方法.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;## UIPresentation from iOS8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;### UIPresentationController&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;iOS8中再次强化了present的使用. 普通的使用当然没有问题, 但是如果想更好地控制present的过程和细节, 那么iOS8中的UIPresentationController就是完成这个任务的. 它描述的是一个present从开始到结束的全过程, 这里不包含如何做过场动画, 但是有方法可以同其**交流**(后文会解释), 过场动画仍然由iOS7的方式来控制. 从开始到结束是一个怎样的过程? 是从某一个viewcontroller调用present开始, 一直到dismiss掉被展示的presentedViewController. 期间的大小变化, 布局等都属于这个过程的一部分. UIPresentationController提供的信息很多, 如:正在展示的和被展示的viewController, 展示的方式, 场景切换时的containerView, 然后是一些方法提供诸如是否需要移除presentingView, 是否全屏展示, 还有布局相关的一些回调和方法. 详细的内容和用法这里不赘述了, 可以看头文件以了解更多, 另一篇博客中会单独介绍.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;要想使用UIPresentationController去控制present过程, 就需要将presentedViewController的*modalPresentationStyle* 设置为 *UIModalPresentationCustom*, 否则将不会尝试获取UIPresentationController的实例. 而是否有presentationController来控制present过程得到的效果也不一样, 最明显的一个就是默认不移除presenter的view. 只需要设置为*UIModalPresentationCustom*, 不需要设置transitionDelegate就可以看到效果. 但是如果不设置transitionDelegate而跑在ios7的设备中会得到如下warning: *UIModalPresentationCustom presentation style can only be used with an animator or with unanimated presentations.*  如果设置了delegate, 可以多实现一个方法去返回自定义的presentationController, 可以定制特别多的细节, 比如chrome和content的大小, 场景切换相关的附加动画. &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```objective-c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UIView *dimView = [[UIView alloc] initWithFrame:self.containerView.bounds];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    dimView.backgroundColor = [UIColor colorWithRed:0 green:170 blue:170 alpha:0.8];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    dimView.alpha = 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    dimView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    [self.containerView insertSubview:dimView atIndex:0];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[self.presentedViewController.transitionCoordinator animateAlongsideTransition:^(id&amp;lt;UIViewControllerTransitionCoordinatorContext&amp;gt; context) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        dimView.alpha = 1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125; completion:nil];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;iPad上formSheet弹出时周围不是变黑么? 这里的代码就是变成天蓝色. 注意那个animateAlongSideTransition方法, 这个方法的意思是block里地动画是和过场动画一起执行的, 测试了一下, 效果或者说实际做法就是把这个block加到了过场动画的block后面后组成一个新的block来做动画, 这就是前文所述的&amp;quot;交流&amp;quot;. 开发中我有时候也会这样提供一些回调和设置来解决一些动画的同步问题. 还有一些关于size控制的就不多说了.&lt;/p&gt;
+&lt;p&gt; 除了开发者可以定制present过程, 苹果自己也对系统控件做了很多改造. UIPresentationController是一个父类, iOS自己实现了一些子类如私有的全屏展示Controller还有UIPopoverPresentationController, 而且将很多以前的控件进行了改造, UIAlertView, UIActionSheet, popover, searchDisplayController都被改造了. 苹果的工程师应该是这么认为的: 这些东西都是在现有的viewController上展示一些新的内容, 认为他们的行为其实就是present. 因此从iOS8开始我们多了UIAlertController来包含alert和actionSheet的展示, 并且是基于block的. popover不是提供新的viewController, 而是提供了一种展示方式&lt;code&gt;UIModalPresentationPopover&lt;/code&gt; 以及 UIPopoverPresentationController来提供管理,  UISearchDisplayController被替换为UISearchController.(wwdc的视频里面, 工程师自喷了一下以前使用的是view, 通过addsubview去添加, 却要装得好像一个viewController, 说是付出了很多, 回报很少的样子...).&lt;/p&gt;
+&lt;p&gt;看苹果的意思是要用viewController来区分所有的场景, 并用presentation来管理场景切换(不包含容器内部的切换). 以前的alert和actionSheet的自己创建window, 以及UISearchDisplayController去addsubview的方式被否定了. 的确这是很不好的, 就拿UIAlertView来说, 因其自己处在一个独立的window中, 如果调用show的viewController消失了, 却没有设置alertView消失, 就会导致一个很尴尬的现象, 内容都没了, 你alert个啥呢? 而且, 如果alertView的delegate正好是这个viewController的话, 点击alertView的按钮还会导致崩溃, 因为delegate属性是assign不是weak (要注意, assign是正确的设计). 当然可以在viewController的viewWillDisappear或者dealloc等地方添加一下干掉alertView的逻辑, 但是这样就会给viewController添加变量了, 并且有时候会添加很多... 对于UIAlertView, 系统还有一个行为比较有意思, alertView可以在上一个没有消失的情况下继续弹出, 弹出时会暂时隐藏上一个, 待这一个处理完毕后再重新显示. 在弹窗正在展示的期间如果app切到后台, 再切回前台, alertView会重新从无到有的展示一次. 而换成alertController以后, 展示的其实就是一个看起来跟alertView一样的viewController, 系统是不允许一个presentingViewController同时present两个viewController的, 因此alertView的那种允许连续弹多个alert的有趣的现象没有了, 并且也不会在前后台切换时出现前述的重新展示的现象. 如果有人以前依赖了这些逻辑就一定要小心了, UIAlertController需要依赖一个viewController才能进行展示, 不能自行创建window进行展示. 也就不存在缓存之前的alert一说了.&lt;/p&gt;
+&lt;h3 id=&quot;adaptive-&quot;&gt;adaptive 自适应&lt;/h3&gt;
+&lt;p&gt;这里补充说一点adaptive. 苹果对iOS8中所作的present的改动和自适应不同屏幕尺寸是有非常大关系的. 为什么允许在iPhone环境中也能使用popover和split? 其实在启用size classes后, 苹果期望开发者能更多地关注现在的尺寸中宽度和高度有没有被压缩,  &lt;em&gt;UITraitCollection&lt;/em&gt; 描述了现在所处的环境, 包含宽度, 高度的情况, 屏幕的scale, 设备.(更多地细节看wwdc视频和文档). 在有size classes的情况下, 拿popover来举例, 同一段代码就可能允许于不同尺寸的设备中, iPad中宽度和高度都是正常, 能像期望地那样弹出popover, 效果不变. 而在iPhone中也就是宽度或者高度被压缩时, popover不能展示, 系统的UIPopoverPresentationController的默认行为是帮你改成全屏present. 如果你想再稍微定制下全屏展示时的样式比如添加一个navigationController来包含将要展示的viewController, 那么可以实现UIPresentationController的代理方法来提供调整:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//viewController中&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if ([segue.identifier isEqualToString:@&amp;quot;popover&amp;quot;]) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        UIViewController *viewController = segue.destinationViewController;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        viewController.presentationController.delegate = self;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//代理方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//系统默认的应该是UIModalPresentationFullScreen, 没有over这个单词&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return UIModalPresentationOverFullScreen;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//must implement the above one to give a chance to call this one...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (UIViewController *)presentationController:(UIPresentationController *)controller viewControllerForAdaptivePresentationStyle:(UIModalPresentationStyle)style&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:controller.presentedViewController];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return navVC;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果不实现第一个方法的话就不会调用第二个代理方法, 虽然默认的也是全屏, 而且你只能返回全屏(有两个值都可以). 然后也要注意: &lt;strong&gt;如果没有使用size classes, 只保留iPhone size时, 第一个代理方法返回UIModalPresentationFullScreen, 则不会调用第二个代理方法. 需要返回UIModalPresentationOverFullScreen才行&lt;/strong&gt;. 某种程度上可以认为是个小bug. 不过带over的变量是iOS8才有的, 理论上也应该使用新的变量才对. &lt;/p&gt;
+&lt;p&gt;另外可以强制不使用adaptive, 只需要返回UIModalPresentationNone即可. 在压缩的空间内也可以展示为popover. 这点很好~&lt;/p&gt;
+&lt;h1 id=&quot;present-&quot;&gt;Present 的一些要点&lt;/h1&gt;
+&lt;p&gt;前面说了很多present的演化, 从segue到transition再到presentationController, 都是在加强present, 试图给开发者更多的空间. 下面说一些present的要点, 主要说一下present中viewController的层级结构以及如何修改确定层级关系.&lt;/p&gt;
+&lt;p&gt;当一个app运行起来, window上有一个rootViewController, 可能是一个NavigationController或者一个TabbarController, 我们可以进行push操作深入到一个ChildViewController中, 假如A-&amp;gt;B-&amp;gt;C, A是navigationController, push进入到C. 这时候我们在C上有一个需求需要present展示D. 这个过程需要知道一些viewController才能真正开始. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;presentingViewController: 这个present到底是谁在做支持?&lt;/li&gt;
+&lt;li&gt;presentedViewController: 这个present中被展示的是谁?&lt;/li&gt;
+&lt;li&gt;sourceViewController: 这个present是谁发起的?
+要注意, source和presenting往往是不一样的. 在本例中, A最终会成为presenting, C是source, 而D是presented. 表示如下:&lt;pre&gt;
+D
+|
+A-&gt;B-&gt;C
+&lt;/pre&gt;
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;D现在是和A进行了关联, 形成了presenting和presented的关系. viewController有两个readOnly的属性, 分别是presentingViewController和presentedViewController. 前者是指当前viewController正在被谁展示, 后者是指正在被当前viewController展示的是谁. 这两个属性其实是计算属性, 他们都是递归往parent寻找, 直到找到真正在做present的viewController. 本例中在C的presentingViewController为nil, presentedViewController为D. 这个结果对于A, B, C都是一样的, 因为B和C都是A的childViewController. D的presentingViewcontroller则是A, presentedViewController是nil. 如果D也是一个容器, 假如仍然是navigationController, 那么D也push到E.&lt;/p&gt;
+&lt;pre&gt;
+D-&gt;E
+|
+A-&gt;B-&gt;C
+&lt;/pre&gt;
+A, B, C, D的那两个属性的值都没有变化, E的presentingViewController是A, presentedViewController是nil. 我们可以在E上继续present到F, F再push到G.
+&lt;pre&gt;
+F-&gt;G
+|
+D-&gt;E
+|
+A-&gt;B-&gt;C
+&lt;/pre&gt;
+
+&lt;p&gt;这是D的presentedViewController就是F. 其余值也能响应推断出来. &lt;/p&gt;
+&lt;p&gt;从另外一个方式来理解, present意味着展示新的模块, 新模块应该在逻辑上是另外一层, 默认情况下, present新的一层由当前层的根元素来操作. 所以是A展示了D, D展示了F. 为什么说是默认情况?  因为viewController还有一个属性:&lt;em&gt;definesPresentationContext&lt;/em&gt;. 默认值为NO. 文档中描述如果值为YES, 意味着期望presentedViewController覆盖当前的view的范围. 直观地来讲, 就是viewController告诉系统, 当我或者我的childViewController做present时, presenting是我, 覆盖我的显示范围. 如果真的想要这样的效果, 还需要给presentedViewController设置&lt;em&gt;modalPresentationStyle&lt;/em&gt;的值为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 指定presentedViewController在展示时使用当前的上下文. &lt;/p&gt;
+&lt;p&gt;如果两个值都正确设置了, 当一个childViewController调用present时, 它首先检查自己, 然后递归检查parentViewController是否有谁的&lt;em&gt;definesPresentationContext&lt;/em&gt;是YES. 这样会找到一个viewController来作为presenting, 然后present就是在这个viewController上做. 注意, 它有可能不是当前层的根, 也就意味着根仍然可以present. 根present的viewController的层级在child之上. &lt;/p&gt;
+&lt;p&gt;如果没有同时达成上述的两个变量设置, 得到的结果就是默认由当前层的根进行present, 并且不以根的显示范围做控制. 这里有一个需要注意的: 如果在一个viewController (X)上设定了&lt;em&gt;definesPresentationContext&lt;/em&gt;为YES, 并且presentedViewController (Y)设置了&lt;em&gt;modalPresentationStyle&lt;/em&gt;为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 在Y上再次进行present时,  下一个presentedViewController (Z)&lt;strong&gt;没有设置&lt;/strong&gt; 为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;的话, 展示会变成全屏, 此时的Z的presentingViewController变成了X. 更奇怪的是绑定的unwindSegue会莫名失效, 其它事件还能正确响应. 如果Z设置了&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 则present覆盖的还是X的范围, presentingViewController属性指向的是Y.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;很乱有木有? 我也觉得很乱. 但事实就是这样. 苹果这次的iOS8升级带来的问题不少, 添加了size class来描述用户界面的变化, 顺便一提, 因为引入size class的概念, 转屏的方法也全部废弃, 改为响应尺寸的变化. 引入UIPresentationController进行present管理, 系统控件的展示也基本上都变成了present展示, 行为发生了大幅变化. &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;的设置与否会导致不同的结果. 允许adaptive特性来调整不同尺寸下地显示策略, 但是不兼容iOS7及以前的系统, 基本上都是些新的API和设计. &lt;/p&gt;
+&lt;p&gt;稍微吐槽下: autoLayout的使用仍然有些问题, 有些设置不是在所有版本中都支持的, 虽然给出了warning, 但是没有建议如何修改. 使用autoLayout后的动画也有各种各样的问题, 给使用了autolayout的viewController做过场动画, 改变view的transform来完成效果. 如果使用currentContext的方式present 并且最终显示范围和viewController的初始大小不一致时, 会看到很好玩的结果. 动画效果完全就是打脸. 也尝试过给animation加上layoutSubViews的option, 然后又得到了另外一个打脸的动画效果. 分析了一下代码, 发现上述的改动总结起来就是先改动了transform让其缩放变小, 然后动画block中重设transform, 然后改变view的frame. 是的, 就是因为改变了frame导致了各种奇葩的效果, 有兴趣的自己试试就知道了. 还有很多其他的问题这篇博客就不在吐槽了, 再写就太长了.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UIS
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XLYMultiCastDelegate 多播代理</title>
+    <link href="http://yoursite.com/2014/10/10/XLYMultiCastDelegate/"/>
+    <id>http://yoursite.com/2014/10/10/XLYMultiCastDelegate/</id>
+    <published>2014-10-10T08:00:00.000Z</published>
+    <updated>2016-04-04T10:12:18.000Z</updated>
+    
+    <content type="html">&lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼. 本文介绍一种利用&lt;strong&gt;消息转发&lt;/strong&gt;和&lt;strong&gt;代理&lt;/strong&gt;来做广播的想法.&lt;/p&gt;
+&lt;p&gt;记得做第一个项目时(一年多前...), 需要做聊天, 当时因为很多原因没有重新开发, 而是使用了之前项目的聊天模块代码, 结构十分混乱, 大量的使用了Notification并且很多地方的用法是错误的. 虽然开发得很不爽, 总之是硬扛下去了, 不堪回首. 期间积累了一些想法, 也写过一些demo验证了一些, 其中一个就是本文介绍的&lt;code&gt;MultiCastDelegate&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;我们遇到了一类问题, 当某个数据发生变化时, 可能有多个对象期望得到通知, 但是各自所处的线程或者Queue是不一样的. NSNotificationCenter除了在发送通知时的一些常量定义的问题外还有一个重要的特性: 通知的调用是在postNotification的调用线程中同步执行. 如果我们有主线程和后台的对象同时监听通知, NSNotificationCenter就无法满足需求了, 总是至少有一个observer不是在自己所属的线程或者Queue调起. 难道还要自己再次dispatch一下?&lt;/p&gt;
+&lt;h2 id=&quot;xlymulticastdelegate&quot;&gt;XLYMultiCastDelegate&lt;/h2&gt;
+&lt;h3 id=&quot;-&quot;&gt;使用简介&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMultiCastDelegate&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMultiCastDelegate&lt;/a&gt;&lt;/strong&gt;来拯救你. 它的中文名字叫多播代理? 其实是广播. 它的作用跟通知中心NSNotificationCenter很像, 要做的事情也是一对多的通知. 实现的思路严重依赖Objective-C的消息转发机制. 它不是完全的通知中心的代替实现, multiCastDelegate 其实需要使用一个protocol来初始化. 之后添加的observer或者说delegate必须要实现这个protocol, 否则将不能添加. 先看看基本使用, 再继续介绍.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;@protocol SimpleProtocol &amp;lt;NSObject&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@optional&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)someOptionalMethod;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@end&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//创建&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XLYMultiCastDelegate *multiDelegate = [[XLYMultiCastDelegate alloc] initWithConformingProtocol:@protocol(SimpleProtocol)];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//添加代理&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[multiDelegate addDelegate:self dispatchQueue:dispatch_get_main_queue()];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//需要有一个地方来保存multiCastDelegate实例&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;self.multiDelegate = (id&amp;lt;SimpleProtocol&amp;gt;)multiDelegate;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//可以检查是否实现了协议&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;BOOL result = [self.multiDelegate conformsToProtocol:@protocol(SimpleProtocol)];&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;调用其实很简单, 首先需要创建一个multiDelegate对象, SimpleProtocol真的很simple, 只有一个可选方法. 添加代理时可以指定dispatchQueue参数, 这个Queue将是代理方法被调起的Queue, 解决了通知中心不能往不同的线程或Queue发送通知的问题. 创建了multiDelegate对象当然需要找个地方存起来. 以后也可以随时添加或者移除delegate. 当然你可以检查multiDelegate是否实现了协议, 结果是YES.&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;原理说明&lt;/h3&gt;
+&lt;p&gt;下面详细说明一下实现的细节和需要注意的问题, 会涉及到一些runtime的知识, 这里不做详细的介绍, 需要了解的请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;苹果的文档&lt;/a&gt;. 这里先仅对OC环境进行说明, swift的后面单独说明.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;协议检查&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;协议是一个&lt;code&gt;Protocol *&lt;/code&gt;类型. 代码中可以这样声明变量和获取协议:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//声明为property&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@property (nonatomic, strong) Protocol *protocol;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//获取&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;NSString *protocolName = @&amp;quot;SimpleProtocol&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Protocol *protocol = objc_getProtocol(protocolName.UTF8String);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//或者&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Protocol *protocol = @protocol(SimpleProtocol);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;我们需要记录下当前多播代理所支持的协议, 协议在runtime环境里面应该是单例的形式存在的. 在添加新的delegate到多播代理中时进行的检查很简单 &lt;code&gt;[delegate conformsToProtocol:self.protocol]&lt;/code&gt;, 如果通过则允许添加. 内部会创建一个delegateNode对象来weak持有添加的delegate, 并记录对应的delegateQueue. 还有一些添加删除的管理delegate的方法就不多说, 都是些简单逻辑.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;runtime支持&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject conformsToProtocol:]&lt;/code&gt;方法, 判定是否实现了某个协议. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject respondsToSelector:]&lt;/code&gt;方法, 遍历现有的代理, 只要任何一个能够响应则认为能够响应.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject methodSignatureForSelector:]&lt;/code&gt;方法, 详细文档说明参考apple的runtime文档, 我们这里的场景是multiDelegate自己不能响应方法调用, 因此需要做调用转发, 这个时候该方法会被调用来给&lt;code&gt;NSInvocation&lt;/code&gt;对象设置方法签名. 是为自己不能响应的方法寻找方法签名, 仍然遍历现有的代理, 找到一个正确地签名即可. 签名记录了这个方法的返回值类型, receiver的类型, 以及参数个数等信息. 如果没有delegate能够提供签名, 则默认提供doNothing的方法签名, 正如其名, 啥也不做, 只是为了不崩溃. 这个行为也可以理解为消息没有接受者则丢弃.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject forwardInvocation:]&lt;/code&gt;方法, 这里就是最重要的地方. 当一个对象不能相应一个selector调用时, 满足一些条件的情况下最终会走到这里, 条件如何达成请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;苹果文档&lt;/a&gt;, 当然我们这里是达成了, 现在我们得到了一个invocation对象, 它包含了方法签名, 参数等信息, 是对一个对象进行方法调用的一个封装. NSInvocation对象有一个方法&lt;code&gt;-[NSInvocation invokeWithTarget:]&lt;/code&gt;, 其作用就是将target作为方法调用的receiver进行调用, 参数不变. 所以我们将遍历所有的delegate, 并在它们的delegateQueue里面进行调用, 这样就完成了消息调用的转发.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;需要注意的问题&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;创建XLYMultiCastDelegate实例, 添加移除delegate等管理操作都是线程不安全的, 需要使用者维护.&lt;/li&gt;
+&lt;li&gt;本质上是想用代理方法调用来完成通知, 因此应该将其应用于没有返回值的代理方法. 如果一定要发送带返回值的方法调用, 内部逻辑会在发送调用的线程中同步寻找第一个能够响应此方法的delegate并调用. 这里不能使用dispatch_async, 必须同步调用, 否则调用者会立即得到nil的返回值.&lt;/li&gt;
+&lt;li&gt;遍历delegate并进行方法调用的for循环使用了信号量来进行同步. Invocation不支持copy, 并且有一个问题: 如果在不同的线程同时对同一个invocation对象调用&lt;code&gt;-[NSInvocation invokeWithTarget:]&lt;/code&gt;, 可能会出错, 这个错误不是崩溃, 而是target的处理错误. 比如对A,B同时进行调用, invoke调用时应该会记录当前的receiver(根据结果现象推断的), 中间还会经过一些步骤才会真正发起调用, A先被记录, 在发起调用前, B又被记录, 则两次调用的结果会是调用了两次B. 因此需要同步一下, 保证invocation对象的串行使用.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;swift-&quot;&gt;swift支持&lt;/h3&gt;
+&lt;p&gt;很不巧, 苹果发布的新的编程语言swift对runtime, KVO, KVC的支持很不友好. swift加入了模块的概念来解决OC多年的全局符号表的痛, 还有可选值什么的一些新概念. 其他的特性就是5仁月饼. 如果能够习惯OC中的block, 闭包, 那么swift里面的东西就没啥问题了, 都是些语言细节, 底层依然是runtime来支撑, 可以和OC混合编译. 细节请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;swift&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;本来想直接用swift重新实现的, 结果被直接拒绝了. swift中不允许使用NSInvocation对象, 只能混编了. 获取协议对象时需要注意是否是swift中定义的协议:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//使用oc中定义的协议没有模块&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XLYMultiCastDelegate(protocolName: &amp;quot;SimpleProtocol&amp;quot;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//使用 swift定义的协议需要加上模块信息, 否则无法获取&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;XLYMultiCastDelegate(protocolName: &amp;quot;XLYMultiCastDelegateDemo.SimpleSwiftProtocol&amp;quot;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;然后在调用时需要用as进行类型转换才能调用方法. &lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;let multiDelegate = multiDelegateUsingOCProtocol as SimpleProtocol&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;运行时会使用&lt;code&gt;-[NSObject respondsToSelector:]&lt;/code&gt;来进行检查是否可以转换. 转换成功后就可以进行调用了.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;multiDelegate.someOptionalMethod!()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;-&quot;&gt;总结&lt;/h3&gt;
+&lt;p&gt;消息转发机制由语言支持, 应该是受到了smalltalk的影响, ruby也有类似的机制. swift想要做成一个类型安全的语言, 支持太多动态的特性会让很多东西失去保证. 总之, 工欲善其事, 必先利其器. 多了解一些语言的特性, 能够学到一些技术的设计思路, 还能帮助简化程序设计, 同时提高逼格😜.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机rem
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="GitHub" scheme="http://yoursite.com/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XLYMapping System</title>
+    <link href="http://yoursite.com/2014/10/09/XLYMapping_System/"/>
+    <id>http://yoursite.com/2014/10/09/XLYMapping_System/</id>
+    <published>2014-10-09T10:00:00.000Z</published>
+    <updated>2016-04-04T10:12:43.000Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt; 是一个能够将JSON对象(NSDictionary或者NSArray)映射到本地对象的库. 可以简化从服务端请求到数据后的字段填充操作. 当然, 它是本人开发的😃.&lt;/p&gt;
+&lt;p&gt;很早以前(一年多)接触了&lt;a href=&quot;https://github.com/RestKit/RestKit/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;restkit&lt;/a&gt;, 它很强大, 针对 restful 的API封装了网络请求, JSON对象的映射, 包括普通对象和受管对象(&lt;code&gt;NSManagedObject&lt;/code&gt;), 并且对受管对象还额外提供了许多便利的方法. 它集成了&lt;a href=&quot;https://github.com/AFNetworking/AFNetworking/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AFNetworking&lt;/a&gt;这个公认很好的网络库来提供网络请求, 使得使用restkit的开发者能够极大得减少请求和数据转换的代码量.&lt;/p&gt;
+&lt;p&gt;随着时间迁移, 我对它的看法持一些保留态度了. 不是说我觉得他不好, 我只是感觉它太想做得大而全了. 我对它的架构并没有做过特别深入的研究, 只是使用了将近1年的时间, 而这期间接触最多的是映射系统. 因为我们的app需要同服务端做特别多的请求, 对应的元数据的种类也特别多, 经常还会遇到一个接口下发完全不同的数据, 还好有restkit提供的丰富的mapping方式, 让我们能够hold住各种奇葩的需求. 除了映射系统, restkit还提供了一些友好的接口来生成请求对象, 管理请求队列, 路由等, 还有一些&lt;code&gt;CoreData&lt;/code&gt;的支持, 以及&lt;code&gt;search, testing&lt;/code&gt;等(这两个我没有研究过).&lt;/p&gt;
+&lt;p&gt;我觉得它太复杂了. 我曾经想把它的映射系统扒出来, 很快就放弃了. 想扒出来的原因是这样: 首先, coreData我比较熟悉, restkit提供的关于coreData的操作我很多都用不上. 其次, AFNetworking升级到了2.x, 架构进行了大调整, 加入了&lt;code&gt;NSURLSession&lt;/code&gt;的支持, 我想用, 但是很遗憾, restkit在集成AFNetworking时没有进行命名替换, 加上OC一些自身的原因, 想要使用2.x版本的AFNetworking很不方便. 最后, app本身一般都不会太复杂, restkit提供的功能至少在我所开发的几个app中太重量级了, 对我而言真正用得上的就是映射系统. (还有一些原因就不方便在这里说了, 😝)&lt;/p&gt;
+&lt;p&gt;这个国庆打算和一个同学开发一个app玩儿, 正好也就想自己实现一个映射系统, 我可不想在一个那么简单的app里面使用restkit... 我一直都不喜欢把东西搞得太复杂, 架构的美就在于足够简单又能够轻易扩展和修改. 于是花了2天左右完成了开发, 后面又根据需求做了一些调整, 支持映射到字典, 再后来还改了一点儿东西来支持在swift里面使用, 虽然要付出一些代价.&lt;/p&gt;
+&lt;p&gt;代码可以看我的&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping repo&lt;/a&gt;, 总之, 整体的设计思路其实很简单, JSON对象是树形结构, 于是我也用树型结构来映射, 基本上是个深度优先的递归. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;有willMap的回调以修改将要进行映射的JSON对象, 返回nil将取消映射. 也有dynamic mapping的回调允许用户临时更换mapping规则. &lt;/li&gt;
+&lt;li&gt;抽象了每一次的map操作, 允许做关系映射--将一个对象映射为另外一个对象的属性, 用户自定义转换映射--由用户自己进行某段JSON的映射, 或者默认映射--啥也不改. &lt;/li&gt;
+&lt;li&gt;每映射一次都会对结果进行校正, 一方面避免KVC设置值时对象的类型不匹配, 另一方面过滤null值.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;架构是支持扩展的, 现阶段没有暴露继承用的method, 受管对象的映射也是继承自普通对象的映射并且写到一个文件里面的. 接口很简单, 同一个映射目的可以用不同的方式来组合, 功能还是很强大的. 使用方式和restkit的很相似, 毕竟也受到了一些启发. 使用说明请参考&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;也做了一些简单的性能测试, 映射的方式和restkit基本一样(目标对象的层次结构, 映射的规则). 我们有一个接口可以返回5000个数据, 每个数据有15个基本属性, 有1个嵌套的对象(使用relationshipMapping), 4个使用keyPath访问的属性, 还有一个使用自定义映射构建的属性, 对于每个数据,需要创建2个对象并对24个属性进行映射. 量还是不小的, 5000个数据, iPhone4s用了2.55s. 模拟器使用MAC的CPU则花了0.21s. 犹记得当年我们1000个数据, 在ipad2上使用restkit的mapping花了1分多钟...(那是那个年代的事情, 过了一年了应该有改善吧?😜)&lt;/p&gt;
+&lt;p&gt;在swift里面也尝试了一下. 不得不吐槽一下苹果, 你XX的, swift里面kvc和kvo弱爆了, 到处都是坑, 而且一些runtime的特性也被封杀和调整了, 就算用OC编写再用bridge header暴露给swift用也存在很多问题, 这里就不详细吐槽了😩. 如果很喜欢我这个小库, 一定想要在swift里面应用的话, 请看&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt;里面的解释, 希望使用愉快.&lt;/p&gt;
+&lt;p&gt;总之欢迎使用和拍砖. 我的小app已经用这个&lt;code&gt;mapping system&lt;/code&gt; 和 &lt;code&gt;AFNetworking 2&lt;/code&gt; 架构起来了, 整个http请求层的核心代码不到200行. 爽到不行啊~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt; 是一个能够将JSON对象(NSDictionary或者NSArray)映射到本
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="GitHub" scheme="http://yoursite.com/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS 编译运行部署和发布部署的一个差异</title>
+    <link href="http://yoursite.com/2014/06/17/difference_between_debug_run_and_Archive_run/"/>
+    <id>http://yoursite.com/2014/06/17/difference_between_debug_run_and_Archive_run/</id>
+    <published>2014-06-17T05:00:00.000Z</published>
+    <updated>2016-04-04T10:14:09.000Z</updated>
+    
+    <content type="html">&lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
+&lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还挺烦人的。&lt;/p&gt;
+&lt;p&gt;假如旧版中有一个文件X被复制进入mainBundle中，但是在新版中我不期望再使用这个文件X了，因此在工程中将其删除，重新编译后去查看了生成的app文件，里面没有X,然后run到手机上，悲剧的发现此时文件X还在，它仍然存在手机app目录中。可以通过读取文件去验证，也可以通过一些软件去查看app的mainBundle都能证明这个X它确实还存在。&lt;/p&gt;
+&lt;p&gt;但是如果你用achive打包，得到一个ipa，将这个ipa覆盖安装到手机上，你会发现这个X会被干掉，ios这个时候就是替换掉了整个mainBundle。&lt;/p&gt;
+&lt;p&gt;Apple你要不要这样，这样我们开发者很困扰诶。比如我的某个API是从mainBundle里面找寻所有的某类文件，然后进行处理，以前有X，现在我不想要了，结果我debug发现这个X一直在，除非我删掉以前的app重新run，但是我就是要测试覆盖安装行为啊。。。咋整，我能想到的就是在run之前用一些第三方软件比如iFunBox，pp助手等将新版中要删除的文件提前删掉。&lt;/p&gt;
+&lt;p&gt;这不科学！Apple完全可以将debug和achive关于这种文件X的行为统一, 毕竟用户使用的achive的包，他们不会存在这样的问题，那为什么开发者需要来处理这种根本不需要处理的问题呢？&lt;/p&gt;
+&lt;p&gt;希望大家都注意一下，避免出现一些无法理解的现象。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
+&lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="XCode" scheme="http://yoursite.com/tags/XCode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Coding Guidelines for Cocoa 翻译</title>
+    <link href="http://yoursite.com/2014/06/10/objective-c_coding_guidelines_translation/"/>
+    <id>http://yoursite.com/2014/06/10/objective-c_coding_guidelines_translation/</id>
+    <published>2014-06-10T05:00:00.000Z</published>
+    <updated>2016-04-04T10:18:04.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。
+翻译不那么准确，如果觉得有问题可以参看Apple自家的文档。&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146i&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;coding Guidelines for Cocoa&lt;/a&gt;. 欢迎拍砖。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;-&quot;&gt;基本的命名规则&lt;/h2&gt;
+&lt;h3 id=&quot;-&quot;&gt;一、通用原则&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;清晰&lt;/strong&gt;&lt;br&gt;应该尽可能的清晰并且简洁，但是不能为了简洁而影响清晰性  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;命名&lt;/th&gt;
+&lt;th&gt;清晰度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;insertObject: atIndex:&lt;/td&gt;
+&lt;td&gt;good&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;insert:at:&lt;/td&gt;
+&lt;td&gt;不清晰，到底insert什么？at指的又是什么？&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;remove:&lt;/td&gt;
+&lt;td&gt;不清晰，要remove什么?&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;removeObjectAtIndex:&lt;/td&gt;
+&lt;td&gt;good&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;一般情况下也不要使用缩写，就算它们比较长也应该拼写出来：&lt;code&gt;setBackgroundColor:&lt;/code&gt; 总是好过 &lt;code&gt;setBkgdColor:&lt;/code&gt;，一目了然。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;也许你会认为一个缩写是皆知的，但是有可能阅读你代码的人和你有不同的文化背景，缩写的含义将会混淆。不过确实有一些缩写是可以使用的，后面会提到。这些缩写有很深的历史背景。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;不要在API命名中引入歧义，断句可能不同，导致语意也会不同。&lt;/p&gt;
+&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Code&lt;/th&gt;
+&lt;th&gt;Commentary&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;sendPort&lt;/td&gt;
+&lt;td&gt;这是发送port？还是说返回一个port？是动词还是名词？&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;displayName&lt;/td&gt;
+&lt;td&gt;是要显示一个名字？还是获取名字？仍然不确定是动词还是名词&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;一致性&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;尽量保持跟cocoa接口一致的API命名风格。如果你的类需要从多态特性中获益，那么在不同的类使用相同的名字将会十分重要。如：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-(NSInteger)tag;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-(void)setStringValue:(NSString *)value;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;不要自引用（No Self Reference）&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;命名不要自关联，比如NSStringObject就不好。但是作为mask的常量以及notification的名字命名是个例外。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;二、前缀&lt;/h3&gt;
+&lt;p&gt;前缀对于程序接口来讲十分重要。前缀划分了功能中的模块。前缀避免了第三方开发者和苹果自身定义的符号相冲突。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;补充一句：ios中仅有一个符号表，所有单元编译后都在一个符号表中，如果没有前缀很容易冲突的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;前缀有固定的格式。一般是2个或者3个大写字母并且不含下划线或子前缀。  &lt;/p&gt;
+&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Prefix&lt;/th&gt;
+&lt;th&gt;Cocoa Framework&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;NS&lt;/td&gt;
+&lt;td&gt;Foundation&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NS&lt;/td&gt;
+&lt;td&gt;Application Kit&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AB&lt;/td&gt;
+&lt;td&gt;Address Book&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;IB&lt;/td&gt;
+&lt;td&gt;Interface Builder&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;前缀使用于类，协议，函数（function），常量以及typedef的struct。 类里面的方法（method）不要使用前缀（类方法或者实例方法），因为定义这些方法的类已经表达了他们的命名空间了。另外，struct里面的字段也不要添加前缀。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;三、书写习惯&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对于多个单词组成的命名应该将每个单词的首字母大写并且不需要通过标点符号来连接，直接拼一起就行了，使用驼峰规则即可。但是对于方法第一个单词不大写，小写即可。记住不要加前缀。&lt;code&gt;fileExistsAtPath:isDirectory:&lt;/code&gt;。 一个例外就是如果方法是以皆知的缩写开始，比如&lt;code&gt;TIFFRepresentation(NSImage *)&lt;/code&gt;，那就保持。对于函数和常量保持其相关联的前缀并将第一个嵌入的单词首字母大写。比如：&lt;code&gt;NSRunAlertPanel，NSCellDisabled&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;一定避免使用下划线作为私有方法的前缀，但是作为实例变量的前缀是允许的。Apple保留使用下划线作为私有方法前缀的权利。第三方使用的话可能引起命名冲突。你可能无意间就覆盖了已有的私有方法并带来灾难性的后果。后面会讲私有方法的命名建议。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;四、类和协议的命名&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;类名应该包含一个名词用以说明这个类或者这个类的实例代表什么，名字应该包含一个合适的缩写。系统的框架就是很好的例子。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如&lt;code&gt;NSString, NSDate, NSScanner, NSApplication, UIApplication, UIButton&lt;/code&gt;等。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;协议的命名应该根据协议组合的方法来确定。
+许多的协议所规定的方法跟具体类无关，这种协议就不要命名得像一个类，不然容易混淆。通常的做法是使用动名词，如NSLocking而不是NSLock，因为NSLock更像是一个类。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;有时候一些协议可能包含了一些不相关的方法（因为不想创建很多小的协议），这种协议一般都是和某些特定类相关的，这种情况下通常将协议和类的名字弄得一样。比如&lt;code&gt;NSObject&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;五、头文件&lt;/h3&gt;
+&lt;p&gt;头文件的命名通常需要表明它所包含的内容。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果类或者协议不是某一组功能的一部分则单独创建头文件。&lt;/li&gt;
+&lt;li&gt;如果是有关联性的类或者协议则最好放到主类（分类，协议）中。比如NSString和NSMutableString。&lt;/li&gt;
+&lt;li&gt;如果是框架的话，那应该有一个头文件包含所有的框架中的头文件。&lt;/li&gt;
+&lt;li&gt;给另外的框架中的类添加分类文件时，应添加Additions，如ApplicationKit中的NSBundleAdditions.h（不会有问题么？可能多个框架都扩展NSBundle？）&lt;/li&gt;
+&lt;li&gt;相关联的函数以及数据类型，常量等应该放到一个合适命名的头文件里面，如NSGraphics.h&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;-&quot;&gt;给方法命名&lt;/h2&gt;
+&lt;h3 id=&quot;-&quot;&gt;一、基本规则&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;小写开头并且驼峰后面的单词，不要使用前缀。两个例外：一个是使用如TIFF或者PDF这种皆知的前缀开头，另一种就是命名私有方法时的一种特殊处理，如XX_XXX这种。参考后面的私有方法命名。&lt;/li&gt;
+&lt;li&gt;如果方法代表的是一个对象所采取的动作，那么以动词开头。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)invokeWithTarget:(id)target;      &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;不要使用do或者does，因为这两词的存在价值几乎为0。一个例外：&lt;code&gt;- (void)doesNotRecognizeSelector:(SEL)aSelector&lt;/code&gt;。
+另外动词前面不要使用副词或者形容词。。。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果方法返回的是某个属性，则直接用这个属性名做名字。单个属性不要使用get，毫无意义。如果不使用get会引起混淆才应该添加get。参考”属性访问方法“。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在所有参数前面添加关键字，用作解释参数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果已有一个方法，现在需要添加另外一个相比现在有更多参数的方法，那就保持前面的声明不变，而在后面添加新的参数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (id)initWithFrame:(CGRect)frameRect;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (id)initWithFrame:(CGRect)frameRect mode:(int)aMode;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;不要使用and来连接各个参数，除非参数是完全不同的两个操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;-accessor-&quot;&gt;二、accessor方法&lt;/h3&gt;
+&lt;p&gt;这类方法就是值设置以及获取对象属性的方法，书写方法有自己的规则。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果属性是名词，则应该是&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (type)noun;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)setNoun:(type)aNoun;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是形容词则应该是&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (BOOL)isEditable;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)setEditable:(BOOL)flag;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;如果是动词，应使用现在时态：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (BOOL)showsAlpha;                                          &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)setShowsAlpha:(BOOL)flag;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;不要把动词转换为过去分词。
+可以使用情态动词 can，should，will等以强调意义，但是不要使用do或者does。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;get仅使用在可能返回多个值的情况中，&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这种方法应该能够接受参数为NULL的out参数，如count， phase。 &lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;三、代理方法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;以发送消息的类开头，去掉前缀，并且小写开头. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;冒号应直接写在类后面，如果上面的tableView，除非整个代理方法仅有一个参数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-(BOOL)applicationOpenUntitledFile:(NSApplication *)sender;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;一个例外就是接收通知的方法，此时参数是通知而不是发送通知的类。 &lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-(void)windowDidChangeScreen:(NSNotification *)notification;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;使用will和did告诉代理某个事情将要发生或者已经发生。如果是问代理是否要做某事情则应该用should。  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;四、集合方法&lt;/h3&gt;
+&lt;p&gt;对于管理多个对象的集合对象（每个集合中的对象chengweii一个元素），习惯上的命名方式如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;- (void)addLayoutManager:(NSLayoutManager *)obj;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (void)removeLayoutManager:(NSLayoutManager *)obj;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- (NSArray *)layoutManagers;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;有几点需要特别注意的：如果集合无序，返回集合时应使用NSSet而不是NSArray。如果有序应该提供插入到指定位置和从指定位置删除的元素的方法。 集合方法应当持有插入的对象，当删除时应该释放该对象。 如果被插入的元素需要知道主集合对象的指针，那么设置的时候不要retain。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;五、 方法参数&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;参数名以小写开始，仍然是下一个单词首字母大写。 removeObject:(id)anObject;&lt;/li&gt;
+&lt;li&gt;不要在参数名中使用pointer或者ptr等，应该让参数的类型来说明其是一个指针而不是让参数名来说明。&lt;/li&gt;
+&lt;li&gt;尽量不要使用一两个字母作为参数。&lt;/li&gt;
+&lt;li&gt;尽量少用缩写。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;六、私有方法&lt;/h3&gt;
+&lt;p&gt;大部分情况下，私有方法的命名规则与公共方法的命名规则相同。但是已有一个习惯就是给私有方法添加一个前缀好和公共方法相区分，尽管有这么一个习惯，但是这么给私有方法命名有时会引发奇怪的问题。特别是当你设计一个cocoa框架类的子类时，你没法知道你的方法是不是不小心覆盖了框架类的私有方法。
+cocoa框架中的大部分方法都以下划线开头来表示他们是私有方法，因此一定要注意以下两点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;不要以下划线开头来命名你的私有方法，Apple保留这么做的习惯（Apple reserves this convention）。&lt;/li&gt;
+&lt;li&gt;如果你在继承一个大类，例如UIView，并且你想确保你的私有方法不会和父类的重名，你可以添加你专属的前缀，例如XX_，RR_addObject:&lt;blockquote&gt;
+&lt;p&gt;这里不是要故意和之前所述的规则相违背，这么做是为了避免不小心覆盖父类的方法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;-&quot;&gt;函数命名&lt;/h2&gt;
+&lt;p&gt;函数命名大部分情况下和方法命名相同。但是以下是一些区别：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;函数名应该与使用的类或者常量有相同的前缀，CGRectMake，&lt;/li&gt;
+&lt;li&gt;前缀后面的第一个单词首字母大写。&lt;/li&gt;
+&lt;li&gt;大部分函数以动词开头描述了它的动作。&lt;/li&gt;
+&lt;li&gt;如果函数返回其第一个参数的某个属性则去掉动词。 NSHeight(NSRect aRect)&lt;/li&gt;
+&lt;li&gt;如果返回值是指针，则以get开头。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;-&quot;&gt;属性命名和数据类型命名&lt;/h2&gt;
+&lt;p&gt;本节描述声明属性，实例变量，常量，通知，异常的命名。&lt;/p&gt;
+&lt;h3 id=&quot;-property-&quot;&gt;一、 property的命名&lt;/h3&gt;
+&lt;p&gt;property的命名和setter，getter的命名很相似，如果property是名词或者动词：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;@property(strong) NSString *title;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@property(assign) BOOL showsAlpha;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果property是形容词，则去掉前缀is.&lt;code&gt;@property(assign, getter=isEditable) BOOL editable;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;名字应该准确地表达属性所存储的内容，除了在init和dealloc中可以直接访问实例变量，其他地方都应该使用setter和getter。自动生成的实例变量都是以下划线开头。&lt;/p&gt;
+&lt;p&gt;添加实例变量时要注意：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不要声明public 的实例变量。&lt;/li&gt;
+&lt;li&gt;开发者应该将property作为对象的接口来对待而不是关心具体存储的数据。应该通过声明property 和synthesise 来表达对应的实例变量。&lt;/li&gt;
+&lt;li&gt;如果你确实需要声明实例变量，使用@private或者@protected。&lt;/li&gt;
+&lt;li&gt;如果你期望你的类被继承并且这些子类需要直接访问父类的实例变量，那么使用@protected。&lt;/li&gt;
+&lt;li&gt;如果一个实例变量需要被外部访问则应该给他写setter和getter方法，最好是声明为property。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;二、 常量&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;枚举的常量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果是整型枚举则使用enum。枚举变量的定义应该和函数名定义规则相同。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;typedef enum _NSMatrixMode &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSRadioModeMatrix     = 0,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSHighlightModeMatrix = 1,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSListModeMatrix      = 2,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    NSTrackModeMatrix= 3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125; NSMatrixMode;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;_NSMatrixMode&lt;/code&gt; 可以不写。&lt;/p&gt;
+&lt;p&gt;你也可以创建没有名字的enum。那样就直接使用名字，类型就是NSInteger。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;const声明的常量
+浮点数常量应使用const声明，如果整形常量相互之间无关则单独用const声明，否则应该声明为enum。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;其他类型常量
+总之，&lt;strong&gt;不要使用#define去定义常量&lt;/strong&gt;。
+使用大写的预编译宏去判断代码块是否需要处理。 #ifdef DEBUG
+编译器的预编译宏前后都是双下划线。
+通知和字典的key也需要用const定义字符串。比如APPKIT_EXTERN NSString *NSPrintCopies;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;三、通知和异常&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;通知&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果一个类有代理，那么它大多数的通知都是通过代理方法进行接受的，通知的名字应该能正确对应相关代理方法。例如：&lt;code&gt;applicationDidBecomeActive:&lt;/code&gt;这个代理方法同时也有一个&lt;code&gt;UIApplicationDidBecomeActiveNotification&lt;/code&gt;通知。
+通知的格式为[关联类的类名]+[did|will]+[特定的动作等名字]+Notification，如上例。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;异常&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;尽管你可以随意使用NSException和相关的方法，但是Apple保留使用exception来处理程序错误比如数组越界，但是不会拿来处理常规的可能出错的场景.&lt;/p&gt;
+&lt;p&gt;比如使用nil，NULL，NO或者error codes作为返回值。(use returned values such as nil, NULL, NO, or error codes).&lt;/p&gt;
+&lt;p&gt;exception的命名规则如下：
+[prefix]+[唯一的名字]+Exception;&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;皆知的缩写&lt;/h2&gt;
+&lt;p&gt;一般情况下开发者不应该使用缩写，但是以下的缩写是皆知的并且允许的。
+C里面的那些相当有历史的缩写是可以使用的，如alloc，getc等。&lt;/p&gt;
+&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Abbreviation&lt;/th&gt;
+&lt;th&gt;Meaning and comments&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;alloc&lt;/td&gt;
+&lt;td&gt;Allocate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;alt&lt;/td&gt;
+&lt;td&gt;Alternate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;app&lt;/td&gt;
+&lt;td&gt;Application. For example, NSApp the global application object. However, “application” is spelled out in delegate methods, notifications, and so on.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;calc&lt;/td&gt;
+&lt;td&gt;Calculate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dealloc&lt;/td&gt;
+&lt;td&gt;Deallocate.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;func&lt;/td&gt;
+&lt;td&gt;Function.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;horiz&lt;/td&gt;
+&lt;td&gt;Horizontal.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;info&lt;/td&gt;
+&lt;td&gt;Information.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;init&lt;/td&gt;
+&lt;td&gt;Initialize (for methods that initialize new objects).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;int&lt;/td&gt;
+&lt;td&gt;Integer (in the context of a C int—for an NSInteger value, use integer).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;max&lt;/td&gt;
+&lt;td&gt;Maximum.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;min&lt;/td&gt;
+&lt;td&gt;Minimum.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;msg&lt;/td&gt;
+&lt;td&gt;Message.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;nib&lt;/td&gt;
+&lt;td&gt;Interface Builder archive.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pboard&lt;/td&gt;
+&lt;td&gt;Pasteboard (but only in constants).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;rect&lt;/td&gt;
+&lt;td&gt;Rectangle.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rep&lt;/td&gt;
+&lt;td&gt;Representation (used in class name such as NSBitmapImageRep).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;temp&lt;/td&gt;
+&lt;td&gt;Temporary.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;vert&lt;/td&gt;
+&lt;td&gt;Vertical.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;还有一些计算机行业的专业术语也可以缩写，ASCII,PDF,XML,HTML,URL,RTF,HTTP，TIFF,JPG,PNG,GIF,LZW,ROM,RGB,CMYK,MIDI,FTP.&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;针对框架开发者的建议&lt;/h2&gt;
+&lt;p&gt;这类人应该更加小心地书写code。框架会被很多客户端引入，如果稍有疏忽将有可能引起系统范围的错误。以下的建议将帮助这类人保持框架的效率和完整性。这些技术不仅仅适用于框架开发，app开发也可以参考。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;类初始化&lt;/h3&gt;
+&lt;p&gt;initialize的类方法给予了类一个生命周期，可以有一次延迟到这个类的任意方法被调用前才执行代码的机会。通常可用来设置类的version等。
+runtime会在继承树上调用initialize，因此如果子类没有实现该方法，那么父类的这个方法可能会被调起两次。而一般开发者可能仅仅想执行一次。可以使用dispatch_once。当然，如果你想确认当前上下文是父类的情况下才执行，那可以添加判断，当self是父类时才执行。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;if (self == [NSFoo class]) &amp;#123; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	//do something &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;不要直接调用该方法，如果确实想触发initialize那就调用[NSFoo self].&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;指定的实例初始化方法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;一般init即是。需要在方法中调用super。每一个公共的类都应该有至少1个指定的初始化方法。例如&lt;code&gt;initWithFrame:&lt;/code&gt; 。有一些类的init方法是不期望被重写的，比如NSString 和其他抽象类集合的顶层类，因为这些集合类的子类自己有自己的实现。&lt;/li&gt;
+&lt;li&gt;应该清晰地标注出指定初始化方法，如果你期望你的类被继承的话。子类能够仅重载指定初始化方法就能正常工作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;-&quot;&gt;初始化中的错误检测&lt;/h3&gt;
+&lt;p&gt;良好的初始化方法应该按照如下步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;调用super的初始化方法来重新给self赋值。&lt;/li&gt;
+&lt;li&gt;检测self是否为nil，如果是的话说明父类的初始化出错了。&lt;/li&gt;
+&lt;li&gt;如果初始化出错则返回nil。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;-&quot;&gt;版本和兼容性&lt;/h3&gt;
+&lt;p&gt;当添加新的类或者方法到框架时一般不需要为每个新功能指定版本。开发者一般应该通过runtime去检测是否相应某个方法来判断一个特性是否可用，这种检测方法一般比检测版本更动态更有效。 &lt;/p&gt;
+&lt;p&gt;有时一个新功能或者bug fix不是那么容易被runtime检查，则应该提供framework的vsersion供开发者查看。
+要标明变化的版本。并设置它全局可访问。可以放在框架的info.plist里面。&lt;/p&gt;
+&lt;h3 id=&quot;keyed-archiving&quot;&gt;keyed Archiving&lt;/h3&gt;
+&lt;p&gt;如果框架需要用到该技术，则一定要考虑到一下的情况：
+如果key没有，则返回的是nil，NULL，NO，0或者0.0等。应该检测一下这些值以减少要写的数据。
+encode和decode都是可以向后兼容的。missing key不会有崩溃。
+key应该和框架中其他方法有相同的前缀，然后是变量名。总之不要跟父类或者子类的冲突。
+bitfields最好不要碰。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;异常和错误&lt;/h3&gt;
+&lt;p&gt;抛出异常不是正常执行的流程，而写也不是用来沟通tuntime或者用户错误的。比如文件没找到，没有此用户，文件类型有误，字符串转换编码失败等。这类错误是error，不抛出异常。&lt;/p&gt;
+&lt;p&gt;抛出异常一般是程序逻辑错误。比如数组越界，尝试修改不可修改的对象，错误的参数类型等。异常应该是给开发者在开发测试中使用来定位问题的，程序正常逻辑中不需要去处理异常。如果抛出了异常但是没有catch，那么顶层的处理将捕获异常并报告，然后执行继续。开发者可以替换默认的行为，以提供更多的信息，也可以写到文件再退出程序。&lt;/p&gt;
+&lt;p&gt;cocoa框架中的error是和其他库不太一样。一般没有error codes。开发者应该检测返回的error为NO或者nil，如果确实有错误产生不要试图根据errorcode去判断要做什么，应该抛出异常或者在日志中记录错误信息。&lt;/p&gt;
+&lt;p&gt;如果确实需要知道错误情况，那么用指针in-out，方法的返回值则应该为nil或者NO。同时方法需要检测传递进来的error参数是否为NULL。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;常量数据&lt;/h3&gt;
+&lt;p&gt;为了性能，应该尽量把框架里面的数据做成常量，因为非常量的全局变量和静态变量是放在读写数据段中的。静态变量在每个实例中都会存在，这样有可能会增加内存页的使用。
+应该将常量就标记为常量，正常情况下常量会存在于代码段，If there are no char * pointers in the block，数据将存储到只读数据段。
+因该初始化静态变了，以保证数据被放到读写数据段中而不是未初始化数据段。如果没有合适的值则给0，NULL，0.0之类的
+不要一下分配所有的内存，如果需要一些临时的缓冲区，一般使用栈而不是分配一个缓冲（it’s usually better to use the stack than to allocate a buffer）。栈有大小限制，512KB，所以根据方法和缓冲的用途来决定是否需要用栈。如果需求比较小，1K以内，用栈是ok的。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;对象比较&lt;/h3&gt;
+&lt;p&gt;注意区分isEqual：和表明了对象的如isEqualToString：。前者可以传入模糊的对象，不过判定不相同则返回NO，但是后者是指定了参数类型的。因此在内部不再执行类型检查，快但是不那么安全。如果是从外部文件读入的最好使用前者，因为那样更安全，除非已知类型。&lt;/p&gt;
+&lt;p&gt;另外要注意，isEqual：和hash是关联的，基于hash机制的cocoa对象比如NSDictionary等如果[A isEqual:B] == YES，则[A hash] == [B hash]也一定成立。因此，如果你重载isEqual：那你也应该重载hash。默认情况下，isEqual仅检查两个对象的地址是否相同，而hash是基于地址计算的，因此本质上两者相同。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      读罢文档, 对于理解Apple的系统和API设计有了新的认识, 觉得iOS开发都应该认真读一下.翻译算是做个mark, 也加深一下自己的理解.
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Objective-C Resolve Method</title>
+    <link href="http://yoursite.com/2014/06/10/Objective-C%20Resolve%20Method/"/>
+    <id>http://yoursite.com/2014/06/10/Objective-C Resolve Method/</id>
+    <published>2014-06-10T04:00:00.000Z</published>
+    <updated>2016-04-04T10:21:04.000Z</updated>
+    
+    <content type="html">&lt;p&gt;本文简单介绍了一下&lt;code&gt;objective-c&lt;/code&gt;中为类在运行时动态添加方法的技术.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008048&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;apple runtime 文档&lt;/a&gt; 文档中介绍了runtime知识以及resolve method的一些内容，但是不详细。。。。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;动态消息决议是在一个对象不能处理某个selector时所发生的。决议比消息转发要先发生，如果决议成功，则会调用方法，不会继续转发流程，否则进入转发流程。&lt;/p&gt;
+&lt;p&gt;决议有两个方式，一个是添加实例方法，一个是添加类方法。现在互联网上的帖子大多数都是抄袭，基本上都只讲到如何添加实例方法而对于类方法的添加都是一笔带过。本文将真正介绍如何添加实例方法和类方法。&lt;/p&gt;
+&lt;p&gt;NSObject的类声明中有如下代码:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+ (BOOL)resolveClassMethod:(SEL)sel __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+ (BOOL)resolveInstanceMethod:(SEL)sel __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;前者是决议类方法，后者决议实例方法。触发决议的流程很简单，只需要对某个&lt;strong&gt;对象&lt;/strong&gt;发送其不能响应的消息即可。然后会根据对象的性质调用不同的决议方法。如果是实例对象则调用&lt;code&gt;resolveInstanceMethod&lt;/code&gt;，如果是class对象则调用&lt;code&gt;resloveClassMethod&lt;/code&gt;。
+要了解如何给&lt;strong&gt;对象&lt;/strong&gt;动态添加方法需要知道objective-c中的类继承结构，以及理解class对象。&lt;/p&gt;
+&lt;h3 id=&quot;objective-c-&quot;&gt;objective-c的类结构&lt;/h3&gt;
+&lt;p&gt;某个类如&lt;code&gt;XLPerson&lt;/code&gt;，它继承自&lt;code&gt;NSObject&lt;/code&gt;，一个实例为&lt;code&gt;personA&lt;/code&gt;。&lt;code&gt;personA&lt;/code&gt;的类为&lt;code&gt;XLPerson&lt;/code&gt;，&lt;code&gt;XLPerson&lt;/code&gt;是一个class对象，它的类是一种metaClass，用以下代码可以获取：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;OBJC_EXPORT Class objc_getMetaClass(const char *name)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;在本例中调用为&lt;code&gt;objc_getMetaClass(“XLPerson”)&lt;/code&gt;,获取到的class对象是&lt;code&gt;XLPerson&lt;/code&gt;的metaClass，亦即&lt;code&gt;XLPerson&lt;/code&gt;的类。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;消息决议的示例代码&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;决议实例方法  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;+ (BOOL)resolveInstanceMethod:(SEL)sel&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if (sel == @selector(printWithInstance)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        IMP imp = imp_implementationWithBlock(^(id _self, SEL sel) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            NSLog(@&amp;quot;print with instance&amp;quot;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        class_addMethod(self, sel, imp, &amp;quot;v@:&amp;quot;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return YES;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return [super resolveClassMethod:sel];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;简单解释下，发现是`printWithInstance`的selector，手动做了一个`IMP`，然后给class对象加上。然后返回YES，告诉iOS已经决议成功，然后iOS会再尝试去class对象的`dispatch table`中寻找该实例方法，然后找到了，调用，打印出`print with instance`。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2. 决议类方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```objective-c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+ (BOOL)resolveClassMethod:(SEL)sel&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if (sel == @selector(printWithClass)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        IMP imp = imp_implementationWithBlock(^(Class class, SEL sel) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            NSLog(@&amp;quot;print with class&amp;quot;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        class_addMethod(objc_getMetaClass(NSStringFromClass(self).UTF8String), sel, imp, &amp;quot;v@:&amp;quot;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return YES;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return [super resolveClassMethod:sel];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;决议类方法和决议实例方法的流程是一样的。唯一不同的是需要在&lt;code&gt;dispatch table&lt;/code&gt;中添加方法的类对象不一样，对于类方法决议，需要在class对象的metaClass中添加。因为对class对象发送消息时需要到其metaClass的&lt;code&gt;dispatch table&lt;/code&gt;中寻找，这跟调用实例方法时需要到class对象寻找是一样的。&lt;/p&gt;
+&lt;h3 id=&quot;type-encoding&quot;&gt;type encoding&lt;/h3&gt;
+&lt;p&gt;上述两例中都在 &lt;code&gt;class_addMethod&lt;/code&gt; 调用中传递了&lt;code&gt;“v@:”&lt;/code&gt;作为最后一个参数来描述添加的方法的类型。这里注意不要用oc的中括号调用所干扰，方法的type encoding是其对应的c语言调用的类型，因为方法调用会转换为&lt;code&gt;returnType msgSend(id receiver, SEL cmd, ...)&lt;/code&gt;，上例中的&lt;code&gt;v@:&lt;/code&gt;代表添加的方法返回值为void(v), receiver是对象(@),cmd是selector(:)，没有其他参数。更多关于type encoding的介绍在苹果runtime文档中最后部分有介绍。&lt;/p&gt;
+&lt;h3 id=&quot;-&quot;&gt;总结&lt;/h3&gt;
+&lt;p&gt;学习只有脚踏实地才能学到。oc的runtime是整个语言的精髓，不理解它将不能理解很多oc才有的精良设计。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文简单介绍了一下&lt;code&gt;objective-c&lt;/code&gt;中为类在运行时动态添加方法的技术.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Coc
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+</feed>
