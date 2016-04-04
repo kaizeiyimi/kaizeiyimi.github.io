@@ -69,3 +69,11 @@ theme: maupassant_kaizei #landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type:
+
+
+# Feed
+feed:
+  type: atom
+  path: atom.xml
+  limit: 10
+  
