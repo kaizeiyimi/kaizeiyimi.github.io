@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="kaizeiの日常"><title>Coding Guidelines for Cocoa 翻译 | kaizeiとyimi</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/3.0.3/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Coding Guidelines for Cocoa 翻译</h1><a id="logo" href="/.">kaizeiとyimi</a><p class="description">kaizeiの日常</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Coding Guidelines for Cocoa 翻译</h1><div class="post-meta">Jun 10, 2014<span> | </span><span class="category"><a href="/categories/技术/">技术</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><!-- if page.toc--><!--   div(class='clear')--><!--     div(id='toc' class='toc-article')--><!--       div(class='toc-title')= __('contents')--><!--       != toc(page.content)--><div class="post-content"><blockquote>
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="kaizeiの日常"><title>Coding Guidelines for Cocoa 翻译 | kaizeiとyimi</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/3.0.3/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Coding Guidelines for Cocoa 翻译</h1><a id="logo" href="/.">kaizeiとyimi</a><p class="description">kaizeiの日常</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Coding Guidelines for Cocoa 翻译</h1><div class="post-meta">Jun 10, 2014<span> | </span><span class="category"><a href="/categories/技术/">技术</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><!-- if page.toc--><!--   div(class='clear')--><!--     div(id='toc' class='toc-article')--><!--       div(class='toc-title')= __('contents')--><!--       != toc(page.content)--><div class="post-content"><blockquote>
 <p>很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。
 翻译不那么准确，如果觉得有问题可以参看Apple自家的文档。<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146i" target="_blank" rel="external">coding Guidelines for Cocoa</a>. 欢迎拍砖。</p>
 </blockquote>
@@ -62,8 +62,8 @@
 <li><strong>一致性</strong></li>
 </ul>
 <p>尽量保持跟cocoa接口一致的API命名风格。如果你的类需要从多态特性中获益，那么在不同的类使用相同的名字将会十分重要。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-(NSInteger)tag;</span><br><span class="line">-(void)setStringValue:(NSString *)value;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">-(<span class="hljs-built_in">NSInteger</span>)tag;
+-(<span class="hljs-keyword">void</span>)setStringValue:(<span class="hljs-built_in">NSString</span> *)value;</code></pre><ul>
 <li><strong>不要自引用（No Self Reference）</strong></li>
 </ul>
 <p>命名不要自关联，比如NSStringObject就不好。但是作为mask的常量以及notification的名字命名是个例外。</p>
@@ -135,8 +135,8 @@
 <li>小写开头并且驼峰后面的单词，不要使用前缀。两个例外：一个是使用如TIFF或者PDF这种皆知的前缀开头，另一种就是命名私有方法时的一种特殊处理，如XX_XXX这种。参考后面的私有方法命名。</li>
 <li>如果方法代表的是一个对象所采取的动作，那么以动词开头。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (void)invokeWithTarget:(id)target;      </span><br><span class="line">- (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (<span class="hljs-keyword">void</span>)invokeWithTarget:(<span class="hljs-keyword">id</span>)target;      
+     - (<span class="hljs-keyword">void</span>)selectTabViewItem:(<span class="hljs-built_in">NSTabViewItem</span> *)tabViewItem;</code></pre><ul>
 <li><p>不要使用do或者does，因为这两词的存在价值几乎为0。一个例外：<code>- (void)doesNotRecognizeSelector:(SEL)aSelector</code>。
 另外动词前面不要使用副词或者形容词。。。</p>
 </li>
@@ -147,52 +147,48 @@
 <li><p>如果已有一个方法，现在需要添加另外一个相比现在有更多参数的方法，那就保持前面的声明不变，而在后面添加新的参数。</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (id)initWithFrame:(CGRect)frameRect;</span><br><span class="line">- (id)initWithFrame:(CGRect)frameRect mode:(int)aMode;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (<span class="hljs-keyword">id</span>)initWithFrame:(<span class="hljs-built_in">CGRect</span>)frameRect;
+     - (<span class="hljs-keyword">id</span>)initWithFrame:(<span class="hljs-built_in">CGRect</span>)frameRect mode:(<span class="hljs-keyword">int</span>)aMode;</code></pre><ul>
 <li>不要使用and来连接各个参数，除非参数是完全不同的两个操作。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;</span><br></pre></td></tr></table></figure>
-<h3 id="-accessor-">二、accessor方法</h3>
+<pre><code class="objc hljs">     - (<span class="hljs-built_in">BOOL</span>)openFile:(<span class="hljs-built_in">NSString</span> *)fullPath withApplication:(<span class="hljs-built_in">NSString</span> *)appName andDeactivate:(<span class="hljs-built_in">BOOL</span>)flag;</code></pre><h3 id="-accessor-">二、accessor方法</h3>
 <p>这类方法就是值设置以及获取对象属性的方法，书写方法有自己的规则。</p>
 <ul>
 <li>如果属性是名词，则应该是</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (type)noun;</span><br><span class="line">- (void)setNoun:(type)aNoun;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (type)noun;
+     - (<span class="hljs-keyword">void</span>)setNoun:(type)aNoun;</code></pre><ul>
 <li>如果是形容词则应该是</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isEditable;</span><br><span class="line">- (void)setEditable:(BOOL)flag;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (<span class="hljs-built_in">BOOL</span>)isEditable;
+     - (<span class="hljs-keyword">void</span>)setEditable:(<span class="hljs-built_in">BOOL</span>)flag;</code></pre><ul>
 <li>如果是动词，应使用现在时态：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)showsAlpha;                                          </span><br><span class="line">- (void)setShowsAlpha:(BOOL)flag;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (<span class="hljs-built_in">BOOL</span>)showsAlpha;                                          
+     - (<span class="hljs-keyword">void</span>)setShowsAlpha:(<span class="hljs-built_in">BOOL</span>)flag;</code></pre><ul>
 <li><p>不要把动词转换为过去分词。
 可以使用情态动词 can，should，will等以强调意义，但是不要使用do或者does。</p>
 </li>
 <li><p>get仅使用在可能返回多个值的情况中，</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;</span><br></pre></td></tr></table></figure>
-<p>这种方法应该能够接受参数为NULL的out参数，如count， phase。 </p>
+<pre><code class="objc hljs">     - (<span class="hljs-keyword">void</span>)getLineDash:(<span class="hljs-keyword">float</span> *)pattern count:(<span class="hljs-keyword">int</span> *)count phase:(<span class="hljs-keyword">float</span> *)phase;</code></pre><p>这种方法应该能够接受参数为NULL的out参数，如count， phase。 </p>
 <h3 id="-">三、代理方法</h3>
 <ul>
 <li>以发送消息的类开头，去掉前缀，并且小写开头. </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">     - (<span class="hljs-built_in">BOOL</span>)tableView:(<span class="hljs-built_in">NSTableView</span> *)tableView shouldSelectRow:(<span class="hljs-keyword">int</span>)row;</code></pre><ul>
 <li>冒号应直接写在类后面，如果上面的tableView，除非整个代理方法仅有一个参数。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(BOOL)applicationOpenUntitledFile:(NSApplication *)sender;</span><br></pre></td></tr></table></figure>
-<p>一个例外就是接收通知的方法，此时参数是通知而不是发送通知的类。 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(void)windowDidChangeScreen:(NSNotification *)notification;</span><br></pre></td></tr></table></figure>
-<ul>
+<pre><code class="objc hljs">      -(<span class="hljs-built_in">BOOL</span>)applicationOpenUntitledFile:(<span class="hljs-built_in">NSApplication</span> *)sender;</code></pre><p>一个例外就是接收通知的方法，此时参数是通知而不是发送通知的类。 </p>
+<pre><code class="objc hljs">      -(<span class="hljs-keyword">void</span>)windowDidChangeScreen:(<span class="hljs-built_in">NSNotification</span> *)notification;</code></pre><ul>
 <li>使用will和did告诉代理某个事情将要发生或者已经发生。如果是问代理是否要做某事情则应该用should。  </li>
 </ul>
 <h3 id="-">四、集合方法</h3>
 <p>对于管理多个对象的集合对象（每个集合中的对象chengweii一个元素），习惯上的命名方式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)addLayoutManager:(NSLayoutManager *)obj;</span><br><span class="line">- (void)removeLayoutManager:(NSLayoutManager *)obj;</span><br><span class="line">- (NSArray *)layoutManagers;</span><br></pre></td></tr></table></figure>
-<p>有几点需要特别注意的：如果集合无序，返回集合时应使用NSSet而不是NSArray。如果有序应该提供插入到指定位置和从指定位置删除的元素的方法。 集合方法应当持有插入的对象，当删除时应该释放该对象。 如果被插入的元素需要知道主集合对象的指针，那么设置的时候不要retain。</p>
+<pre><code class="objc hljs">     - (<span class="hljs-keyword">void</span>)addLayoutManager:(<span class="hljs-built_in">NSLayoutManager</span> *)obj;
+     - (<span class="hljs-keyword">void</span>)removeLayoutManager:(<span class="hljs-built_in">NSLayoutManager</span> *)obj;
+     - (<span class="hljs-built_in">NSArray</span> *)layoutManagers;</code></pre><p>有几点需要特别注意的：如果集合无序，返回集合时应使用NSSet而不是NSArray。如果有序应该提供插入到指定位置和从指定位置删除的元素的方法。 集合方法应当持有插入的对象，当删除时应该释放该对象。 如果被插入的元素需要知道主集合对象的指针，那么设置的时候不要retain。</p>
 <h3 id="-">五、 方法参数</h3>
 <ul>
 <li>参数名以小写开始，仍然是下一个单词首字母大写。 removeObject:(id)anObject;</li>
@@ -223,8 +219,8 @@ cocoa框架中的大部分方法都以下划线开头来表示他们是私有方
 <p>本节描述声明属性，实例变量，常量，通知，异常的命名。</p>
 <h3 id="-property-">一、 property的命名</h3>
 <p>property的命名和setter，getter的命名很相似，如果property是名词或者动词：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property(strong) NSString *title;</span><br><span class="line">@property(assign) BOOL showsAlpha;</span><br></pre></td></tr></table></figure>
-<p>如果property是形容词，则去掉前缀is.<code>@property(assign, getter=isEditable) BOOL editable;</code></p>
+<pre><code class="objc hljs"><span class="hljs-keyword">@property</span>(<span class="hljs-keyword">strong</span>) <span class="hljs-built_in">NSString</span> *title;
+<span class="hljs-keyword">@property</span>(<span class="hljs-keyword">assign</span>) <span class="hljs-built_in">BOOL</span> showsAlpha;</code></pre><p>如果property是形容词，则去掉前缀is.<code>@property(assign, getter=isEditable) BOOL editable;</code></p>
 <p>名字应该准确地表达属性所存储的内容，除了在init和dealloc中可以直接访问实例变量，其他地方都应该使用setter和getter。自动生成的实例变量都是以下划线开头。</p>
 <p>添加实例变量时要注意：</p>
 <ul>
@@ -239,8 +235,12 @@ cocoa框架中的大部分方法都以下划线开头来表示他们是私有方
 <li>枚举的常量</li>
 </ul>
 <p>如果是整型枚举则使用enum。枚举变量的定义应该和函数名定义规则相同。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef enum _NSMatrixMode &#123;</span><br><span class="line">    NSRadioModeMatrix     = 0,</span><br><span class="line">    NSHighlightModeMatrix = 1,</span><br><span class="line">    NSListModeMatrix      = 2,</span><br><span class="line">    NSTrackModeMatrix= 3</span><br><span class="line">&#125; NSMatrixMode;</span><br></pre></td></tr></table></figure>
-<p><code>_NSMatrixMode</code> 可以不写。</p>
+<pre><code class="objc hljs"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">enum</span> _<span class="hljs-built_in">NSMatrixMode</span> {
+    <span class="hljs-built_in">NSRadioModeMatrix</span>     = <span class="hljs-number">0</span>,
+    <span class="hljs-built_in">NSHighlightModeMatrix</span> = <span class="hljs-number">1</span>,
+    <span class="hljs-built_in">NSListModeMatrix</span>      = <span class="hljs-number">2</span>,
+    <span class="hljs-built_in">NSTrackModeMatrix</span>= <span class="hljs-number">3</span>
+} <span class="hljs-built_in">NSMatrixMode</span>;</code></pre><p><code>_NSMatrixMode</code> 可以不写。</p>
 <p>你也可以创建没有名字的enum。那样就直接使用名字，类型就是NSInteger。</p>
 <ul>
 <li><p>const声明的常量
@@ -362,8 +362,9 @@ C里面的那些相当有历史的缩写是可以使用的，如alloc，getc等�
 <h3 id="-">类初始化</h3>
 <p>initialize的类方法给予了类一个生命周期，可以有一次延迟到这个类的任意方法被调用前才执行代码的机会。通常可用来设置类的version等。
 runtime会在继承树上调用initialize，因此如果子类没有实现该方法，那么父类的这个方法可能会被调起两次。而一般开发者可能仅仅想执行一次。可以使用dispatch_once。当然，如果你想确认当前上下文是父类的情况下才执行，那可以添加判断，当self是父类时才执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (self == [NSFoo class]) &#123; </span><br><span class="line">	//do something </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>不要直接调用该方法，如果确实想触发initialize那就调用[NSFoo self].</p>
+<pre><code class="objc hljs"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">self</span> == [<span class="hljs-built_in">NSFoo</span> class]) { 
+    <span class="hljs-comment">//do something </span>
+}</code></pre><p>不要直接调用该方法，如果确实想触发initialize那就调用[NSFoo self].</p>
 <h3 id="-">指定的实例初始化方法</h3>
 <ul>
 <li>一般init即是。需要在方法中调用super。每一个公共的类都应该有至少1个指定的初始化方法。例如<code>initWithFrame:</code> 。有一些类的init方法是不期望被重写的，比如NSString 和其他抽象类集合的顶层类，因为这些集合类的子类自己有自己的实现。</li>
@@ -399,4 +400,4 @@ bitfields最好不要碰。</p>
 <h3 id="-">对象比较</h3>
 <p>注意区分isEqual：和表明了对象的如isEqualToString：。前者可以传入模糊的对象，不过判定不相同则返回NO，但是后者是指定了参数类型的。因此在内部不再执行类型检查，快但是不那么安全。如果是从外部文件读入的最好使用前者，因为那样更安全，除非已知类型。</p>
 <p>另外要注意，isEqual：和hash是关联的，基于hash机制的cocoa对象比如NSDictionary等如果[A isEqual:B] == YES，则[A hash] == [B hash]也一定成立。因此，如果你重载isEqual：那你也应该重载hash。默认情况下，isEqual仅检查两个对象的地址是否相同，而hash是基于地址计算的，因此本质上两者相同。</p>
-</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2014/06/10/objective-c_coding_guidelines_translation/" data-id="cimm6up4z0002e0pgcpjh44qz" class="article-share-link">分享</a><div class="tags"><a href="/tags/iOS/">iOS</a></div><div class="post-nav"><a href="/2014/06/17/difference_between_debug_run_and_Archive_run/" class="pre">iOS 编译运行部署和发布部署的一个差异</a><a href="/2014/06/10/Objective-C Resolve Method/" class="next">Objective-C Resolve Method</a></div></div></div></div><div class="pure-u-1-4"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/日常/">日常</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/XCode/" style="font-size: 15px;">XCode</a> <a href="/tags/GitHub/" style="font-size: 15px;">GitHub</a> <a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/年后小总结/">2016 年后小总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/08/XLYAutoLayoutEasy/">XLYAutoLayoutEasy</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/08/talk_about_autolayout/">AutoLayout的小吐槽</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/14/iOS_present_introduce_and_points/">iOS present 场景切换的演化和要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/10/XLYMultiCastDelegate/">XLYMultiCastDelegate 多播代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/09/XLYMapping_System/">XLYMapping System</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/17/difference_between_debug_run_and_Archive_run/">iOS 编译运行部署和发布部署的一个差异</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/10/objective-c_coding_guidelines_translation/">Coding Guidelines for Cocoa 翻译</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/10/Objective-C Resolve Method/">Objective-C Resolve Method</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">kaizei.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2014/06/10/objective-c_coding_guidelines_translation/" data-id="cimn48pah00051cfy2gv66brs" class="article-share-link">分享</a><div class="tags"><a href="/tags/iOS/">iOS</a></div><div class="post-nav"><a href="/2014/06/17/difference_between_debug_run_and_Archive_run/" class="pre">iOS 编译运行部署和发布部署的一个差异</a><a href="/2014/06/10/Objective-C Resolve Method/" class="next">Objective-C Resolve Method</a></div></div></div></div><div class="pure-u-1-4"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/日常/">日常</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/XCode/" style="font-size: 15px;">XCode</a> <a href="/tags/GitHub/" style="font-size: 15px;">GitHub</a> <a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/15/年后小总结/">2016 年后小总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/08/XLYAutoLayoutEasy/">XLYAutoLayoutEasy</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/12/08/talk_about_autolayout/">AutoLayout的小吐槽</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/14/iOS_present_introduce_and_points/">iOS present 场景切换的演化和要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/10/XLYMultiCastDelegate/">XLYMultiCastDelegate 多播代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/10/09/XLYMapping_System/">XLYMapping System</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/17/difference_between_debug_run_and_Archive_run/">iOS 编译运行部署和发布部署的一个差异</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/10/objective-c_coding_guidelines_translation/">Coding Guidelines for Cocoa 翻译</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/06/10/Objective-C Resolve Method/">Objective-C Resolve Method</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">kaizei.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

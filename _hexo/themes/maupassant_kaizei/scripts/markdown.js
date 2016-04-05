@@ -1,14 +1,23 @@
 
 var marked = require('marked');
+var hljs = require(hexo.base_dir+"node_modules/hexo/node_modules/hexo-util/node_modules/highlight.js/lib/index.js");
+hljs.configure({classPrefix: "hljs-"});
 
 // config
 var mdrender = new marked.Renderer();
 mdrender.code = function(code, lang) {
-  lang = lang ? lang.toLowerCase() : "";
+  lang = lang ? lang.toLowerCase() : null;
   if ( lang == "objective-c") {
-    lang = "objectivec"
+    lang = "objc"
   }
-  return "<pre><code class="+lang+">"+code+"</code></pre>";
+
+  if (lang) {
+  	code = hljs.highlight(lang, code).value;
+  } else {
+  	code = hljs.highlightAuto(code).value;
+  }
+
+  return "<pre><code class='"+lang+" hljs'>"+code+"</code></pre>";
 };
 
 var originTableRender = mdrender.table;
