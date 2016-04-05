@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-05T02:09:59.000Z</updated>
+  <updated>2016-04-05T07:45:53.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,107 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>swift 2.2 类型转换小坑</title>
+    <link href="http://yoursite.com/2016/03/28/swift_type_convert/"/>
+    <id>http://yoursite.com/2016/03/28/swift_type_convert/</id>
+    <published>2016-03-28T06:00:00.000Z</published>
+    <updated>2016-04-05T07:45:53.000Z</updated>
+    
+    <content type="html">&lt;p&gt;XCode升级到了7.3, swift到了2.2. 之前发现的坑在这里验证了一下, 依然没啥变化. 特此记录一下.&lt;/p&gt;
+&lt;p&gt;本文主要填一下类型转换的坑, 包括 &lt;code&gt;=&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;, &lt;code&gt;is&lt;/code&gt;, &lt;code&gt;Optional&lt;/code&gt;, &lt;code&gt;函数参数&lt;/code&gt;,&lt;code&gt;闭包&lt;/code&gt; 以及&lt;code&gt;Tuple&lt;/code&gt;. 总之, &lt;code&gt;class&lt;/code&gt;和&lt;code&gt;非class&lt;/code&gt;的待遇是不一样的, Any和AnyObject的区别也是很重要的.
+&lt;code&gt;=&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;, &lt;code&gt;is&lt;/code&gt;主要是针对Array类型, 其他&lt;code&gt;CollectionType&lt;/code&gt;也类似.&lt;/p&gt;
+&lt;p&gt;本文代码中的通用定义:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;P&lt;/span&gt; &lt;/span&gt;{}    &lt;span class=&quot;hljs-comment&quot;&gt;//swift protocol without @objc&lt;/span&gt;
+
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;A&lt;/span&gt; &lt;/span&gt;{}
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;B&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;A&lt;/span&gt; &lt;/span&gt;{}
+
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;AP&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;P&lt;/span&gt; &lt;/span&gt;{}
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;BP&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;AP&lt;/span&gt; &lt;/span&gt;{}
+
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;S&lt;/span&gt; &lt;/span&gt;{}
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;SP&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;P&lt;/span&gt; &lt;/span&gt;{}
+
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; arrayA = [&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()], arrayB = [&lt;span class=&quot;hljs-type&quot;&gt;B&lt;/span&gt;()], arrayS = [&lt;span class=&quot;hljs-type&quot;&gt;S&lt;/span&gt;()], arrayPA: [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;] = [&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()], arrayPS: [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;] = [&lt;span class=&quot;hljs-type&quot;&gt;S&lt;/span&gt;()]&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;as-is-optional&quot;&gt;as is, = 以及 Optional&lt;/h2&gt;
+&lt;p&gt;三者的坑类似, 主要是array类型的推断. &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;as&lt;/code&gt;操作符将一个类型转换成平级类型或者父类型, 例如 &lt;code&gt;&amp;quot;abc&amp;quot; as NSString&lt;/code&gt;可以看成是平级转换, &lt;code&gt;b as A&lt;/code&gt; 是转换到父类型.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;as!&lt;/code&gt;和&lt;code&gt;as?&lt;/code&gt;是用于将父类型变量转换为子类型.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;is&lt;/code&gt;是check父类型变量是否为子类型.&lt;/li&gt;
+&lt;li&gt;某种程度上, &lt;code&gt;Optional&lt;/code&gt;可以看做是其&lt;code&gt;T&lt;/code&gt;的父类型.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;普通类型进行各种转换检查都没什么问题, 但是当普通类型碰上&lt;strong&gt;集合&lt;/strong&gt;呢? &lt;/p&gt;
+&lt;p&gt;先看code:&lt;/p&gt;
+&lt;p&gt;as:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;arrayA &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;]  &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;
+arrayA &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;]    &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;
+arrayA &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;AnyObject&lt;/span&gt;]    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;
+arrayB &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;]            &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;
+
+arrayS &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;]    &lt;span class=&quot;hljs-comment&quot;&gt;// compiler, Cannot convert value of type &#39;[C]&#39; to type &#39;[P]&#39; in coercion&lt;/span&gt;
+arrayS &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;]    &lt;span class=&quot;hljs-comment&quot;&gt;// compiler, Cannot convert value of type &#39;[C]&#39; to type &#39;[Any]&#39; in coercion&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;arrayPA &lt;span class=&quot;hljs-keyword&quot;&gt;is&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;] &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;
+arrayPS &lt;span class=&quot;hljs-keyword&quot;&gt;is&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;S&lt;/span&gt;] &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: can&#39;t unsafeBitCast between types of different sizes&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;赋值:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; a: [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;] = arrayA &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; a: [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;] = arrayA &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; a: [&lt;span class=&quot;hljs-type&quot;&gt;AnyObject&lt;/span&gt;] = arrayA &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;
+
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; s: [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;] = arrayS &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; s: [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;] = arrayS &lt;span class=&quot;hljs-comment&quot;&gt;// runtime, fatal error: array cannot be bridged from Objective-C&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;大概是因为OC的runtime吧. 可不是么? 文档有提到&lt;code&gt;@objc&lt;/code&gt; 将指定的方法或者属性暴露给OC, 而&lt;code&gt;AnyObject&lt;/code&gt;是带有这个标记的, 因此在类型检查和转换时行为跟&lt;code&gt;NSArray&lt;/code&gt;差不多. &lt;code&gt;Any&lt;/code&gt;没有&lt;code&gt;@objc&lt;/code&gt;. &lt;code&gt;protocol&lt;/code&gt; 不带&lt;code&gt;@objc&lt;/code&gt;时和&lt;code&gt;Any&lt;/code&gt;一样, 带上了&lt;code&gt;@objc&lt;/code&gt;就和&lt;code&gt;AnyObject&lt;/code&gt;一样. &lt;code&gt;Optional&lt;/code&gt;也是swift特有, 因此行为上和Any类似.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;arrayA &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;NSArray&lt;/span&gt;    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;
+arrayS &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;NSArray&lt;/span&gt;     &lt;span class=&quot;hljs-comment&quot;&gt;// // compiler, Cannot convert value of type &#39;[S]&#39; to type &#39;NSArray&#39; in coercion&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;只要不牵扯到swift特有的东西(struct, 不带@objc的protocol, Optional), 大部分的转换都可以看成是到NSArray的转换, 当然swift也有类型检查, 不能乱转. &lt;/p&gt;
+&lt;p&gt;然而事情总有意外...&lt;/p&gt;
+&lt;p&gt;真的只能这样了么? 不是的. 字面量数组可以躲过一些劫难. 因为类型推断的缘故. 继续看code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;[&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()] &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;]
+[&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()] &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;]
+[&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()] &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;AnyObject&lt;/span&gt;]
+
+[&lt;span class=&quot;hljs-type&quot;&gt;S&lt;/span&gt;()] &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;]
+[&lt;span class=&quot;hljs-type&quot;&gt;S&lt;/span&gt;()] &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; [&lt;span class=&quot;hljs-type&quot;&gt;Any&lt;/span&gt;]&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;类型推断至上而下, 表达式的类型最终为[P], 倒推左值需要为[P], 此时左值只知道是Array, 未推断T, 进而继续推断其Generator.Element需要为P. 而A可以转换为P, 所以字面量数组创建出来就是[P]类型而不存在转换. 这是编译器做的.&lt;/p&gt;
+&lt;p&gt;赋值的操作类似, 只要把右值换成对应的字面量数组就可以成功赋值, 而&lt;code&gt;is&lt;/code&gt;操作因为类型推断, 字面量数组最终的类型就是右值, 没有意义. &lt;/p&gt;
+&lt;p&gt;哦, 类型推断哪...&lt;/p&gt;
+&lt;h2 id=&quot;-&quot;&gt;函数参数 和 闭包&lt;/h2&gt;
+&lt;p&gt;函数有入参和返回值, 调用函数时传递参数也是一个赋值的过程, 因此可以参考上文的现象. 也就是说传递进来的参数要能正确转换成函数需要的类型, 函数内部的返回值也要能正确转换为声明的类型. 只要符合这些条件, 调用就没有问题.&lt;/p&gt;
+&lt;p&gt;那么问题来了, 闭包也是函数, 闭包的类型如何转换?&lt;/p&gt;
+&lt;p&gt;又来一份code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(f: A -&amp;gt; P)&lt;/span&gt;&lt;/span&gt; {}
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(p: P)&lt;/span&gt;&lt;/span&gt; -&amp;gt; &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt; {}
+
+test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;原理并不难, 先看闭包的入参, 需求为A类型, 也就意味着在&lt;code&gt;test&lt;/code&gt;方法内部会传递一个变量给&lt;code&gt;f&lt;/code&gt;, 这个变量会在传递给&lt;code&gt;f&lt;/code&gt;时转换为&lt;code&gt;A&lt;/code&gt;类型. 也就是说&lt;code&gt;f&lt;/code&gt;应该能够处理&lt;code&gt;A&lt;/code&gt;类型的入参.因此, 如果我们传递的闭包的入参是&lt;code&gt;A&lt;/code&gt;的父类型&lt;code&gt;P&lt;/code&gt;, 它也能处理类型为&lt;code&gt;A&lt;/code&gt;的参数, 而如果是子类型&lt;code&gt;B&lt;/code&gt;则可能出错. &lt;/p&gt;
+&lt;p&gt;&lt;code&gt;A&lt;/code&gt;一定是&lt;code&gt;P&lt;/code&gt;但不一定是&lt;code&gt;B&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;同样, 对于返回值, &lt;code&gt;test&lt;/code&gt;方法要返回&lt;code&gt;P&lt;/code&gt;类型, 因此我们可以返回&lt;code&gt;P&lt;/code&gt;类型的子类型&lt;code&gt;A&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;前文提到, 某种程度上可以将&lt;code&gt;Optional&lt;/code&gt;看做是其&lt;code&gt;T&lt;/code&gt;的父类型, 因为编码过程中发现它在类型转换上的结果和父类型子类型的一致.因此下面的code也不需要特别处理:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;testNil&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; -&amp;gt; &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;? {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; a = &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; a         &lt;span class=&quot;hljs-comment&quot;&gt;// 编译器自动wrap&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;tuple&quot;&gt;Tuple&lt;/h2&gt;
+&lt;p&gt;Tuple没有什么特别的, 就是类型转换的时候不管类型继承, 当然, 字面量方式除外. 看起来就像是字符串比较:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; value = (&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;(), &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()) &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt; (&lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;, &lt;span class=&quot;hljs-type&quot;&gt;P&lt;/span&gt;)    &lt;span class=&quot;hljs-comment&quot;&gt;// value 是 (P, P)类型&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; value &lt;span class=&quot;hljs-keyword&quot;&gt;is&lt;/span&gt; (&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;, &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;) {
+
+} &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; {
+    &lt;span class=&quot;hljs-comment&quot;&gt;// will got here&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;-&quot;&gt;总结&lt;/h2&gt;
+&lt;p&gt;写的时候尽量注意吧, 不要以为build过了就没事, 一些转换的坑在runtime等你呢(看上边的报错的注释吧). 拿不准就主动做个map吧.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;XCode升级到了7.3, swift到了2.2. 之前发现的坑在这里验证了一下, 依然没啥变化. 特此记录一下.&lt;/p&gt;
+&lt;p&gt;本文主要填一下类型转换的坑, 包括 &lt;code&gt;=&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;, &lt;code&gt;is&lt;/code&gt;, &lt;cod
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+      <category term="XCode" scheme="http://yoursite.com/tags/XCode/"/>
+    
+  </entry>
   
   <entry>
     <title>2016 年后小总结</title>
