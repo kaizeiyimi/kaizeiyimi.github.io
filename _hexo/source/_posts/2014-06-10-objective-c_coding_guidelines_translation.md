@@ -97,8 +97,8 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 * 如果方法代表的是一个对象所采取的动作，那么以动词开头。
 
 ```objective-c
-     - (void)invokeWithTarget:(id)target;      
-     - (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;
+- (void)invokeWithTarget:(id)target;      
+- (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;
 ```
 
 * 不要使用do或者does，因为这两词的存在价值几乎为0。一个例外：`- (void)doesNotRecognizeSelector:(SEL)aSelector`。
@@ -111,14 +111,14 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 * 如果已有一个方法，现在需要添加另外一个相比现在有更多参数的方法，那就保持前面的声明不变，而在后面添加新的参数。
 
 ```objective-c
-     - (id)initWithFrame:(CGRect)frameRect;
-     - (id)initWithFrame:(CGRect)frameRect mode:(int)aMode;
+- (id)initWithFrame:(CGRect)frameRect;
+- (id)initWithFrame:(CGRect)frameRect mode:(int)aMode;
 ```
 
 * 不要使用and来连接各个参数，除非参数是完全不同的两个操作。
 
 ```objective-c
-     - (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
 ```
 
 ### 二、accessor方法
@@ -127,22 +127,22 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 * 如果属性是名词，则应该是
 
 ```objective-c
-     - (type)noun;
-     - (void)setNoun:(type)aNoun;
+- (type)noun;
+- (void)setNoun:(type)aNoun;
 ```
 
 * 如果是形容词则应该是
 
 ```objective-c
-     - (BOOL)isEditable;
-     - (void)setEditable:(BOOL)flag;
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
 ```
 
 * 如果是动词，应使用现在时态：
 
 ```objective-c
-     - (BOOL)showsAlpha;                                          
-     - (void)setShowsAlpha:(BOOL)flag;
+- (BOOL)showsAlpha;                                          
+- (void)setShowsAlpha:(BOOL)flag;
 ```
 
 * 不要把动词转换为过去分词。
@@ -151,7 +151,7 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 * get仅使用在可能返回多个值的情况中，
 
 ```objective-c
-     - (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
+- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
 ```
 这种方法应该能够接受参数为NULL的out参数，如count， phase。 
 
@@ -159,18 +159,18 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 * 以发送消息的类开头，去掉前缀，并且小写开头. 
 
 ```objective-c
-     - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
 ```
 
 * 冒号应直接写在类后面，如果上面的tableView，除非整个代理方法仅有一个参数。
 
 ```objective-c
-      -(BOOL)applicationOpenUntitledFile:(NSApplication *)sender;  
+-(BOOL)applicationOpenUntitledFile:(NSApplication *)sender;  
 ```
 一个例外就是接收通知的方法，此时参数是通知而不是发送通知的类。 
 
 ```objective-c
-      -(void)windowDidChangeScreen:(NSNotification *)notification;  
+-(void)windowDidChangeScreen:(NSNotification *)notification;  
 ```
 
 * 使用will和did告诉代理某个事情将要发生或者已经发生。如果是问代理是否要做某事情则应该用should。  
@@ -179,9 +179,9 @@ description: "读罢文档, 对于理解Apple的系统和API设计有了新的�
 对于管理多个对象的集合对象（每个集合中的对象chengweii一个元素），习惯上的命名方式如下：
 
 ```objective-c
-     - (void)addLayoutManager:(NSLayoutManager *)obj;
-     - (void)removeLayoutManager:(NSLayoutManager *)obj;
-     - (NSArray *)layoutManagers;
+- (void)addLayoutManager:(NSLayoutManager *)obj;
+- (void)removeLayoutManager:(NSLayoutManager *)obj;
+- (NSArray *)layoutManagers;
 ```
 有几点需要特别注意的：如果集合无序，返回集合时应使用NSSet而不是NSArray。如果有序应该提供插入到指定位置和从指定位置删除的元素的方法。 集合方法应当持有插入的对象，当删除时应该释放该对象。 如果被插入的元素需要知道主集合对象的指针，那么设置的时候不要retain。
 
