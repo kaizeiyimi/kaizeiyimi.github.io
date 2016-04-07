@@ -120,15 +120,16 @@ a {
     #sidebar .widget .post-list li {
       border-bottom: 1px #F0F0F0 solid; }
     #sidebar .widget .search-form {
-      position: relative;
-      overflow: hidden; }
+      overflow: hidden;
+      height: 50px; }
       #sidebar .widget .search-form input {
+        width: 70%;
+        outline: none;
         background: #fff 8px 8px no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6%2BR8AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAG11AABzoAAA%2FN0AAINkAABw6AAA7GgAADA%2BAAAQkOTsmeoAAAESSURBVHjajNCxS9VRGMbxz71E4OwgoXPQxVEpXCI47%2BZqGP0LCoJO7UVD3QZzb3SwcHB7F3Uw3Zpd%2FAPCcJKG7Dj4u%2FK7Pwp94HDg5Xyf5z1Pr9YKImKANTzFXxzjU2ae6qhXaxURr%2FAFl9hHDy%2FwEK8z89sYVEp5gh84wMvMvGiSJ%2FEV85jNzLMR1McqfmN5BEBmnmMJFSvtpH7jdJiZv7q7Z%2BZPfMdcF6rN%2FT%2F1m2LGBkd4HhFT3dcRMY2FpskxaLNpayciHrWAGeziD7b%2BVfkithuTk8bkGa4wgWFmbrSTZOYeBvjc%2BucQj%2FEe6xHx4Taq1nrnKaW8K6XUUsrHWuvNevdRRLzFGwzvDbXAB9cDAHvhedDruuxSAAAAAElFTkSuQmCC);
         padding: 7px 11px 7px 28px;
         line-height: 16px;
         border: 1px solid #ddd;
-        border-radius: 5px;
-        width: 65%; }
+        border-radius: 5px; }
 
 /* post */
 .post {
@@ -172,14 +173,10 @@ a {
       padding-left: 0.3em; }
     .post .readmore a:hover {
       border-bottom-color: #D26911; }
-  .post .article-share-link {
-    cursor: pointer;
+  .post .article-share {
     float: right;
-    margin-left: 20px; }
-    .post .article-share-link:before {
-      font-family: "FontAwesome";
-      content: "\f064";
-      padding-right: 6px; }
+    margin: 0;
+    position: relative; }
   .post .tags {
     padding-bottom: 1em; }
     .post .tags a {
@@ -312,3 +309,92 @@ a {
   color: #6E7173;
   text-align: center;
   font-size: 1em; }
+
+/* archive */
+.post-archive {
+  font-size: 1.1em;
+  line-height: 2; }
+  .post-archive h2 {
+    margin: 0;
+    font: bold 1.6em/1.1 Avenir, "PingFang SC", "ff-tisa-web-pro", Cambria, "Times New Roman", Georgia, Times, sans-serif; }
+  .post-archive ul {
+    padding-left: 25px; }
+    .post-archive ul li .date {
+      margin-right: .7em; }
+
+/* article-share*/
+.article-share-link {
+  cursor: pointer;
+  margin-left: 20px; }
+  .article-share-link:before {
+    font-family: "FontAwesome";
+    content: "\f064";
+    padding-right: 6px; }
+
+.article-share-box {
+  position: absolute;
+  display: none;
+  background: white;
+  box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  width: 200px;
+  z-index: 1; }
+  .article-share-box.on {
+    display: block; }
+
+.article-share-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: 1em "PingFang SC", "TIBch", "Classic Grotesque W01", "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif;
+  padding: 0 8px;
+  color: #444;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #ddd;
+  height: 36px;
+  line-height: 36px; }
+
+.article-share-element, .article-share-twitter, .article-share-facebook, .article-share-weibo, .article-share-wechat {
+  width: 50px;
+  height: 36px;
+  display: block;
+  float: left;
+  position: relative;
+  color: #999; }
+  .article-share-element:before, .article-share-twitter:before, .article-share-facebook:before, .article-share-weibo:before, .article-share-wechat:before {
+    font: 1.5em "FontAwesome";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+    text-align: center; }
+  .article-share-element:hover, .article-share-twitter:hover, .article-share-facebook:hover, .article-share-weibo:hover, .article-share-wechat:hover {
+    color: white; }
+
+.article-share-twitter:before {
+  content: "\f099"; }
+
+.article-share-twitter:hover {
+  background: #00aced; }
+
+.article-share-facebook:before {
+  content: "\f09a"; }
+
+.article-share-facebook:hover {
+  background: #3b5998; }
+
+.article-share-weibo:before {
+  content: "\f18a"; }
+
+.article-share-weibo:hover {
+  background: #d44137; }
+
+.article-share-wechat:before {
+  content: "\f1d7"; }
+
+.article-share-wechat:hover {
+  background: #38ad5a; }
