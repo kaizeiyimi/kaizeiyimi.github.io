@@ -55,5 +55,4 @@ html(lang='#{config.language}')
       .pure-u-1.pure-u-md-3-4
         != partial('_partial/footer.jade')
 
-    include _partial/totop
-    include _partial/after_footer
+    script(type='text/javascript', src=url_for(theme.js) + '/smartresize.js' + '?v=' + theme.version)

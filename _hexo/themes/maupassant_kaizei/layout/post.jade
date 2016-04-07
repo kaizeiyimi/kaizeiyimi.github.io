@@ -17,15 +17,15 @@ block content
         span#busuanzi_container_page_pv= ' | '
           span#busuanzi_value_page_pv
           span= ' ' + __('Hits')
-    // if page.toc
-    //   div(class='clear')
-    //     div(id='toc' class='toc-article')
-    //       div(class='toc-title')= __('contents')
-    //       != toc(page.content)
     .post-content
       != page.content
     if theme.shareto == true
       script(type='text/javascript', src=url_for(theme.js) + '/share.js' + '?v=' + theme.version, async)
-      a.article-share-link(data-url='#{page.permalink}', data-id='#{page._id}')= __('shareto')
+      div.article-share
+        a.article-share-link(data-url='', data-id='#{page._id}')= __('shareto')
+      - var code = "var share=document.getElementsByClassName('article-share-link')[0];"
+      - code += "if(share){share.setAttribute('data-url', window.location.href);}"
+      script= code 
+      
     include _partial/tag
     include _partial/post_nav
