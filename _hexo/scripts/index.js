@@ -16,9 +16,8 @@ if (process.argv[2] == 'clean') {
 			processed = true;
 			fs.writeFile(index, 
 			['<!DOCTYPE html>',
-			'<html>',
 			'<head>',
-			'<meta http-equiv="refresh" content="0;url='+hexo.config.root+'>', 
+			'<meta http-equiv="refresh" content="0;url='+hexo.config.root+'">', 
 			'</head>'].join('\n'), 
 			function(error){
 				if (error) {
