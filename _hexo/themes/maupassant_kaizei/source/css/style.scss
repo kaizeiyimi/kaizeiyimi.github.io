@@ -151,14 +151,15 @@ a {
     }
 }
 
-
+#sidebar-container{
+    padding: 40px 0 20px;
+    position: fixed;
+}
 #sidebar {
 	font-family: sans-serif;
     border-left: 1px solid $borderColor;
-    padding-left: 35px;
-    margin-top: 40px;
-    padding-bottom: 20px;
     word-wrap: break-word;
+    padding-left: 35px;
     .widget {
     	display: block;
         margin-bottom: 30px;
@@ -244,23 +245,30 @@ a {
             }
         }
 	}
-	.readmore a {
-	    font-size: 1em;
-	    color: $mainTextColor;
-	    margin: -10px 0;
-	    padding: 5px 10px;
-	    border: 1px solid $borderColor;
-	    border-radius: 5px;
-	    float: right;
-	    &:after {
-	        font-family: "FontAwesome";
-	        content: "\f101";
-	        padding-left: 0.3em;
-	    }
-	    &:hover {
-	        border-bottom-color: $linkBorderBottomColor;
-	    }
-	}
+	.readmore {
+        margin-top: -10px;
+        padding: 0;
+        position: relative;
+        height: 40px;
+        a {
+            position: absolute;
+            top: 0;
+            right: 0;
+    	    font-size: 1em;
+    	    color: $mainTextColor;
+    	    padding: 5px 10px;
+    	    border: 1px solid $borderColor;
+    	    border-radius: 5px;
+    	    &:after {
+    	        font-family: "FontAwesome";
+    	        content: "\f101";
+    	        padding-left: 0.3em;
+    	    }
+    	    &:hover {
+    	        border-bottom-color: $linkBorderBottomColor;
+    	    }
+    	}
+    }
 	.article-share {
 	    float: right;
         margin: 0;
