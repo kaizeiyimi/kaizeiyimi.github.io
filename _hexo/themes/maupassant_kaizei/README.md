@@ -3,7 +3,7 @@
 
 ## Installation
 
-* 需要scss解释器. 之后会简化`style.scss`的内容.
+* 需要scss解释器.
 * 需要marked. 没有用`hexo-renderer-marked`, 因为如果用, 扩展性几乎为0. 现在是在`scripts`下解析markdown以及进行高亮.
 
 ## configuration

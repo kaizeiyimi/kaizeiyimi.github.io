@@ -49,11 +49,12 @@ html(lang='#{config.language}')
     #layout.pure-g
       .pure-u-1.pure-u-md-3-4: .content_container
         block content
-      .pure-u-1-4: div#sidebar-container: #sidebar
-        each item in theme.widgets
-          != partial('_widget/' + item + '.jade')
+      .pure-u-1-4
+        div#sidebar-placeholder 
+        div#sidebar-container: #sidebar
+            each item in theme.widgets
+                != partial('_widget/' + item + '.jade')
       .pure-u-1.pure-u-md-3-4
         != partial('_partial/footer.jade')
 
-    script(type='text/javascript', src=url_for(theme.js) + '/smartresize.js' + '?v=' + theme.version)
     script(type='text/javascript', src=url_for(theme.js) + '/sidebar.js' + '?v=' + theme.version)
