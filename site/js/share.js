@@ -1,53 +1,35 @@
 (function($){
 
+  var box = $('.article-share-box').eq(0);
+    if (!box) {
+      return;
+    }
+
+  var encodedUrl = encodeURIComponent(window.location.href);
+  $('.article-share-twitter').attr('href', 'https://twitter.com/intent/tweet?url=' + encodedUrl);
+  $('.article-share-facebook').attr('href', 'https://www.facebook.com/sharer.php?u=' + encodedUrl);
+  $('.article-share-sinaweibo').attr('href', 'http://service.weibo.com/share/share.php?title=' + document.title + '&url=' + encodedUrl + '&searchPic=true&style=number');
+  $('.article-share-wechat').attr('href', 'http://s.jiathis.com/qrcode.php?url=' + encodedUrl);
+
+  var total = ['.article-share-twitter', '.article-share-facebook', '.article-share-sinaweibo', '.article-share-wechat']
+  .reduce(function(p, c){
+    return p + $(c).length;
+  }, 0);
+  box.css({width: total * 50}); // same in css
+
   // article-share
   $('body').on('click', function(){
     $('.article-share-box.on').removeClass('on');
   }).on('click', '.article-share-link', function(e){
     e.stopPropagation();
 
-    var $this = $(this),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      id = 'article-share-box-' + $this.attr('data-id'),
-      title = document.title;
-
-    if ($('#' + id).length){
-      var box = $('#' + id);
-
-      if (box.hasClass('on')){
-        box.removeClass('on');
-        return;
-      }
+    if (box.hasClass('on')) {
+      box.removeClass('on');
     } else {
-      var html = [
-        '<div id="' + id + '" class="article-share-box">',
-          '<input class="article-share-input" value="' + url + '">',
-          '<div class="article-share-links">',
-            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-            '<a href="http://service.weibo.com/share/share.php?title=' + title + '&url=' + encodedUrl + '&searchPic=true&style=number' + '" class="article-share-weibo" target="_blank" title="Weibo"></a>',
-            '<a href="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '" class="article-share-wechat" target="_blank" title="Wechat"></a>',
-          '</div>',
-        '</div>'
-      ].join('');
-
-      var box = $(html);
-      $('.article-share').append(box);
+      box.addClass('on');
     }
-
-    $('.article-share-box.on').hide();
-
-    box.css({top: 25, right: 0}).addClass('on');
   }).on('click', '.article-share-box', function(e){
     e.stopPropagation();
-  }).on('click', '.article-share-box-input', function(){
-    $(this).select();
-  }).on('click', '.article-share-box-link', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-
-    window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
   });
 
 })(jQuery);

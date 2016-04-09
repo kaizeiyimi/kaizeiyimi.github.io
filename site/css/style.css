@@ -89,8 +89,7 @@ a {
     padding: 0 15px; } }
 
 #sidebar-container {
-  padding: 40px 0 20px;
-  position: fixed; }
+  padding: 40px 0 20px; }
 
 #sidebar {
   font-family: sans-serif;
@@ -295,13 +294,15 @@ a {
     font-size: 1.1em;
     color: #555; }
     .post-nav a.pre {
-      float: left; }
+      float: left;
+      margin-right: 5px; }
       .post-nav a.pre:before {
         font-family: "FontAwesome";
         content: "\f0d9";
         padding-right: 0.3em; }
     .post-nav a.next {
-      float: right; }
+      float: right;
+      margin-left: 5px; }
       .post-nav a.next:after {
         font-family: "FontAwesome";
         content: "\f0da";
@@ -341,6 +342,8 @@ a {
 
 .article-share-box {
   position: absolute;
+  top: 25px;
+  right: 0;
   display: none;
   background: white;
   box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
@@ -363,14 +366,14 @@ a {
   height: 36px;
   line-height: 36px; }
 
-.article-share-element, .article-share-twitter, .article-share-facebook, .article-share-weibo, .article-share-wechat {
+.article-share-element, .article-share-twitter, .article-share-facebook, .article-share-sinaweibo, .article-share-wechat {
   width: 50px;
   height: 36px;
   display: block;
   float: left;
   position: relative;
   color: #999; }
-  .article-share-element:before, .article-share-twitter:before, .article-share-facebook:before, .article-share-weibo:before, .article-share-wechat:before {
+  .article-share-element:before, .article-share-twitter:before, .article-share-facebook:before, .article-share-sinaweibo:before, .article-share-wechat:before {
     font: 1.5em "FontAwesome";
     width: 20px;
     height: 20px;
@@ -380,7 +383,7 @@ a {
     margin-top: -10px;
     margin-left: -10px;
     text-align: center; }
-  .article-share-element:hover, .article-share-twitter:hover, .article-share-facebook:hover, .article-share-weibo:hover, .article-share-wechat:hover {
+  .article-share-element:hover, .article-share-twitter:hover, .article-share-facebook:hover, .article-share-sinaweibo:hover, .article-share-wechat:hover {
     color: white; }
 
 .article-share-twitter:before {
@@ -395,10 +398,10 @@ a {
 .article-share-facebook:hover {
   background: #3b5998; }
 
-.article-share-weibo:before {
+.article-share-sinaweibo:before {
   content: "\f18a"; }
 
-.article-share-weibo:hover {
+.article-share-sinaweibo:hover {
   background: #d44137; }
 
 .article-share-wechat:before {

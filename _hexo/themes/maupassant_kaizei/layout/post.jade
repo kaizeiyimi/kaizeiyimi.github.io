@@ -20,12 +20,7 @@ block content
     .post-content
       != page.content
     if theme.shareto == true
-      script(type='text/javascript', src=url_for(theme.js) + '/share.js' + '?v=' + theme.version, async)
-      div.article-share
-        a.article-share-link(data-url='', data-id='#{page._id}')= __('shareto')
-        - var code = "var share=document.getElementsByClassName('article-share-link')[0];"
-        - code += "if(share){share.setAttribute('data-url', window.location.href);}"
-        script= code 
+      include _partial/share
       
     include _partial/tag
     include _partial/post_nav

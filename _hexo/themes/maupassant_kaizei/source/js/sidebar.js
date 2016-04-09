@@ -3,6 +3,7 @@
   var sidebarContainer = $('#sidebar-container'),
     parent = sidebarContainer.parent();
   var lastOffset;
+  sidebarContainer.css({position: 'fixed'});
 
   $(window).scroll(layout);
   $(window).resize(layout);

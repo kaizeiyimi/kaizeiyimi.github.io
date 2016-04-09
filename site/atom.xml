@@ -5,7 +5,7 @@
   <link href="/site/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-05T07:45:53.000Z</updated>
+  <updated>2016-04-05T13:05:40.000Z</updated>
   <id>/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="/2016/03/28/swift_type_convert/"/>
     <id>/2016/03/28/swift_type_convert/</id>
     <published>2016-03-28T06:00:00.000Z</published>
-    <updated>2016-04-05T07:45:53.000Z</updated>
+    <updated>2016-04-05T13:05:40.000Z</updated>
     
     <content type="html">&lt;p&gt;XCode升级到了7.3, swift到了2.2. 之前发现的坑在这里验证了一下, 依然没啥变化. 特此记录一下.&lt;/p&gt;
 &lt;p&gt;本文主要填一下类型转换的坑, 包括 &lt;code&gt;=&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;, &lt;code&gt;is&lt;/code&gt;, &lt;code&gt;Optional&lt;/code&gt;, &lt;code&gt;函数参数&lt;/code&gt;,&lt;code&gt;闭包&lt;/code&gt; 以及&lt;code&gt;Tuple&lt;/code&gt;. 总之, &lt;code&gt;class&lt;/code&gt;和&lt;code&gt;非class&lt;/code&gt;的待遇是不一样的, Any和AnyObject的区别也是很重要的.
@@ -106,9 +106,9 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
       <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="XCode" scheme="/tags/XCode/"/>
-    
       <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="XCode" scheme="/tags/XCode/"/>
     
   </entry>
   
@@ -117,7 +117,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2016/03/15/%E5%B9%B4%E5%90%8E%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
     <id>/2016/03/15/年后小总结/</id>
     <published>2016-03-15T07:00:00.000Z</published>
-    <updated>2016-04-05T08:37:14.000Z</updated>
+    <updated>2016-04-05T13:05:40.000Z</updated>
     
     <content type="html">&lt;p&gt;kaizei的2015小总结. 总算也是写了总结了...&lt;/p&gt;
 &lt;p&gt;问: 不应该年前写总结么?&lt;/p&gt;
@@ -152,7 +152,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/XLYAutoLayoutEasy/"/>
     <id>/2014/12/08/XLYAutoLayoutEasy/</id>
     <published>2014-12-08T08:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:07:09.000Z</updated>
     
     <content type="html">&lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.&lt;/p&gt;
 &lt;h2 id=&quot;如何创建一个约束&quot;&gt;&lt;a href=&quot;#如何创建一个约束&quot; class=&quot;headerlink&quot; title=&quot;如何创建一个约束&quot;&gt;&lt;/a&gt;如何创建一个约束&lt;/h2&gt;&lt;p&gt;苹果在NSLayoutConstraint中提供了一个类方法&lt;/p&gt;
@@ -228,7 +228,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
 - (XLYConstraint *)equalTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)greaterThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)lessThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;也专门弄了一个给swift bridge header用的&lt;code&gt;XLYAutoLayoutEasy-swift.h&lt;/code&gt;以区分import的头文件.&lt;/p&gt;
-&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
+&lt;h2 id=&quot;总结-2&quot;&gt;&lt;a href=&quot;#总结-2&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
 &lt;p&gt;写代码, 多思考, 想清楚了需要什么再写. 多画图有助于思考.&lt;/p&gt;
 &lt;p&gt;另外, 感谢我的她对我的包容和支持.&lt;/p&gt;
 </content>
@@ -253,7 +253,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/talk_about_autolayout/"/>
     <id>/2014/12/08/talk_about_autolayout/</id>
     <published>2014-12-08T03:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:07:40.000Z</updated>
     
     <content type="html">&lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
 &lt;h2 id=&quot;AutoResizing-AutoLayout之前的布局&quot;&gt;&lt;a href=&quot;#AutoResizing-AutoLayout之前的布局&quot; class=&quot;headerlink&quot; title=&quot;AutoResizing -- AutoLayout之前的布局&quot;&gt;&lt;/a&gt;AutoResizing -- AutoLayout之前的布局&lt;/h2&gt;&lt;p&gt;做app必然涉及到布局, 现在改为自动布局的话, 那么以前的布局是什么, AutoLayout解决了什么问题?&lt;/p&gt;
@@ -314,7 +314,7 @@ NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7�
     <link href="/2014/10/14/iOS_present_introduce_and_points/"/>
     <id>/2014/10/14/iOS_present_introduce_and_points/</id>
     <published>2014-10-14T06:30:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:09:36.000Z</updated>
     
     <content type="html">&lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UISplitViewController的replace在storyboard也被认为是一种切换(iPad专用, too). 本文将讨论present在不同版本的iOS SDK中的变化以及present的一些需要注意的问题. 本文的测试和讲述都是在xcode6.0.1中使用SDK8版本.&lt;/p&gt;
 &lt;p&gt;present是在app中可以帮助用户理解app行为, 划分app功能模块, 是一种极其常用的场景切换方式. 最常用的方式就是:&lt;/p&gt;
@@ -456,7 +456,7 @@ A-&gt;B-&gt;C
 &lt;p&gt;从另外一个方式来理解, present意味着展示新的模块, 新模块应该在逻辑上是另外一层, 默认情况下, present新的一层由当前层的根元素来操作. 所以是A展示了D, D展示了F. 为什么说是默认情况?  因为viewController还有一个属性:&lt;em&gt;definesPresentationContext&lt;/em&gt;. 默认值为NO. 文档中描述如果值为YES, 意味着期望presentedViewController覆盖当前的view的范围. 直观地来讲, 就是viewController告诉系统, 当我或者我的childViewController做present时, presenting是我, 覆盖我的显示范围. 如果真的想要这样的效果, 还需要给presentedViewController设置&lt;em&gt;modalPresentationStyle&lt;/em&gt;的值为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 指定presentedViewController在展示时使用当前的上下文. &lt;/p&gt;
 &lt;p&gt;如果两个值都正确设置了, 当一个childViewController调用present时, 它首先检查自己, 然后递归检查parentViewController是否有谁的&lt;em&gt;definesPresentationContext&lt;/em&gt;是YES. 这样会找到一个viewController来作为presenting, 然后present就是在这个viewController上做. 注意, 它有可能不是当前层的根, 也就意味着根仍然可以present. 根present的viewController的层级在child之上. &lt;/p&gt;
 &lt;p&gt;如果没有同时达成上述的两个变量设置, 得到的结果就是默认由当前层的根进行present, 并且不以根的显示范围做控制. 这里有一个需要注意的: 如果在一个viewController (X)上设定了&lt;em&gt;definesPresentationContext&lt;/em&gt;为YES, 并且presentedViewController (Y)设置了&lt;em&gt;modalPresentationStyle&lt;/em&gt;为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 在Y上再次进行present时,  下一个presentedViewController (Z)&lt;strong&gt;没有设置&lt;/strong&gt; 为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;的话, 展示会变成全屏, 此时的Z的presentingViewController变成了X. 更奇怪的是绑定的unwindSegue会莫名失效, 其它事件还能正确响应. 如果Z设置了&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 则present覆盖的还是X的范围, presentingViewController属性指向的是Y.&lt;/p&gt;
-&lt;h2 id=&quot;总结-1&quot;&gt;&lt;a href=&quot;#总结-1&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;很乱有木有? 我也觉得很乱. 但事实就是这样. 苹果这次的iOS8升级带来的问题不少, 添加了size class来描述用户界面的变化, 顺便一提, 因为引入size class的概念, 转屏的方法也全部废弃, 改为响应尺寸的变化. 引入UIPresentationController进行present管理, 系统控件的展示也基本上都变成了present展示, 行为发生了大幅变化. &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;的设置与否会导致不同的结果. 允许adaptive特性来调整不同尺寸下地显示策略, 但是不兼容iOS7及以前的系统, 基本上都是些新的API和设计. &lt;/p&gt;
+&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;很乱有木有? 我也觉得很乱. 但事实就是这样. 苹果这次的iOS8升级带来的问题不少, 添加了size class来描述用户界面的变化, 顺便一提, 因为引入size class的概念, 转屏的方法也全部废弃, 改为响应尺寸的变化. 引入UIPresentationController进行present管理, 系统控件的展示也基本上都变成了present展示, 行为发生了大幅变化. &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;的设置与否会导致不同的结果. 允许adaptive特性来调整不同尺寸下地显示策略, 但是不兼容iOS7及以前的系统, 基本上都是些新的API和设计. &lt;/p&gt;
 &lt;p&gt;稍微吐槽下: autoLayout的使用仍然有些问题, 有些设置不是在所有版本中都支持的, 虽然给出了warning, 但是没有建议如何修改. 使用autoLayout后的动画也有各种各样的问题, 给使用了autolayout的viewController做过场动画, 改变view的transform来完成效果. 如果使用currentContext的方式present 并且最终显示范围和viewController的初始大小不一致时, 会看到很好玩的结果. 动画效果完全就是打脸. 也尝试过给animation加上layoutSubViews的option, 然后又得到了另外一个打脸的动画效果. 分析了一下代码, 发现上述的改动总结起来就是先改动了transform让其缩放变小, 然后动画block中重设transform, 然后改变view的frame. 是的, 就是因为改变了frame导致了各种奇葩的效果, 有兴趣的自己试试就知道了. 还有很多其他的问题这篇博客就不在吐槽了, 再写就太长了.&lt;/p&gt;
 </content>
     
@@ -478,7 +478,7 @@ A-&gt;B-&gt;C
     <link href="/2014/10/10/XLYMultiCastDelegate/"/>
     <id>/2014/10/10/XLYMultiCastDelegate/</id>
     <published>2014-10-10T08:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:12:18.000Z</updated>
     
     <content type="html">&lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼. 本文介绍一种利用&lt;strong&gt;消息转发&lt;/strong&gt;和&lt;strong&gt;代理&lt;/strong&gt;来做广播的想法.&lt;/p&gt;
 &lt;p&gt;记得做第一个项目时(一年多前...), 需要做聊天, 当时因为很多原因没有重新开发, 而是使用了之前项目的聊天模块代码, 结构十分混乱, 大量的使用了Notification并且很多地方的用法是错误的. 虽然开发得很不爽, 总之是硬扛下去了, 不堪回首. 期间积累了一些想法, 也写过一些demo验证了一些, 其中一个就是本文介绍的&lt;code&gt;MultiCastDelegate&lt;/code&gt;. &lt;/p&gt;
@@ -535,7 +535,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
 &lt;span class=&quot;hljs-comment&quot;&gt;//使用 swift定义的协议需要加上模块信息, 否则无法获取&lt;/span&gt;
 &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;XLYMultiCastDelegate&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(protocolName: &lt;span class=&quot;hljs-string&quot;&gt;&quot;XLYMultiCastDelegateDemo.SimpleSwiftProtocol&quot;&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后在调用时需要用as进行类型转换才能调用方法. &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-symbol&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;multiDelegate &lt;/span&gt;= &lt;span class=&quot;hljs-keyword&quot;&gt;multiDelegateUsingOCProtocol &lt;/span&gt;as SimpleProtocol&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;运行时会使用&lt;code&gt;-[NSObject respondsToSelector:]&lt;/code&gt;来进行检查是否可以转换. 转换成功后就可以进行调用了.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-selector-tag&quot;&gt;multiDelegate&lt;/span&gt;&lt;span class=&quot;hljs-selector-class&quot;&gt;.someOptionalMethod&lt;/span&gt;!()&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;总结-2&quot;&gt;&lt;a href=&quot;#总结-2&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;消息转发机制由语言支持, 应该是受到了smalltalk的影响, ruby也有类似的机制. swift想要做成一个类型安全的语言, 支持太多动态的特性会让很多东西失去保证. 总之, 工欲善其事, 必先利其器. 多了解一些语言的特性, 能够学到一些技术的设计思路, 还能帮助简化程序设计, 同时提高逼格😜.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-selector-tag&quot;&gt;multiDelegate&lt;/span&gt;&lt;span class=&quot;hljs-selector-class&quot;&gt;.someOptionalMethod&lt;/span&gt;!()&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;总结-1&quot;&gt;&lt;a href=&quot;#总结-1&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;消息转发机制由语言支持, 应该是受到了smalltalk的影响, ruby也有类似的机制. swift想要做成一个类型安全的语言, 支持太多动态的特性会让很多东西失去保证. 总之, 工欲善其事, 必先利其器. 多了解一些语言的特性, 能够学到一些技术的设计思路, 还能帮助简化程序设计, 同时提高逼格😜.&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -558,7 +558,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/10/09/XLYMapping_System/"/>
     <id>/2014/10/09/XLYMapping_System/</id>
     <published>2014-10-09T10:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:12:43.000Z</updated>
     
     <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt; 是一个能够将JSON对象(NSDictionary或者NSArray)映射到本地对象的库. 可以简化从服务端请求到数据后的字段填充操作. 当然, 它是本人开发的😃.&lt;/p&gt;
 &lt;p&gt;很早以前(一年多)接触了&lt;a href=&quot;https://github.com/RestKit/RestKit/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;restkit&lt;/a&gt;, 它很强大, 针对 restful 的API封装了网络请求, JSON对象的映射, 包括普通对象和受管对象(&lt;code&gt;NSManagedObject&lt;/code&gt;), 并且对受管对象还额外提供了许多便利的方法. 它集成了&lt;a href=&quot;https://github.com/AFNetworking/AFNetworking/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AFNetworking&lt;/a&gt;这个公认很好的网络库来提供网络请求, 使得使用restkit的开发者能够极大得减少请求和数据转换的代码量.&lt;/p&gt;
@@ -597,7 +597,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/06/17/difference_between_debug_run_and_Archive_run/"/>
     <id>/2014/06/17/difference_between_debug_run_and_Archive_run/</id>
     <published>2014-06-17T05:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:14:09.000Z</updated>
     
     <content type="html">&lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
 &lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还挺烦人的。&lt;/p&gt;
@@ -618,9 +618,9 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
       <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="XCode" scheme="/tags/XCode/"/>
-    
       <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="XCode" scheme="/tags/XCode/"/>
     
   </entry>
   
@@ -629,7 +629,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/06/10/objective-c_coding_guidelines_translation/"/>
     <id>/2014/06/10/objective-c_coding_guidelines_translation/</id>
     <published>2014-06-10T05:00:00.000Z</published>
-    <updated>2016-04-06T09:22:20.000Z</updated>
+    <updated>2016-04-07T12:25:58.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。
@@ -1025,7 +1025,7 @@ bitfields最好不要碰。&lt;/p&gt;
     <link href="/2014/06/10/Objective-C%20Resolve%20Method/"/>
     <id>/2014/06/10/Objective-C Resolve Method/</id>
     <published>2014-06-10T04:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:21:04.000Z</updated>
     
     <content type="html">&lt;p&gt;本文简单介绍了一下&lt;code&gt;objective-c&lt;/code&gt;中为类在运行时动态添加方法的技术.&lt;/p&gt;
 &lt;blockquote&gt;

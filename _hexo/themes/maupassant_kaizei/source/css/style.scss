@@ -153,7 +153,6 @@ a {
 
 #sidebar-container{
     padding: 40px 0 20px;
-    position: fixed;    // js controls top & left & width.
 }
 #sidebar {
 	font-family: sans-serif;
@@ -407,6 +406,7 @@ a {
         color: $postTitleColor;
         &.pre {
             float: left;
+            margin-right: 5px;
             &:before {
               font-family: "FontAwesome";
               content: "\f0d9";
@@ -415,6 +415,7 @@ a {
         }
         &.next {
             float: right;
+            margin-left: 5px;
             &:after {
               font-family: "FontAwesome";
               content: "\f0da";
@@ -466,6 +467,8 @@ a {
 }
 .article-share-box {
   position: absolute;
+  top: 25px;
+  right: 0;
   display: none;
   background: white;
   box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.2);
@@ -533,7 +536,7 @@ a {
   }
 }
 
-.article-share-weibo {
+.article-share-sinaweibo {
   @extend .article-share-element;
   &:before {
     content: "\f18a";
