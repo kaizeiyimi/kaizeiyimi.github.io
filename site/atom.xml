@@ -5,7 +5,7 @@
   <link href="/site/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-12T06:34:49.000Z</updated>
+  <updated>2016-04-12T12:22:44.000Z</updated>
   <id>/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="/2016/04/11/nativescript/"/>
     <id>/2016/04/11/nativescript/</id>
     <published>2016-04-11T04:50:49.000Z</published>
-    <updated>2016-04-12T06:34:49.000Z</updated>
+    <updated>2016-04-12T12:22:44.000Z</updated>
     
     <content type="html">&lt;p&gt;&lt;a href=&quot;https://www.nativescript.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NativeScript&lt;/a&gt;是一个保加利亚公司&lt;strong&gt;Telerik&lt;/strong&gt;开发的, 其目标比较受争议: &lt;code&gt;write once, run everywhere&lt;/code&gt;. 它提供了Android, Windows Phone和iOS的JS Runtime, 以及一些周边比如css和html的解析, 一些wrap的模块来消除不同平台的差异. 但是我们只需要它提供的Runtime来用JS开发原生应用就好, 因为写起来还不错.&lt;/p&gt;
 &lt;h2 id=&quot;iOS-Runtime&quot;&gt;&lt;a href=&quot;#iOS-Runtime&quot; class=&quot;headerlink&quot; title=&quot;iOS Runtime&quot;&gt;&lt;/a&gt;iOS Runtime&lt;/h2&gt;&lt;p&gt;关于NativeScript的介绍可以去Google一下, 很多人拿来和&lt;a href=&quot;https://facebook.github.io/react-native/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;react-native&lt;/a&gt;比较, 一般对比比较多的是如何编写页面这一块. 当然这不是这篇文章的目的, 我只是比较在意NativeScript的Runtime, 它提供了js到原生的调用转换, 而且看起来挺不错. Android和Windows Phone没有研究过, 这里只聊聊iOS Runtime. 后文提到runtime如无特殊说明都是指iOS Runtime.
@@ -98,7 +98,8 @@ runtime.executeModule(&lt;span class=&quot;hljs-string&quot;&gt;&quot;./&quot;&l
 &lt;/ol&gt;
 &lt;h2 id=&quot;优点&quot;&gt;&lt;a href=&quot;#优点&quot; class=&quot;headerlink&quot; title=&quot;优点&quot;&gt;&lt;/a&gt;优点&lt;/h2&gt;&lt;p&gt;其实研究一下它主要是看中它JS编写原生页面的能力, coding起来跟写OC或者swift很像, 而且可以完全不理会它提供的包, 依然用自己熟悉的方式开发. 学习成本几乎为0啊. 感觉如果认真研究一下, 配置成远端下载脚本到本地执行应该是没有问题(可能有不少坑). 这样热更新应用, 甚至去掉h5, 改用NativeScript来提供页面都可以尝试, 原生效果肯定比h5好啊.&lt;/p&gt;
 &lt;p&gt;还有它遵循&lt;strong&gt;CommonJS&lt;/strong&gt;, 可以打包一些js的库来用, 挺方便的. &lt;/p&gt;
-&lt;p&gt;最重要的一点最后说: 它拦截调用, load必须的模块, 转换到原生. 不是通过自己去整理所有的API, 而是做了一中机制, 也就说iOS SDK更新了, 你不需要更新NativeScript即可立即开始使用新API. 而其他的比如&lt;strong&gt;Xamarin&lt;/strong&gt;就必须等, 而&lt;strong&gt;React-Native&lt;/strong&gt; 目前只能通过写模块来和native通信, 不具备直接调用的能力.&lt;/p&gt;
+&lt;p&gt;最重要的一点最后说: 它是在编译的时候调用generate metadata去生成API的映射, 在执行js之前会load几个常用模块比如UIKit, Foundation, 然后有些模块会在第一次调用的时候load. 如果iOS更新了, 你不需要更新NativeScript, 即可立即开始使用新API, 因为你编译的时候新的API就会被检索, 被放到metadata里面. &lt;/p&gt;
+&lt;p&gt;其他的比如&lt;strong&gt;Xamarin&lt;/strong&gt;就必须等SDK更新才能有机会调用新的API, 而&lt;strong&gt;React-Native&lt;/strong&gt; 目前只能通过写模块来和native通信, 不具备直接调用的能力.&lt;/p&gt;
 &lt;p&gt;如果再有其他进展, 再继续更新本文.&lt;/p&gt;
 </content>
     
@@ -122,7 +123,7 @@ runtime.executeModule(&lt;span class=&quot;hljs-string&quot;&gt;&quot;./&quot;&l
     <link href="/2016/03/28/swift_type_convert/"/>
     <id>/2016/03/28/swift_type_convert/</id>
     <published>2016-03-28T06:00:00.000Z</published>
-    <updated>2016-04-05T07:45:53.000Z</updated>
+    <updated>2016-04-05T13:05:40.000Z</updated>
     
     <content type="html">&lt;p&gt;XCode升级到了7.3, swift到了2.2. 之前发现的坑在这里验证了一下, 依然没啥变化. 特此记录一下.&lt;/p&gt;
 &lt;p&gt;本文主要填一下类型转换的坑, 包括 &lt;code&gt;=&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;, &lt;code&gt;is&lt;/code&gt;, &lt;code&gt;Optional&lt;/code&gt;, &lt;code&gt;函数参数&lt;/code&gt;,&lt;code&gt;闭包&lt;/code&gt; 以及&lt;code&gt;Tuple&lt;/code&gt;. 总之, &lt;code&gt;class&lt;/code&gt;和&lt;code&gt;非class&lt;/code&gt;的待遇是不一样的, Any和AnyObject的区别也是很重要的.
@@ -219,7 +220,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2016/03/15/%E5%B9%B4%E5%90%8E%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
     <id>/2016/03/15/年后小总结/</id>
     <published>2016-03-15T07:00:00.000Z</published>
-    <updated>2016-04-05T08:37:14.000Z</updated>
+    <updated>2016-04-05T13:05:40.000Z</updated>
     
     <content type="html">&lt;p&gt;kaizei的2015小总结. 总算也是写了总结了...&lt;/p&gt;
 &lt;p&gt;问: 不应该年前写总结么?&lt;/p&gt;
@@ -254,7 +255,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/XLYAutoLayoutEasy/"/>
     <id>/2014/12/08/XLYAutoLayoutEasy/</id>
     <published>2014-12-08T08:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:07:09.000Z</updated>
     
     <content type="html">&lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.&lt;/p&gt;
 &lt;h2 id=&quot;如何创建一个约束&quot;&gt;&lt;a href=&quot;#如何创建一个约束&quot; class=&quot;headerlink&quot; title=&quot;如何创建一个约束&quot;&gt;&lt;/a&gt;如何创建一个约束&lt;/h2&gt;&lt;p&gt;苹果在NSLayoutConstraint中提供了一个类方法&lt;/p&gt;
@@ -355,7 +356,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/talk_about_autolayout/"/>
     <id>/2014/12/08/talk_about_autolayout/</id>
     <published>2014-12-08T03:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:07:40.000Z</updated>
     
     <content type="html">&lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
 &lt;h2 id=&quot;AutoResizing-AutoLayout之前的布局&quot;&gt;&lt;a href=&quot;#AutoResizing-AutoLayout之前的布局&quot; class=&quot;headerlink&quot; title=&quot;AutoResizing -- AutoLayout之前的布局&quot;&gt;&lt;/a&gt;AutoResizing -- AutoLayout之前的布局&lt;/h2&gt;&lt;p&gt;做app必然涉及到布局, 现在改为自动布局的话, 那么以前的布局是什么, AutoLayout解决了什么问题?&lt;/p&gt;
@@ -416,7 +417,7 @@ NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7�
     <link href="/2014/10/14/iOS_present_introduce_and_points/"/>
     <id>/2014/10/14/iOS_present_introduce_and_points/</id>
     <published>2014-10-14T06:30:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:09:36.000Z</updated>
     
     <content type="html">&lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UISplitViewController的replace在storyboard也被认为是一种切换(iPad专用, too). 本文将讨论present在不同版本的iOS SDK中的变化以及present的一些需要注意的问题. 本文的测试和讲述都是在xcode6.0.1中使用SDK8版本.&lt;/p&gt;
 &lt;p&gt;present是在app中可以帮助用户理解app行为, 划分app功能模块, 是一种极其常用的场景切换方式. 最常用的方式就是:&lt;/p&gt;
@@ -580,7 +581,7 @@ A-&gt;B-&gt;C
     <link href="/2014/10/10/XLYMultiCastDelegate/"/>
     <id>/2014/10/10/XLYMultiCastDelegate/</id>
     <published>2014-10-10T08:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:12:18.000Z</updated>
     
     <content type="html">&lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼. 本文介绍一种利用&lt;strong&gt;消息转发&lt;/strong&gt;和&lt;strong&gt;代理&lt;/strong&gt;来做广播的想法.&lt;/p&gt;
 &lt;p&gt;记得做第一个项目时(一年多前...), 需要做聊天, 当时因为很多原因没有重新开发, 而是使用了之前项目的聊天模块代码, 结构十分混乱, 大量的使用了Notification并且很多地方的用法是错误的. 虽然开发得很不爽, 总之是硬扛下去了, 不堪回首. 期间积累了一些想法, 也写过一些demo验证了一些, 其中一个就是本文介绍的&lt;code&gt;MultiCastDelegate&lt;/code&gt;. &lt;/p&gt;
@@ -660,7 +661,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/10/09/XLYMapping_System/"/>
     <id>/2014/10/09/XLYMapping_System/</id>
     <published>2014-10-09T10:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:12:43.000Z</updated>
     
     <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMapping/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMapping&lt;/a&gt; 是一个能够将JSON对象(NSDictionary或者NSArray)映射到本地对象的库. 可以简化从服务端请求到数据后的字段填充操作. 当然, 它是本人开发的😃.&lt;/p&gt;
 &lt;p&gt;很早以前(一年多)接触了&lt;a href=&quot;https://github.com/RestKit/RestKit/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;restkit&lt;/a&gt;, 它很强大, 针对 restful 的API封装了网络请求, JSON对象的映射, 包括普通对象和受管对象(&lt;code&gt;NSManagedObject&lt;/code&gt;), 并且对受管对象还额外提供了许多便利的方法. 它集成了&lt;a href=&quot;https://github.com/AFNetworking/AFNetworking/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;AFNetworking&lt;/a&gt;这个公认很好的网络库来提供网络请求, 使得使用restkit的开发者能够极大得减少请求和数据转换的代码量.&lt;/p&gt;
@@ -699,7 +700,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/06/17/difference_between_debug_run_and_Archive_run/"/>
     <id>/2014/06/17/difference_between_debug_run_and_Archive_run/</id>
     <published>2014-06-17T05:00:00.000Z</published>
-    <updated>2016-04-05T02:09:59.000Z</updated>
+    <updated>2016-04-04T10:14:09.000Z</updated>
     
     <content type="html">&lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
 &lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还挺烦人的。&lt;/p&gt;
@@ -731,7 +732,7 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
     <link href="/2014/06/10/objective-c_coding_guidelines_translation/"/>
     <id>/2014/06/10/objective-c_coding_guidelines_translation/</id>
     <published>2014-06-10T05:00:00.000Z</published>
-    <updated>2016-04-06T09:22:20.000Z</updated>
+    <updated>2016-04-07T12:25:58.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。

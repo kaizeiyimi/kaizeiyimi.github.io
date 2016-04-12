@@ -121,7 +121,9 @@ runtime.executeModule("./") 	// 执行app.js
 
 还有它遵循**CommonJS**, 可以打包一些js的库来用, 挺方便的. 
 
-最重要的一点最后说: 它拦截调用, load必须的模块, 转换到原生. 不是通过自己去整理所有的API, 而是做了一中机制, 也就说iOS SDK更新了, 你不需要更新NativeScript即可立即开始使用新API. 而其他的比如**Xamarin**就必须等, 而**React-Native** 目前只能通过写模块来和native通信, 不具备直接调用的能力.
+最重要的一点最后说: 它是在编译的时候调用generate metadata去生成API的映射, 在执行js之前会load几个常用模块比如UIKit, Foundation, 然后有些模块会在第一次调用的时候load. 如果iOS更新了, 你不需要更新NativeScript, 即可立即开始使用新API, 因为你编译的时候新的API就会被检索, 被放到metadata里面. 
+
+其他的比如**Xamarin**就必须等SDK更新才能有机会调用新的API, 而**React-Native** 目前只能通过写模块来和native通信, 不具备直接调用的能力.
 
 
 如果再有其他进展, 再继续更新本文.
