@@ -5,7 +5,7 @@
   <link href="/site/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-11T07:54:48.000Z</updated>
+  <updated>2016-04-12T06:34:49.000Z</updated>
   <id>/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="/2016/04/11/nativescript/"/>
     <id>/2016/04/11/nativescript/</id>
     <published>2016-04-11T04:50:49.000Z</published>
-    <updated>2016-04-11T07:54:48.000Z</updated>
+    <updated>2016-04-12T06:34:49.000Z</updated>
     
     <content type="html">&lt;p&gt;&lt;a href=&quot;https://www.nativescript.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NativeScript&lt;/a&gt;是一个保加利亚公司&lt;strong&gt;Telerik&lt;/strong&gt;开发的, 其目标比较受争议: &lt;code&gt;write once, run everywhere&lt;/code&gt;. 它提供了Android, Windows Phone和iOS的JS Runtime, 以及一些周边比如css和html的解析, 一些wrap的模块来消除不同平台的差异. 但是我们只需要它提供的Runtime来用JS开发原生应用就好, 因为写起来还不错.&lt;/p&gt;
 &lt;h2 id=&quot;iOS-Runtime&quot;&gt;&lt;a href=&quot;#iOS-Runtime&quot; class=&quot;headerlink&quot; title=&quot;iOS Runtime&quot;&gt;&lt;/a&gt;iOS Runtime&lt;/h2&gt;&lt;p&gt;关于NativeScript的介绍可以去Google一下, 很多人拿来和&lt;a href=&quot;https://facebook.github.io/react-native/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;react-native&lt;/a&gt;比较, 一般对比比较多的是如何编写页面这一块. 当然这不是这篇文章的目的, 我只是比较在意NativeScript的Runtime, 它提供了js到原生的调用转换, 而且看起来挺不错. Android和Windows Phone没有研究过, 这里只聊聊iOS Runtime. 后文提到runtime如无特殊说明都是指iOS Runtime.
@@ -62,9 +62,16 @@ nav.pushViewControllerAnimated(vc, &lt;span class=&quot;hljs-literal&quot;&gt;tr
 &lt;h4 id=&quot;配置Build-Settings&quot;&gt;&lt;a href=&quot;#配置Build-Settings&quot; class=&quot;headerlink&quot; title=&quot;配置Build Settings&quot;&gt;&lt;/a&gt;配置Build Settings&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;internal&lt;/strong&gt;里面好几个xcconfig, 其实很简单的, 只用到了一个&lt;code&gt;nativescript-build.xconfig&lt;/code&gt;, 至于是用xcconfig还是直接裸写在setting里面, 看自己的需求. 
 文件里面配置了&lt;code&gt;HEADER_SEARCH_PATHS&lt;/code&gt;, &lt;code&gt;OTHER_LDFLAGS&lt;/code&gt;以及&lt;code&gt;FRAMEWORK_SEARCH_PATHS&lt;/code&gt;. 这些值里面有些是相对路径, 自己调整正确就好. &lt;/p&gt;
 &lt;p&gt;默认配置的是用&lt;code&gt;.a&lt;/code&gt;, 如果要改成用framework, 先在&lt;code&gt;OTHER_LDFLAGS&lt;/code&gt;里面去掉对&lt;code&gt;.a&lt;/code&gt;的引用&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;-lNativeScript -L$(SRCROOT)/internal/NativeScript/&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;lib&lt;/span&gt; //引用的是.&lt;span class=&quot;hljs-title&quot;&gt;a&lt;/span&gt;, 删掉这个&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后把&lt;code&gt;NativeScript.framework&lt;/code&gt;拖拽到自己应用的Target的&lt;strong&gt;Embedded Binaries&lt;/strong&gt;里面即可. 这个framework是iOS8以后支持的dynamic framework.&lt;/p&gt;
-&lt;h4 id=&quot;修改程序入口&quot;&gt;&lt;a href=&quot;#修改程序入口&quot; class=&quot;headerlink&quot; title=&quot;修改程序入口&quot;&gt;&lt;/a&gt;修改程序入口&lt;/h4&gt;&lt;p&gt;看了一下样例工程, 扒出来这几行关键&lt;strong&gt;OC&lt;/strong&gt;代码. swift怎么弄不会, 所以是OC哦.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;-lNativeScript -L$(SRCROOT)/internal/NativeScript/&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;lib&lt;/span&gt; //引用的是.&lt;span class=&quot;hljs-title&quot;&gt;a&lt;/span&gt;, 删掉这个&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后把&lt;code&gt;NativeScript.framework&lt;/code&gt;拖拽到自己应用的Target的&lt;strong&gt;Embedded Binaries&lt;/strong&gt;里面, 这个framework是iOS8以后支持的dynamic framework. 
+还需要在这个framework的根目录下添加一个&lt;strong&gt;Modules&lt;/strong&gt;文件夹, 在文件夹里面创建module.modulemap文件, 其内容如下:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;framework &lt;span class=&quot;hljs-keyword&quot;&gt;module&lt;/span&gt; NativeScript {
+  umbrella header &lt;span class=&quot;hljs-string&quot;&gt;&quot;NativeScript.h&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;hljs-keyword&quot;&gt;export&lt;/span&gt; *
+  &lt;span class=&quot;hljs-keyword&quot;&gt;module&lt;/span&gt; * { &lt;span class=&quot;hljs-keyword&quot;&gt;export&lt;/span&gt; * }
+}&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;修改程序入口&quot;&gt;&lt;a href=&quot;#修改程序入口&quot; class=&quot;headerlink&quot; title=&quot;修改程序入口&quot;&gt;&lt;/a&gt;修改程序入口&lt;/h4&gt;&lt;p&gt;看了一下样例工程, 扒出来这几行关键&lt;strong&gt;OC&lt;/strong&gt;代码. swift怎么弄不会, 所以是OC哦.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-meta&quot;&gt;#import &lt;span class=&quot;hljs-meta-string&quot;&gt;&amp;lt;NativeScript/NativeScript.h&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-comment&quot;&gt;// #import &quot;YourTarget-swift.h&quot; 如果用AppDelegate是swift类&lt;/span&gt;
 
 &lt;span class=&quot;hljs-keyword&quot;&gt;extern&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;char&lt;/span&gt; startOfMetadataSection __&lt;span class=&quot;hljs-keyword&quot;&gt;asm&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;&quot;section$start$__DATA$__TNSMetadata&quot;&lt;/span&gt;);    &lt;span class=&quot;hljs-comment&quot;&gt;//抄过来的...&lt;/span&gt;
 
@@ -201,9 +208,9 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
       <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="XCode" scheme="/tags/XCode/"/>
-    
       <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="XCode" scheme="/tags/XCode/"/>
     
   </entry>
   
@@ -713,9 +720,9 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
       <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="XCode" scheme="/tags/XCode/"/>
-    
       <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="XCode" scheme="/tags/XCode/"/>
     
   </entry>
   

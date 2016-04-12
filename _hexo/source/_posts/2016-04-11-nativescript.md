@@ -63,13 +63,24 @@ Runtime需要添加3个`run script`. 可以照着样例工程里面来copy, 只�
 -lNativeScript -L$(SRCROOT)/internal/NativeScript/lib //引用的是.a, 删掉这个
 ```
 
-然后把`NativeScript.framework`拖拽到自己应用的Target的**Embedded Binaries**里面即可. 这个framework是iOS8以后支持的dynamic framework.
+然后把`NativeScript.framework`拖拽到自己应用的Target的**Embedded Binaries**里面, 这个framework是iOS8以后支持的dynamic framework. 
+还需要在这个framework的根目录下添加一个**Modules**文件夹, 在文件夹里面创建module.modulemap文件, 其内容如下:
+
+```
+framework module NativeScript {
+  umbrella header "NativeScript.h"
+
+  export *
+  module * { export * }
+}
+```
 
 #### 修改程序入口
 看了一下样例工程, 扒出来这几行关键**OC**代码. swift怎么弄不会, 所以是OC哦.
 
 ```objc
 #import <NativeScript/NativeScript.h>
+// #import "YourTarget-swift.h" 如果用AppDelegate是swift类
 
 extern char startOfMetadataSection __asm("section$start$__DATA$__TNSMetadata");	//抄过来的...
 
