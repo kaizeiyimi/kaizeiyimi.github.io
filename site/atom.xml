@@ -5,7 +5,7 @@
   <link href="/site/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-13T13:09:30.000Z</updated>
+  <updated>2016-04-13T14:58:56.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>改用hexo了!</title>
+    <link href="/2016/04/13/%E6%94%B9%E7%94%A8hexo%E4%BA%86/"/>
+    <id>/2016/04/13/改用hexo了/</id>
+    <published>2016-04-13T13:12:36.000Z</published>
+    <updated>2016-04-13T14:58:56.000Z</updated>
+    
+    <content type="html">&lt;p&gt;思量再三, 还是不用jekyll了. Ruby什么的累觉不爱, 最关键的是我刚装上最新版就直接不能启动... &lt;/p&gt;
+&lt;p&gt;什么? &lt;span style=&quot;color:rgb(179,62,170)&quot;&gt;&lt;strong&gt;没有给空定义match方法&lt;/strong&gt;&lt;/span&gt;. 喂, 还能再详细点儿么? 让我怎么排查问题?&lt;/p&gt;
+&lt;p&gt;正好听朋友说&lt;strong&gt;hexo&lt;/strong&gt;, 去䁖了一眼, 用Node做的. 文档真的是...(省略吐槽无数). 擦擦嘴, 喝口水. 其实做得挺不错的, 除了默认主题有点儿丑外加文档很烂以外. &lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;折腾了几天, 基于一个主题&lt;a href=&quot;https://github.com/pagecho/maupassant&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;maupassant&lt;/a&gt;进行了不少修改, 删除了大量我不需要的功能, 然后大改css, markdown解析以及高亮. 最后除了页面结构差不多, 其他的都差很多.&lt;/p&gt;
+&lt;p&gt;我这也算是自己弄了个主题? &lt;/p&gt;
+&lt;p&gt;我觉得hexo不错也许是因为我没有发现jekyll好用. 反正我暂时不会用jekyll了. 刚开始down下来默认模板的时候, 看了一下package, 带了一些category, tag之类的生成器, 一个markdown解析器用的marked, 然后还有个sass解析器的样子. 高亮是用的&lt;strong&gt;highlight.js&lt;/strong&gt;, 这个已经被hexo内置了.&lt;/p&gt;
+&lt;h2 id=&quot;其实我还是要吐槽的&quot;&gt;&lt;a href=&quot;#其实我还是要吐槽的&quot; class=&quot;headerlink&quot; title=&quot;其实我还是要吐槽的!!&quot;&gt;&lt;/a&gt;其实我还是要吐槽的!!&lt;/h2&gt;&lt;p&gt;不过槽点并不是很多, 嗯.&lt;/p&gt;
+&lt;h3 id=&quot;配置文件&quot;&gt;&lt;a href=&quot;#配置文件&quot; class=&quot;headerlink&quot; title=&quot;配置文件&quot;&gt;&lt;/a&gt;配置文件&lt;/h3&gt;&lt;p&gt;其实我很喜欢&lt;code&gt;gulp&lt;/code&gt;的想法. 扔掉键值对的配置文件, 直接用代码来配置. hexo完全基于Node, 所以为什么不直接用代码来配置? 讲真, 翻看源码的时候看到了一个用代码写好的default config的Object, hexo的逻辑是先加载default config, 然后加载我们的yml写的config文件去覆盖. 真的, 让我们直接写js吧, 最后吐出一个Object就行了, 这样就能完美解决插件配置的问题.&lt;/p&gt;
+&lt;h3 id=&quot;marked&quot;&gt;&lt;a href=&quot;#marked&quot; class=&quot;headerlink&quot; title=&quot;marked&quot;&gt;&lt;/a&gt;marked&lt;/h3&gt;&lt;p&gt;首先是markdown解析. 好吧, 本来用marked挺好, 可是呢, marked需要配置啊, 默认的行为当然不是我想要的, 我需要修改它对head, table, code等的解析. 但是这些修改需要修改renderer的方法, 很显然, 这需要code. marked插件的源码我也读了一下, 它会去config对象上获取非常简单的能够用键值对配置的信息, 对于修改renderer无能为力. 因为hexo的做法直接屏蔽了这种可能性.&lt;/p&gt;
+&lt;p&gt;于是, 我自己写了插件... sigh. 没有做成npm包的形式, 而是直接在&lt;code&gt;scripts&lt;/code&gt;文件夹里面写了一个简单的js. hexo说这里的脚本会在hexo启动的时候执行.&lt;/p&gt;
+&lt;h3 id=&quot;highlight-js&quot;&gt;&lt;a href=&quot;#highlight-js&quot; class=&quot;headerlink&quot; title=&quot;highlight.js&quot;&gt;&lt;/a&gt;highlight.js&lt;/h3&gt;&lt;p&gt;真是欲哭无泪, 没有你这么内置的!! 我都只能用非常规手段去require人家原始的包了. hexo内置后, 也只能配置非常少的高亮信息, 对于需要代码配置的仍然只能干瞪眼. 于是, 我禁掉了配置文件里面的高亮, 在我的简单的小脚本里面(是的, 还是那里)在marked解析code时就把高亮了一起解析了. 于是, 页面终于能够正常处理markdown了.&lt;/p&gt;
+&lt;h3 id=&quot;缓存&quot;&gt;&lt;a href=&quot;#缓存&quot; class=&quot;headerlink&quot; title=&quot;缓存&quot;&gt;&lt;/a&gt;缓存&lt;/h3&gt;&lt;p&gt;我... 提起这个我无语凝噎. 这缓存做得, 真是绝了. 反正我又写了个小脚本在hexo要处理文件的时候删这个缓存, 这次没有放在主题里面而是放在hexo主目录里面, 因为我觉得有一天应该会处理掉这个问题, 这个小脚本不应该是主题的一部分.&lt;/p&gt;
+&lt;p&gt;当时是这样的. 写了一点儿内容, 改了点儿css的我兴冲冲地调用了一把&lt;code&gt;hexo s -l&lt;/code&gt;. oh, yeah! 页面! 然后我又改了一点儿内容, 刷新. 刷新? 刷新??? 为毛线没有变呢? 看日志是有请求的. 于是我重新启动了server, 还是没变!! 什么情况, 不明真相的我看了看文档, 说有缓存, 删掉试试? 然后就好了. 过了一会儿我再改, 又不给力了. 真的是很无奈, 我并没觉得那个缓存有什么帮助, 删! &lt;/p&gt;
+&lt;h2 id=&quot;休息一下-吃根香蕉&quot;&gt;&lt;a href=&quot;#休息一下-吃根香蕉&quot; class=&quot;headerlink&quot; title=&quot;休息一下, 吃根香蕉&quot;&gt;&lt;/a&gt;休息一下, 吃根香蕉&lt;/h2&gt;&lt;p&gt;hexo是个Node的程序, 那就意味着Node的辣么多包都是可以搞起的, 虽然我不会. 看起来hexo的架构设计得还不错, 没有仔细研究, 它大概是把事情分成了好几部, 处理文件, 渲染post, 生成各个页面等, 还有filter神马的没仔细看. 每个步骤都可以充分发挥你的想象去做事情, 只要符合规范就好. 而且它可以很好地发挥Node的异步特性, 让页面并行生成.&lt;/p&gt;
+&lt;p&gt;目前我的模板是用的jade, css用的scss来写, post当然是markdown啦.&lt;/p&gt;
+&lt;p&gt;我的侧边栏和原版的不一样哦, 不会滚出屏幕哦, 不会看到文章后边的时候觉得页面空空的. 反正是费了点儿功夫, 代码很简单, 也已经把这个做成了一个可开关的功能.&lt;/p&gt;
+&lt;p&gt;分享的那个小弹窗觉得原版做得不合理, 于是也改了一下, 布局方式改了, 并且把里面的项目做成了可配置. 其他还有不少改动主要是改进一下布局方式和删了不少代码.&lt;/p&gt;
+&lt;h2 id=&quot;总之&quot;&gt;&lt;a href=&quot;#总之&quot; class=&quot;headerlink&quot; title=&quot;总之&quot;&gt;&lt;/a&gt;总之&lt;/h2&gt;&lt;p&gt;我觉得一定是我没有弄明白人家的牛逼之处, 还吐这么多槽, 笨死了&lt;span style=&quot;font-size: 3em; position: relative; top: 10px;&quot;&gt;☹️&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;其实不就是个静态博客系统么?! 可是折腾的天性加上Node让我很很看好hexo, 是不是&lt;strong&gt;github page&lt;/strong&gt;也支持一下hexo? 哈哈, 这样我就不用每次都要先generate再提交了. 大家也来用一下哇~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;思量再三, 还是不用jekyll了. Ruby什么的累觉不爱, 最关键的是我刚装上最新版就直接不能启动... &lt;/p&gt;
+&lt;p&gt;什么? &lt;span style=&quot;color:rgb(179,62,170)&quot;&gt;&lt;strong&gt;没有给空定义match方法&lt;/strong&gt;&lt;/span&gt;. 喂, 还能再详细点儿么? 让我怎么排查问题?&lt;/p&gt;
+&lt;p&gt;正好听朋友说&lt;strong&gt;hexo&lt;/strong&gt;, 去䁖了一眼, 用Node做的. 文档真的是...(省略吐槽无数). 擦擦嘴, 喝口水. 其实做得挺不错的, 除了默认主题有点儿丑外加文档很烂以外. &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="JS" scheme="/tags/JS/"/>
+    
+  </entry>
   
   <entry>
     <title>swift AnyObject little tips</title>
@@ -54,7 +98,7 @@
 &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;]?.flatMap{$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;} &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里用&lt;code&gt;flatMap&lt;/code&gt;只是一种对两层&lt;code&gt;Optional&lt;/code&gt;剥壳的手段, 用 &lt;code&gt;xx ?? nil&lt;/code&gt; 也能剥壳. 剥壳虽然比较丑, 但是却不会引起崩溃.&lt;/p&gt;
 &lt;p&gt;如果要继续深入keyPath的话......&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; content = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;person&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;})?[&lt;span class=&quot;hljs-string&quot;&gt;&quot;id&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;}) &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不过我觉得最好还是用&lt;code&gt;objectForKey&lt;/code&gt;来从JSON获取信息, 并做好类型检查.&lt;/p&gt;
-&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
+&lt;h2 id=&quot;总结-6&quot;&gt;&lt;a href=&quot;#总结-6&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -750,38 +794,6 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
       <category term="iOS" scheme="/tags/iOS/"/>
     
       <category term="GitHub" scheme="/tags/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS 编译运行部署和发布部署的一个差异</title>
-    <link href="/2014/06/17/difference_between_debug_run_and_Archive_run/"/>
-    <id>/2014/06/17/difference_between_debug_run_and_Archive_run/</id>
-    <published>2014-06-17T05:00:00.000Z</published>
-    <updated>2016-04-04T10:14:09.000Z</updated>
-    
-    <content type="html">&lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
-&lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还挺烦人的。&lt;/p&gt;
-&lt;p&gt;假如旧版中有一个文件X被复制进入mainBundle中，但是在新版中我不期望再使用这个文件X了，因此在工程中将其删除，重新编译后去查看了生成的app文件，里面没有X,然后run到手机上，悲剧的发现此时文件X还在，它仍然存在手机app目录中。可以通过读取文件去验证，也可以通过一些软件去查看app的mainBundle都能证明这个X它确实还存在。&lt;/p&gt;
-&lt;p&gt;但是如果你用achive打包，得到一个ipa，将这个ipa覆盖安装到手机上，你会发现这个X会被干掉，ios这个时候就是替换掉了整个mainBundle。&lt;/p&gt;
-&lt;p&gt;Apple你要不要这样，这样我们开发者很困扰诶。比如我的某个API是从mainBundle里面找寻所有的某类文件，然后进行处理，以前有X，现在我不想要了，结果我debug发现这个X一直在，除非我删掉以前的app重新run，但是我就是要测试覆盖安装行为啊。。。咋整，我能想到的就是在run之前用一些第三方软件比如iFunBox，pp助手等将新版中要删除的文件提前删掉。&lt;/p&gt;
-&lt;p&gt;这不科学！Apple完全可以将debug和achive关于这种文件X的行为统一, 毕竟用户使用的achive的包，他们不会存在这样的问题，那为什么开发者需要来处理这种根本不需要处理的问题呢？&lt;/p&gt;
-&lt;p&gt;希望大家都注意一下，避免出现一些无法理解的现象。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;不知道我标题说明白了没有，编译运行部署就是使用xcode直接build and run将程序编译后直接运行到手机上，这样可以调试。发布部署就是使用achive打包一个ipa再将ipa安装到手机上。&lt;/p&gt;
-&lt;p&gt;我这里就只说一个问题，不过我觉得肯定还有其它的差异。这个问题还
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="iOS" scheme="/tags/iOS/"/>
-    
-      <category term="XCode" scheme="/tags/XCode/"/>
     
   </entry>
   
