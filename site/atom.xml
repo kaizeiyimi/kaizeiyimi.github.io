@@ -5,7 +5,7 @@
   <link href="/site/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-12T12:22:44.000Z</updated>
+  <updated>2016-04-13T13:09:30.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,64 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>swift AnyObject little tips</title>
+    <link href="/2016/04/13/swift-AnyObject-little-tips/"/>
+    <id>/2016/04/13/swift-AnyObject-little-tips/</id>
+    <published>2016-04-13T02:44:37.000Z</published>
+    <updated>2016-04-13T13:09:30.000Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;code&gt;AnyObject&lt;/code&gt;在swift里面比较特别. 它是所有类都隐式实现的一个&lt;code&gt;protocol&lt;/code&gt;. Apple的注释里面写着当被用作一个具体类型时, 
+所有&lt;code&gt;@objc&lt;/code&gt;的方法和属性都被编译器认为可以访问, 并且都被标记为隐式解包类型. &lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The protocol to which all classes implicitly conform.&lt;/p&gt;
+&lt;p&gt;When used as a concrete type, all known &lt;strong&gt;@objc&lt;/strong&gt; methods and
+ properties are available, as implicitly-unwrapped-optional methods
+ and properties respectively, on each instance of &lt;strong&gt;AnyObject&lt;/strong&gt;. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此, 在强类型中就混入了弱类型的不安定因素.&lt;/p&gt;
+&lt;h2 id=&quot;Property&quot;&gt;&lt;a href=&quot;#Property&quot; class=&quot;headerlink&quot; title=&quot;Property&quot;&gt;&lt;/a&gt;Property&lt;/h2&gt;&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; value: &lt;span class=&quot;hljs-type&quot;&gt;AnyObject&lt;/span&gt; = &lt;span class=&quot;hljs-string&quot;&gt;&quot;abc&quot;&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; frame = value.frame&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;value&lt;/code&gt;其实是&lt;code&gt;String&lt;/code&gt;类型, 这里声明为&lt;code&gt;AnyObject&lt;/code&gt;, 然后就可以尝试访问&lt;code&gt;frame&lt;/code&gt;这个&lt;code&gt;String&lt;/code&gt;没有的property. 然后&lt;code&gt;frame&lt;/code&gt;会是&lt;code&gt;CGRect!&lt;/code&gt;类型并且值为&lt;code&gt;nil&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;如果要链式访问, 安全的做法用&lt;strong&gt;?&lt;/strong&gt; :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; minX = value.frame?.minX  &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;CGFloat?&#39;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;// not safe&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; minX = value.frame.minX  &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;CGFloat!&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;method&quot;&gt;&lt;a href=&quot;#method&quot; class=&quot;headerlink&quot; title=&quot;method&quot;&gt;&lt;/a&gt;method&lt;/h2&gt;&lt;p&gt;方法和属性其实是一样的. 只不过可以被调用而已. 因此code也几乎一样:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; result = value.stringByAppendingString?(&lt;span class=&quot;hljs-string&quot;&gt;&quot;test&quot;&lt;/span&gt;)  &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;String?&#39;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;// not safe&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; result = value.stringByAppendingString(&lt;span class=&quot;hljs-string&quot;&gt;&quot;test&quot;&lt;/span&gt;)  &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;String&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;处理JSON&quot;&gt;&lt;a href=&quot;#处理JSON&quot; class=&quot;headerlink&quot; title=&quot;处理JSON&quot;&gt;&lt;/a&gt;处理JSON&lt;/h2&gt;&lt;p&gt;经常我们从HTTP请求拿到的是JSON, 转换成&lt;code&gt;NSDictionary&lt;/code&gt;或者&lt;code&gt;NSArray&lt;/code&gt;再传递给应用逻辑. 现在假设我们要获取JSON里面的信息.&lt;/p&gt;
+&lt;h3 id=&quot;使用-valueForKey&quot;&gt;&lt;a href=&quot;#使用-valueForKey&quot; class=&quot;headerlink&quot; title=&quot;使用 valueForKey&quot;&gt;&lt;/a&gt;使用 valueForKey&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value.valueForKey?(&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;但是, 如果value不是Dict, 或者value是Array但是里面的元素不是Object, 这样就有可能引发 &lt;code&gt;valueForUndefinedKey:&lt;/code&gt;, 抛出exception. 当然, &lt;code&gt;valueForKeyPath&lt;/code&gt;也是一样的. &lt;/p&gt;
+&lt;h3 id=&quot;使用-objectForKey&quot;&gt;&lt;a href=&quot;#使用-objectForKey&quot; class=&quot;headerlink&quot; title=&quot;使用 objectForKey&quot;&gt;&lt;/a&gt;使用 objectForKey&lt;/h3&gt;&lt;p&gt;所以呀, 既然认为value是JSON中的Object, 为什么不用更加自然的&lt;code&gt;objectForKey&lt;/code&gt;呢? &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value.objectForKey?(&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样当value不是dict, 也就没有objectForKey这个方法, 也就不会crash了. 然后name仍然是Optional. 
+这样的假定在处理JSON时时有效的, 因为JSON支持的数据类型中只有object才有这个方法, 其他的array, boolean, number, string和null都没有.&lt;/p&gt;
+&lt;h3 id=&quot;使用-下标语法&quot;&gt;&lt;a href=&quot;#使用-下标语法&quot; class=&quot;headerlink&quot; title=&quot;使用 下标语法&quot;&gt;&lt;/a&gt;使用 下标语法&lt;/h3&gt;&lt;p&gt;对于用key来访问还有个偏僻的小路可以走一下:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;] &lt;span class=&quot;hljs-comment&quot;&gt;// will be `AnyObject?!`&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;// or do this tricky way&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;]?.flatMap{$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;} &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里用&lt;code&gt;flatMap&lt;/code&gt;只是一种对两层&lt;code&gt;Optional&lt;/code&gt;剥壳的手段, 用 &lt;code&gt;xx ?? nil&lt;/code&gt; 也能剥壳. 剥壳虽然比较丑, 但是却不会引起崩溃.&lt;/p&gt;
+&lt;p&gt;如果要继续深入keyPath的话......&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; content = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;person&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;})?[&lt;span class=&quot;hljs-string&quot;&gt;&quot;id&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;}) &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不过我觉得最好还是用&lt;code&gt;objectForKey&lt;/code&gt;来从JSON获取信息, 并做好类型检查.&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;AnyObject&lt;/code&gt;在swift里面比较特别. 它是所有类都隐式实现的一个&lt;code&gt;protocol&lt;/code&gt;. Apple的注释里面写着当被用作一个具体类型时, 
+所有&lt;code&gt;@objc&lt;/code&gt;的方法和属性都被编译器认为可以访问, 并且都被标记为隐式解包类型. &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="swift" scheme="/tags/swift/"/>
+    
+  </entry>
   
   <entry>
     <title>集成NativeScript iOSRuntime到已有工程</title>
@@ -724,402 +782,6 @@ Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&qu
       <category term="iOS" scheme="/tags/iOS/"/>
     
       <category term="XCode" scheme="/tags/XCode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Coding Guidelines for Cocoa 翻译</title>
-    <link href="/2014/06/10/objective-c_coding_guidelines_translation/"/>
-    <id>/2014/06/10/objective-c_coding_guidelines_translation/</id>
-    <published>2014-06-10T05:00:00.000Z</published>
-    <updated>2016-04-07T12:25:58.000Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;很多人不太注意代码编写规范，这里翻译一下Apple的这个文档，希望大家一定要注意写代码的规范，于人于己都是百利而无一害。
-翻译不那么准确，如果觉得有问题可以参看Apple自家的文档。&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html#//apple_ref/doc/uid/10000146i&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;coding Guidelines for Cocoa&lt;/a&gt;. 欢迎拍砖。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;基本的命名规则&quot;&gt;&lt;a href=&quot;#基本的命名规则&quot; class=&quot;headerlink&quot; title=&quot;基本的命名规则&quot;&gt;&lt;/a&gt;基本的命名规则&lt;/h2&gt;&lt;h3 id=&quot;一、通用原则&quot;&gt;&lt;a href=&quot;#一、通用原则&quot; class=&quot;headerlink&quot; title=&quot;一、通用原则&quot;&gt;&lt;/a&gt;一、通用原则&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;清晰&lt;/strong&gt;&lt;br&gt;应该尽可能的清晰并且简洁，但是不能为了简洁而影响清晰性  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;命名&lt;/th&gt;
-&lt;th&gt;清晰度&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;insertObject: atIndex:&lt;/td&gt;
-&lt;td&gt;good&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;insert:at:&lt;/td&gt;
-&lt;td&gt;不清晰，到底insert什么？at指的又是什么？&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;remove:&lt;/td&gt;
-&lt;td&gt;不清晰，要remove什么?&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;removeObjectAtIndex:&lt;/td&gt;
-&lt;td&gt;good&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;p&gt;一般情况下也不要使用缩写，就算它们比较长也应该拼写出来：&lt;code&gt;setBackgroundColor:&lt;/code&gt; 总是好过 &lt;code&gt;setBkgdColor:&lt;/code&gt;，一目了然。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;也许你会认为一个缩写是皆知的，但是有可能阅读你代码的人和你有不同的文化背景，缩写的含义将会混淆。不过确实有一些缩写是可以使用的，后面会提到。这些缩写有很深的历史背景。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;不要在API命名中引入歧义，断句可能不同，导致语意也会不同。&lt;/p&gt;
-&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Code&lt;/th&gt;
-&lt;th&gt;Commentary&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;sendPort&lt;/td&gt;
-&lt;td&gt;这是发送port？还是说返回一个port？是动词还是名词？&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;displayName&lt;/td&gt;
-&lt;td&gt;是要显示一个名字？还是获取名字？仍然不确定是动词还是名词&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;一致性&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;尽量保持跟cocoa接口一致的API命名风格。如果你的类需要从多态特性中获益，那么在不同的类使用相同的名字将会十分重要。如：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;-(&lt;span class=&quot;hljs-built_in&quot;&gt;NSInteger&lt;/span&gt;)tag;
--(&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)setStringValue:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSString&lt;/span&gt; *)value;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;不要自引用（No Self Reference）&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;命名不要自关联，比如NSStringObject就不好。但是作为mask的常量以及notification的名字命名是个例外。&lt;/p&gt;
-&lt;h3 id=&quot;二、前缀&quot;&gt;&lt;a href=&quot;#二、前缀&quot; class=&quot;headerlink&quot; title=&quot;二、前缀&quot;&gt;&lt;/a&gt;二、前缀&lt;/h3&gt;&lt;p&gt;前缀对于程序接口来讲十分重要。前缀划分了功能中的模块。前缀避免了第三方开发者和苹果自身定义的符号相冲突。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;补充一句：ios中仅有一个符号表，所有单元编译后都在一个符号表中，如果没有前缀很容易冲突的&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;前缀有固定的格式。一般是2个或者3个大写字母并且不含下划线或子前缀。  &lt;/p&gt;
-&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Prefix&lt;/th&gt;
-&lt;th&gt;Cocoa Framework&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;NS&lt;/td&gt;
-&lt;td&gt;Foundation&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;NS&lt;/td&gt;
-&lt;td&gt;Application Kit&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;AB&lt;/td&gt;
-&lt;td&gt;Address Book&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;IB&lt;/td&gt;
-&lt;td&gt;Interface Builder&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;p&gt;前缀使用于类，协议，函数（function），常量以及typedef的struct。 类里面的方法（method）不要使用前缀（类方法或者实例方法），因为定义这些方法的类已经表达了他们的命名空间了。另外，struct里面的字段也不要添加前缀。&lt;/p&gt;
-&lt;h3 id=&quot;三、书写习惯&quot;&gt;&lt;a href=&quot;#三、书写习惯&quot; class=&quot;headerlink&quot; title=&quot;三、书写习惯&quot;&gt;&lt;/a&gt;三、书写习惯&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;对于多个单词组成的命名应该将每个单词的首字母大写并且不需要通过标点符号来连接，直接拼一起就行了，使用驼峰规则即可。但是对于方法第一个单词不大写，小写即可。记住不要加前缀。&lt;code&gt;fileExistsAtPath:isDirectory:&lt;/code&gt;。 一个例外就是如果方法是以皆知的缩写开始，比如&lt;code&gt;TIFFRepresentation(NSImage *)&lt;/code&gt;，那就保持。对于函数和常量保持其相关联的前缀并将第一个嵌入的单词首字母大写。比如：&lt;code&gt;NSRunAlertPanel，NSCellDisabled&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;一定避免使用下划线作为私有方法的前缀，但是作为实例变量的前缀是允许的。Apple保留使用下划线作为私有方法前缀的权利。第三方使用的话可能引起命名冲突。你可能无意间就覆盖了已有的私有方法并带来灾难性的后果。后面会讲私有方法的命名建议。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;四、类和协议的命名&quot;&gt;&lt;a href=&quot;#四、类和协议的命名&quot; class=&quot;headerlink&quot; title=&quot;四、类和协议的命名&quot;&gt;&lt;/a&gt;四、类和协议的命名&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;类名应该包含一个名词用以说明这个类或者这个类的实例代表什么，名字应该包含一个合适的缩写。系统的框架就是很好的例子。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;例如&lt;code&gt;NSString, NSDate, NSScanner, NSApplication, UIApplication, UIButton&lt;/code&gt;等。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;协议的命名应该根据协议组合的方法来确定。
-许多的协议所规定的方法跟具体类无关，这种协议就不要命名得像一个类，不然容易混淆。通常的做法是使用动名词，如NSLocking而不是NSLock，因为NSLock更像是一个类。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;有时候一些协议可能包含了一些不相关的方法（因为不想创建很多小的协议），这种协议一般都是和某些特定类相关的，这种情况下通常将协议和类的名字弄得一样。比如&lt;code&gt;NSObject&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;五、头文件&quot;&gt;&lt;a href=&quot;#五、头文件&quot; class=&quot;headerlink&quot; title=&quot;五、头文件&quot;&gt;&lt;/a&gt;五、头文件&lt;/h3&gt;&lt;p&gt;头文件的命名通常需要表明它所包含的内容。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;如果类或者协议不是某一组功能的一部分则单独创建头文件。&lt;/li&gt;
-&lt;li&gt;如果是有关联性的类或者协议则最好放到主类（分类，协议）中。比如NSString和NSMutableString。&lt;/li&gt;
-&lt;li&gt;如果是框架的话，那应该有一个头文件包含所有的框架中的头文件。&lt;/li&gt;
-&lt;li&gt;给另外的框架中的类添加分类文件时，应添加Additions，如ApplicationKit中的NSBundleAdditions.h（不会有问题么？可能多个框架都扩展NSBundle？）&lt;/li&gt;
-&lt;li&gt;相关联的函数以及数据类型，常量等应该放到一个合适命名的头文件里面，如NSGraphics.h&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;给方法命名&quot;&gt;&lt;a href=&quot;#给方法命名&quot; class=&quot;headerlink&quot; title=&quot;给方法命名&quot;&gt;&lt;/a&gt;给方法命名&lt;/h2&gt;&lt;h3 id=&quot;一、基本规则&quot;&gt;&lt;a href=&quot;#一、基本规则&quot; class=&quot;headerlink&quot; title=&quot;一、基本规则&quot;&gt;&lt;/a&gt;一、基本规则&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;小写开头并且驼峰后面的单词，不要使用前缀。两个例外：一个是使用如TIFF或者PDF这种皆知的前缀开头，另一种就是命名私有方法时的一种特殊处理，如XX_XXX这种。参考后面的私有方法命名。&lt;/li&gt;
-&lt;li&gt;如果方法代表的是一个对象所采取的动作，那么以动词开头。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)invokeWithTarget:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)target;      
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)selectTabViewItem:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSTabViewItem&lt;/span&gt; *)tabViewItem;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;不要使用do或者does，因为这两词的存在价值几乎为0。一个例外：&lt;code&gt;- (void)doesNotRecognizeSelector:(SEL)aSelector&lt;/code&gt;。
-另外动词前面不要使用副词或者形容词。。。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;如果方法返回的是某个属性，则直接用这个属性名做名字。单个属性不要使用get，毫无意义。如果不使用get会引起混淆才应该添加get。参考”属性访问方法“。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;在所有参数前面添加关键字，用作解释参数。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;如果已有一个方法，现在需要添加另外一个相比现在有更多参数的方法，那就保持前面的声明不变，而在后面添加新的参数。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)initWithFrame:(&lt;span class=&quot;hljs-built_in&quot;&gt;CGRect&lt;/span&gt;)frameRect;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)initWithFrame:(&lt;span class=&quot;hljs-built_in&quot;&gt;CGRect&lt;/span&gt;)frameRect mode:(&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;)aMode;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;不要使用and来连接各个参数，除非参数是完全不同的两个操作。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)openFile:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSString&lt;/span&gt; *)fullPath withApplication:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSString&lt;/span&gt; *)appName andDeactivate:(&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)flag;&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;二、accessor方法&quot;&gt;&lt;a href=&quot;#二、accessor方法&quot; class=&quot;headerlink&quot; title=&quot;二、accessor方法&quot;&gt;&lt;/a&gt;二、accessor方法&lt;/h3&gt;&lt;p&gt;这类方法就是值设置以及获取对象属性的方法，书写方法有自己的规则。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果属性是名词，则应该是&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (type)noun;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)setNoun:(type)aNoun;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;如果是形容词则应该是&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)isEditable;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)setEditable:(&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)flag;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;如果是动词，应使用现在时态：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)showsAlpha;                                          
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)setShowsAlpha:(&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)flag;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;不要把动词转换为过去分词。
-可以使用情态动词 can，should，will等以强调意义，但是不要使用do或者does。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;get仅使用在可能返回多个值的情况中，&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)getLineDash:(&lt;span class=&quot;hljs-keyword&quot;&gt;float&lt;/span&gt; *)pattern count:(&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt; *)count phase:(&lt;span class=&quot;hljs-keyword&quot;&gt;float&lt;/span&gt; *)phase;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这种方法应该能够接受参数为NULL的out参数，如count， phase。 &lt;/p&gt;
-&lt;h3 id=&quot;三、代理方法&quot;&gt;&lt;a href=&quot;#三、代理方法&quot; class=&quot;headerlink&quot; title=&quot;三、代理方法&quot;&gt;&lt;/a&gt;三、代理方法&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;以发送消息的类开头，去掉前缀，并且小写开头. &lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)tableView:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSTableView&lt;/span&gt; *)tableView shouldSelectRow:(&lt;span class=&quot;hljs-keyword&quot;&gt;int&lt;/span&gt;)row;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;冒号应直接写在类后面，如果上面的tableView，除非整个代理方法仅有一个参数。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;-(&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt;)applicationOpenUntitledFile:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSApplication&lt;/span&gt; *)sender;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;一个例外就是接收通知的方法，此时参数是通知而不是发送通知的类。 &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;-(&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)windowDidChangeScreen:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSNotification&lt;/span&gt; *)notification;&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;使用will和did告诉代理某个事情将要发生或者已经发生。如果是问代理是否要做某事情则应该用should。  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;四、集合方法&quot;&gt;&lt;a href=&quot;#四、集合方法&quot; class=&quot;headerlink&quot; title=&quot;四、集合方法&quot;&gt;&lt;/a&gt;四、集合方法&lt;/h3&gt;&lt;p&gt;对于管理多个对象的集合对象（每个集合中的对象chengweii一个元素），习惯上的命名方式如下：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)addLayoutManager:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSLayoutManager&lt;/span&gt; *)obj;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)removeLayoutManager:(&lt;span class=&quot;hljs-built_in&quot;&gt;NSLayoutManager&lt;/span&gt; *)obj;
-- (&lt;span class=&quot;hljs-built_in&quot;&gt;NSArray&lt;/span&gt; *)layoutManagers;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;有几点需要特别注意的：如果集合无序，返回集合时应使用NSSet而不是NSArray。如果有序应该提供插入到指定位置和从指定位置删除的元素的方法。 集合方法应当持有插入的对象，当删除时应该释放该对象。 如果被插入的元素需要知道主集合对象的指针，那么设置的时候不要retain。&lt;/p&gt;
-&lt;h3 id=&quot;五、-方法参数&quot;&gt;&lt;a href=&quot;#五、-方法参数&quot; class=&quot;headerlink&quot; title=&quot;五、 方法参数&quot;&gt;&lt;/a&gt;五、 方法参数&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;参数名以小写开始，仍然是下一个单词首字母大写。 removeObject:(id)anObject;&lt;/li&gt;
-&lt;li&gt;不要在参数名中使用pointer或者ptr等，应该让参数的类型来说明其是一个指针而不是让参数名来说明。&lt;/li&gt;
-&lt;li&gt;尽量不要使用一两个字母作为参数。&lt;/li&gt;
-&lt;li&gt;尽量少用缩写。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;六、私有方法&quot;&gt;&lt;a href=&quot;#六、私有方法&quot; class=&quot;headerlink&quot; title=&quot;六、私有方法&quot;&gt;&lt;/a&gt;六、私有方法&lt;/h3&gt;&lt;p&gt;大部分情况下，私有方法的命名规则与公共方法的命名规则相同。但是已有一个习惯就是给私有方法添加一个前缀好和公共方法相区分，尽管有这么一个习惯，但是这么给私有方法命名有时会引发奇怪的问题。特别是当你设计一个cocoa框架类的子类时，你没法知道你的方法是不是不小心覆盖了框架类的私有方法。
-cocoa框架中的大部分方法都以下划线开头来表示他们是私有方法，因此一定要注意以下两点：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;不要以下划线开头来命名你的私有方法，Apple保留这么做的习惯（Apple reserves this convention）。&lt;/li&gt;
-&lt;li&gt;如果你在继承一个大类，例如UIView，并且你想确保你的私有方法不会和父类的重名，你可以添加你专属的前缀，例如XX_，RR_addObject:&lt;blockquote&gt;
-&lt;p&gt;这里不是要故意和之前所述的规则相违背，这么做是为了避免不小心覆盖父类的方法。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;函数命名&quot;&gt;&lt;a href=&quot;#函数命名&quot; class=&quot;headerlink&quot; title=&quot;函数命名&quot;&gt;&lt;/a&gt;函数命名&lt;/h2&gt;&lt;p&gt;函数命名大部分情况下和方法命名相同。但是以下是一些区别：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;函数名应该与使用的类或者常量有相同的前缀，CGRectMake，&lt;/li&gt;
-&lt;li&gt;前缀后面的第一个单词首字母大写。&lt;/li&gt;
-&lt;li&gt;大部分函数以动词开头描述了它的动作。&lt;/li&gt;
-&lt;li&gt;如果函数返回其第一个参数的某个属性则去掉动词。 NSHeight(NSRect aRect)&lt;/li&gt;
-&lt;li&gt;如果返回值是指针，则以get开头。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;属性命名和数据类型命名&quot;&gt;&lt;a href=&quot;#属性命名和数据类型命名&quot; class=&quot;headerlink&quot; title=&quot;属性命名和数据类型命名&quot;&gt;&lt;/a&gt;属性命名和数据类型命名&lt;/h2&gt;&lt;p&gt;本节描述声明属性，实例变量，常量，通知，异常的命名。&lt;/p&gt;
-&lt;h3 id=&quot;一、-property的命名&quot;&gt;&lt;a href=&quot;#一、-property的命名&quot; class=&quot;headerlink&quot; title=&quot;一、 property的命名&quot;&gt;&lt;/a&gt;一、 property的命名&lt;/h3&gt;&lt;p&gt;property的命名和setter，getter的命名很相似，如果property是名词或者动词：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;@property&lt;/span&gt;(&lt;span class=&quot;hljs-keyword&quot;&gt;strong&lt;/span&gt;) &lt;span class=&quot;hljs-built_in&quot;&gt;NSString&lt;/span&gt; *title;
-&lt;span class=&quot;hljs-keyword&quot;&gt;@property&lt;/span&gt;(&lt;span class=&quot;hljs-keyword&quot;&gt;assign&lt;/span&gt;) &lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt; showsAlpha;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果property是形容词，则去掉前缀is.&lt;code&gt;@property(assign, getter=isEditable) BOOL editable;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;名字应该准确地表达属性所存储的内容，除了在init和dealloc中可以直接访问实例变量，其他地方都应该使用setter和getter。自动生成的实例变量都是以下划线开头。&lt;/p&gt;
-&lt;p&gt;添加实例变量时要注意：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;不要声明public 的实例变量。&lt;/li&gt;
-&lt;li&gt;开发者应该将property作为对象的接口来对待而不是关心具体存储的数据。应该通过声明property 和synthesise 来表达对应的实例变量。&lt;/li&gt;
-&lt;li&gt;如果你确实需要声明实例变量，使用@private或者@protected。&lt;/li&gt;
-&lt;li&gt;如果你期望你的类被继承并且这些子类需要直接访问父类的实例变量，那么使用@protected。&lt;/li&gt;
-&lt;li&gt;如果一个实例变量需要被外部访问则应该给他写setter和getter方法，最好是声明为property。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;二、-常量&quot;&gt;&lt;a href=&quot;#二、-常量&quot; class=&quot;headerlink&quot; title=&quot;二、 常量&quot;&gt;&lt;/a&gt;二、 常量&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;枚举的常量&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果是整型枚举则使用enum。枚举变量的定义应该和函数名定义规则相同。&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;enum&lt;/span&gt; _&lt;span class=&quot;hljs-built_in&quot;&gt;NSMatrixMode&lt;/span&gt; {
-    &lt;span class=&quot;hljs-built_in&quot;&gt;NSRadioModeMatrix&lt;/span&gt;     = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;,
-    &lt;span class=&quot;hljs-built_in&quot;&gt;NSHighlightModeMatrix&lt;/span&gt; = &lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;,
-    &lt;span class=&quot;hljs-built_in&quot;&gt;NSListModeMatrix&lt;/span&gt;      = &lt;span class=&quot;hljs-number&quot;&gt;2&lt;/span&gt;,
-    &lt;span class=&quot;hljs-built_in&quot;&gt;NSTrackModeMatrix&lt;/span&gt;= &lt;span class=&quot;hljs-number&quot;&gt;3&lt;/span&gt;
-} &lt;span class=&quot;hljs-built_in&quot;&gt;NSMatrixMode&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;_NSMatrixMode&lt;/code&gt; 可以不写。&lt;/p&gt;
-&lt;p&gt;你也可以创建没有名字的enum。那样就直接使用名字，类型就是NSInteger。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;const声明的常量
-浮点数常量应使用const声明，如果整形常量相互之间无关则单独用const声明，否则应该声明为enum。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;其他类型常量
-总之，&lt;strong&gt;不要使用#define去定义常量&lt;/strong&gt;。
-使用大写的预编译宏去判断代码块是否需要处理。 #ifdef DEBUG
-编译器的预编译宏前后都是双下划线。
-通知和字典的key也需要用const定义字符串。比如APPKIT_EXTERN NSString *NSPrintCopies;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;三、通知和异常&quot;&gt;&lt;a href=&quot;#三、通知和异常&quot; class=&quot;headerlink&quot; title=&quot;三、通知和异常&quot;&gt;&lt;/a&gt;三、通知和异常&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;通知&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果一个类有代理，那么它大多数的通知都是通过代理方法进行接受的，通知的名字应该能正确对应相关代理方法。例如：&lt;code&gt;applicationDidBecomeActive:&lt;/code&gt;这个代理方法同时也有一个&lt;code&gt;UIApplicationDidBecomeActiveNotification&lt;/code&gt;通知。
-通知的格式为[关联类的类名]+[did|will]+[特定的动作等名字]+Notification，如上例。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;异常&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;尽管你可以随意使用NSException和相关的方法，但是Apple保留使用exception来处理程序错误比如数组越界，但是不会拿来处理常规的可能出错的场景.&lt;/p&gt;
-&lt;p&gt;比如使用nil，NULL，NO或者error codes作为返回值。(use returned values such as nil, NULL, NO, or error codes).&lt;/p&gt;
-&lt;p&gt;exception的命名规则如下：
-[prefix]+[唯一的名字]+Exception;&lt;/p&gt;
-&lt;h2 id=&quot;皆知的缩写&quot;&gt;&lt;a href=&quot;#皆知的缩写&quot; class=&quot;headerlink&quot; title=&quot;皆知的缩写&quot;&gt;&lt;/a&gt;皆知的缩写&lt;/h2&gt;&lt;p&gt;一般情况下开发者不应该使用缩写，但是以下的缩写是皆知的并且允许的。
-C里面的那些相当有历史的缩写是可以使用的，如alloc，getc等。&lt;/p&gt;
-&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Abbreviation&lt;/th&gt;
-&lt;th&gt;Meaning and comments&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;alloc&lt;/td&gt;
-&lt;td&gt;Allocate.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;alt&lt;/td&gt;
-&lt;td&gt;Alternate.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;app&lt;/td&gt;
-&lt;td&gt;Application. For example, NSApp the global application object. However, “application” is spelled out in delegate methods, notifications, and so on.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;calc&lt;/td&gt;
-&lt;td&gt;Calculate.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;dealloc&lt;/td&gt;
-&lt;td&gt;Deallocate.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;func&lt;/td&gt;
-&lt;td&gt;Function.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;horiz&lt;/td&gt;
-&lt;td&gt;Horizontal.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;info&lt;/td&gt;
-&lt;td&gt;Information.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;init&lt;/td&gt;
-&lt;td&gt;Initialize (for methods that initialize new objects).&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;int&lt;/td&gt;
-&lt;td&gt;Integer (in the context of a C int—for an NSInteger value, use integer).&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;max&lt;/td&gt;
-&lt;td&gt;Maximum.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;min&lt;/td&gt;
-&lt;td&gt;Minimum.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;msg&lt;/td&gt;
-&lt;td&gt;Message.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;nib&lt;/td&gt;
-&lt;td&gt;Interface Builder archive.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;pboard&lt;/td&gt;
-&lt;td&gt;Pasteboard (but only in constants).&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;rect&lt;/td&gt;
-&lt;td&gt;Rectangle.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Rep&lt;/td&gt;
-&lt;td&gt;Representation (used in class name such as NSBitmapImageRep).&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;temp&lt;/td&gt;
-&lt;td&gt;Temporary.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;vert&lt;/td&gt;
-&lt;td&gt;Vertical.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;p&gt;还有一些计算机行业的专业术语也可以缩写，ASCII,PDF,XML,HTML,URL,RTF,HTTP，TIFF,JPG,PNG,GIF,LZW,ROM,RGB,CMYK,MIDI,FTP.&lt;/p&gt;
-&lt;h2 id=&quot;针对框架开发者的建议&quot;&gt;&lt;a href=&quot;#针对框架开发者的建议&quot; class=&quot;headerlink&quot; title=&quot;针对框架开发者的建议&quot;&gt;&lt;/a&gt;针对框架开发者的建议&lt;/h2&gt;&lt;p&gt;这类人应该更加小心地书写code。框架会被很多客户端引入，如果稍有疏忽将有可能引起系统范围的错误。以下的建议将帮助这类人保持框架的效率和完整性。这些技术不仅仅适用于框架开发，app开发也可以参考。&lt;/p&gt;
-&lt;h3 id=&quot;类初始化&quot;&gt;&lt;a href=&quot;#类初始化&quot; class=&quot;headerlink&quot; title=&quot;类初始化&quot;&gt;&lt;/a&gt;类初始化&lt;/h3&gt;&lt;p&gt;initialize的类方法给予了类一个生命周期，可以有一次延迟到这个类的任意方法被调用前才执行代码的机会。通常可用来设置类的version等。
-runtime会在继承树上调用initialize，因此如果子类没有实现该方法，那么父类的这个方法可能会被调起两次。而一般开发者可能仅仅想执行一次。可以使用dispatch_once。当然，如果你想确认当前上下文是父类的情况下才执行，那可以添加判断，当self是父类时才执行。&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt; == [&lt;span class=&quot;hljs-built_in&quot;&gt;NSFoo&lt;/span&gt; class]) { 
-    &lt;span class=&quot;hljs-comment&quot;&gt;//do something &lt;/span&gt;
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不要直接调用该方法，如果确实想触发initialize那就调用[NSFoo self].&lt;/p&gt;
-&lt;h3 id=&quot;指定的实例初始化方法&quot;&gt;&lt;a href=&quot;#指定的实例初始化方法&quot; class=&quot;headerlink&quot; title=&quot;指定的实例初始化方法&quot;&gt;&lt;/a&gt;指定的实例初始化方法&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;一般init即是。需要在方法中调用super。每一个公共的类都应该有至少1个指定的初始化方法。例如&lt;code&gt;initWithFrame:&lt;/code&gt; 。有一些类的init方法是不期望被重写的，比如NSString 和其他抽象类集合的顶层类，因为这些集合类的子类自己有自己的实现。&lt;/li&gt;
-&lt;li&gt;应该清晰地标注出指定初始化方法，如果你期望你的类被继承的话。子类能够仅重载指定初始化方法就能正常工作。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;初始化中的错误检测&quot;&gt;&lt;a href=&quot;#初始化中的错误检测&quot; class=&quot;headerlink&quot; title=&quot;初始化中的错误检测&quot;&gt;&lt;/a&gt;初始化中的错误检测&lt;/h3&gt;&lt;p&gt;良好的初始化方法应该按照如下步骤：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;调用super的初始化方法来重新给self赋值。&lt;/li&gt;
-&lt;li&gt;检测self是否为nil，如果是的话说明父类的初始化出错了。&lt;/li&gt;
-&lt;li&gt;如果初始化出错则返回nil。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;版本和兼容性&quot;&gt;&lt;a href=&quot;#版本和兼容性&quot; class=&quot;headerlink&quot; title=&quot;版本和兼容性&quot;&gt;&lt;/a&gt;版本和兼容性&lt;/h3&gt;&lt;p&gt;当添加新的类或者方法到框架时一般不需要为每个新功能指定版本。开发者一般应该通过runtime去检测是否相应某个方法来判断一个特性是否可用，这种检测方法一般比检测版本更动态更有效。 &lt;/p&gt;
-&lt;p&gt;有时一个新功能或者bug fix不是那么容易被runtime检查，则应该提供framework的vsersion供开发者查看。
-要标明变化的版本。并设置它全局可访问。可以放在框架的info.plist里面。&lt;/p&gt;
-&lt;h3 id=&quot;keyed-Archiving&quot;&gt;&lt;a href=&quot;#keyed-Archiving&quot; class=&quot;headerlink&quot; title=&quot;keyed Archiving&quot;&gt;&lt;/a&gt;keyed Archiving&lt;/h3&gt;&lt;p&gt;如果框架需要用到该技术，则一定要考虑到一下的情况：
-如果key没有，则返回的是nil，NULL，NO，0或者0.0等。应该检测一下这些值以减少要写的数据。
-encode和decode都是可以向后兼容的。missing key不会有崩溃。
-key应该和框架中其他方法有相同的前缀，然后是变量名。总之不要跟父类或者子类的冲突。
-bitfields最好不要碰。&lt;/p&gt;
-&lt;h3 id=&quot;异常和错误&quot;&gt;&lt;a href=&quot;#异常和错误&quot; class=&quot;headerlink&quot; title=&quot;异常和错误&quot;&gt;&lt;/a&gt;异常和错误&lt;/h3&gt;&lt;p&gt;抛出异常不是正常执行的流程，而写也不是用来沟通tuntime或者用户错误的。比如文件没找到，没有此用户，文件类型有误，字符串转换编码失败等。这类错误是error，不抛出异常。&lt;/p&gt;
-&lt;p&gt;抛出异常一般是程序逻辑错误。比如数组越界，尝试修改不可修改的对象，错误的参数类型等。异常应该是给开发者在开发测试中使用来定位问题的，程序正常逻辑中不需要去处理异常。如果抛出了异常但是没有catch，那么顶层的处理将捕获异常并报告，然后执行继续。开发者可以替换默认的行为，以提供更多的信息，也可以写到文件再退出程序。&lt;/p&gt;
-&lt;p&gt;cocoa框架中的error是和其他库不太一样。一般没有error codes。开发者应该检测返回的error为NO或者nil，如果确实有错误产生不要试图根据errorcode去判断要做什么，应该抛出异常或者在日志中记录错误信息。&lt;/p&gt;
-&lt;p&gt;如果确实需要知道错误情况，那么用指针in-out，方法的返回值则应该为nil或者NO。同时方法需要检测传递进来的error参数是否为NULL。&lt;/p&gt;
-&lt;h3 id=&quot;常量数据&quot;&gt;&lt;a href=&quot;#常量数据&quot; class=&quot;headerlink&quot; title=&quot;常量数据&quot;&gt;&lt;/a&gt;常量数据&lt;/h3&gt;&lt;p&gt;为了性能，应该尽量把框架里面的数据做成常量，因为非常量的全局变量和静态变量是放在读写数据段中的。静态变量在每个实例中都会存在，这样有可能会增加内存页的使用。
-应该将常量就标记为常量，正常情况下常量会存在于代码段，If there are no char * pointers in the block，数据将存储到只读数据段。
-因该初始化静态变了，以保证数据被放到读写数据段中而不是未初始化数据段。如果没有合适的值则给0，NULL，0.0之类的
-不要一下分配所有的内存，如果需要一些临时的缓冲区，一般使用栈而不是分配一个缓冲（it’s usually better to use the stack than to allocate a buffer）。栈有大小限制，512KB，所以根据方法和缓冲的用途来决定是否需要用栈。如果需求比较小，1K以内，用栈是ok的。&lt;/p&gt;
-&lt;h3 id=&quot;对象比较&quot;&gt;&lt;a href=&quot;#对象比较&quot; class=&quot;headerlink&quot; title=&quot;对象比较&quot;&gt;&lt;/a&gt;对象比较&lt;/h3&gt;&lt;p&gt;注意区分isEqual：和表明了对象的如isEqualToString：。前者可以传入模糊的对象，不过判定不相同则返回NO，但是后者是指定了参数类型的。因此在内部不再执行类型检查，快但是不那么安全。如果是从外部文件读入的最好使用前者，因为那样更安全，除非已知类型。&lt;/p&gt;
-&lt;p&gt;另外要注意，isEqual：和hash是关联的，基于hash机制的cocoa对象比如NSDictionary等如果[A isEqual:B] == YES，则[A hash] == [B hash]也一定成立。因此，如果你重载isEqual：那你也应该重载hash。默认情况下，isEqual仅检查两个对象的地址是否相同，而hash是基于地址计算的，因此本质上两者相同。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      读罢文档, 对于理解Apple的系统和API设计有了新的认识, 觉得iOS开发都应该认真读一下.翻译算是做个mark, 也加深一下自己的理解.
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="iOS" scheme="/tags/iOS/"/>
     
   </entry>
   
