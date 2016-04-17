@@ -203,9 +203,10 @@ a {
   .post-content pre code {
     padding: 1em; }
   .post-content code:not(.hljs) {
-    padding: .25em .5em .1em;
+    padding: 0.05em .2em;
+    margin: 0 0.1em;
     color: #29a284;
-    background: #fafafa;
+    background: #fbfbfb;
     border: 1px solid #e5e8ec;
     border-radius: .25em; }
   .post-content p a {

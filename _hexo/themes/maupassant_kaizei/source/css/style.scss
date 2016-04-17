@@ -25,9 +25,10 @@ $borderColor: #ddd;
 
 // mixin
 @mixin inlineCodeStyle() {
-	padding: .25em .5em .1em;
+	padding: 0.05em .2em;
+    margin: 0 0.1em;
     color: rgb(41,162,132);
-    background: #fafafa;
+    background: #fbfbfb;
     border: 1px solid #e5e8ec;
     border-radius: .25em;
 }
