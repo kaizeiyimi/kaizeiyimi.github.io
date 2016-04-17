@@ -2,7 +2,7 @@
 title: swift 2.2 类型转换小坑
 date: 2016-03-28 14:00:00 +0800
 categories: 技术
-tags: [iOS,XCode]
+tags: [iOS,swift]
 ---
 
 XCode升级到了7.3, swift到了2.2. 之前发现的坑在这里验证了一下, 依然没啥变化. 特此记录一下.
