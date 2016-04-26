@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-17T03:34:24.000Z</updated>
+  <updated>2016-04-24T07:34:01.000Z</updated>
   <id>/</id>
   
   <author>
@@ -20,16 +20,16 @@
     <link href="/2016/04/17/make-AutoLayout-X/"/>
     <id>/2016/04/17/make-AutoLayout-X/</id>
     <published>2016-04-17T03:34:24.000Z</published>
-    <updated>2016-04-17T03:34:24.000Z</updated>
+    <updated>2016-04-24T07:34:01.000Z</updated>
     
     <content type="html">&lt;p&gt;其实挺不好意思的, 2年前的知识, 半年前的库, 现在才写下来. sigh...&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;陈年旧事&quot;&gt;&lt;a href=&quot;#陈年旧事&quot; class=&quot;headerlink&quot; title=&quot;陈年旧事&quot;&gt;&lt;/a&gt;陈年旧事&lt;/h2&gt;&lt;p&gt;以前我吐槽了约束写起来太费劲, 布局很手动化, 几乎需要非常详细地指明每一个约束的每一个条件. 而这样的结果就是代码非常长, 阅读和理解都好困难, 看着打瞌睡. VFL? no kidding me again. &lt;/p&gt;
 &lt;p&gt;反正好麻烦, 然后开源社区出现了一个库&lt;strong&gt;Masonry&lt;/strong&gt;, 目的是简化代码写约束, 提供了链式语法以及一些helper方法. 当然本文不是要介绍它, 也不是要批评它, 只是吐槽而已, 后文再说. 本文主要是介绍我写的&lt;strong&gt;XAutoLayout&lt;/strong&gt;😃. &lt;/p&gt;
-&lt;h2 id=&quot;demo-code&quot;&gt;&lt;a href=&quot;#demo-code&quot; class=&quot;headerlink&quot; title=&quot;demo code&quot;&gt;&lt;/a&gt;demo code&lt;/h2&gt;&lt;p&gt;使用起来还是比较方便的. 我定义了几个操作符&lt;code&gt;=/&lt;/code&gt;,&lt;code&gt;&amp;lt;=/&lt;/code&gt;和&lt;code&gt;&amp;gt;=/&lt;/code&gt;, 分别与&lt;strong&gt;Equal&lt;/strong&gt;, &lt;strong&gt;lessOrEqual&lt;/strong&gt;, &lt;strong&gt;greaterOrEqual&lt;/strong&gt;这几个方法等价, array仅支持&lt;code&gt;=/&lt;/code&gt;, 对应的方法是&lt;code&gt;compositeEqual&lt;/code&gt; 内部实现都没有使用重载的操作符.&lt;/p&gt;
+&lt;h2 id=&quot;demo-code&quot;&gt;&lt;a href=&quot;#demo-code&quot; class=&quot;headerlink&quot; title=&quot;demo code&quot;&gt;&lt;/a&gt;demo code&lt;/h2&gt;&lt;p&gt;使用起来还是比较方便的. 我定义了几个操作符&lt;code&gt;=/&lt;/code&gt;,&lt;code&gt;&amp;lt;=/&lt;/code&gt;和&lt;code&gt;&amp;gt;=/&lt;/code&gt;, 分别与&lt;strong&gt;xEqual&lt;/strong&gt;, &lt;strong&gt;xLessOrEqual&lt;/strong&gt;, &lt;strong&gt;xGreaterOrEqual&lt;/strong&gt;这几个方法等价, array仅支持&lt;code&gt;=/&lt;/code&gt;, 对应的方法是&lt;code&gt;xEqual&lt;/code&gt;的另一重载. 所有内部实现都没有使用定义的操作符.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;xmakeConstraints(.&lt;span class=&quot;hljs-type&quot;&gt;RightToLeft&lt;/span&gt;, autoActive = &lt;span class=&quot;hljs-literal&quot;&gt;true&lt;/span&gt;) {  &lt;span class=&quot;hljs-comment&quot;&gt;// autoActive has a default value true&lt;/span&gt;
     v1.xEdge =/ [&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;,&lt;span class=&quot;hljs-number&quot;&gt;5&lt;/span&gt;,-&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;,-&lt;span class=&quot;hljs-number&quot;&gt;20&lt;/span&gt;] &lt;span class=&quot;hljs-comment&quot;&gt;// can directly use number, the second view will be superview&lt;/span&gt;
-    v2.xSize =/ [&lt;span class=&quot;hljs-number&quot;&gt;50&lt;/span&gt;, view.heightAnchor.&lt;span class=&quot;hljs-built_in&quot;&gt;c&lt;/span&gt;(-&lt;span class=&quot;hljs-number&quot;&gt;50&lt;/span&gt;)] &lt;span class=&quot;hljs-comment&quot;&gt;// can use iOS9 API&lt;/span&gt;
+    v2.xSize =/ [&lt;span class=&quot;hljs-number&quot;&gt;50&lt;/span&gt;, view.heightAnchor.xc(-&lt;span class=&quot;hljs-number&quot;&gt;50&lt;/span&gt;)] &lt;span class=&quot;hljs-comment&quot;&gt;// can use iOS9 API&lt;/span&gt;
 
     &lt;span class=&quot;hljs-comment&quot;&gt;// [v2.xTop, v2.xLeading] =/ [20, 10]  same as the below two lines&lt;/span&gt;
     v2.xTop =/ &lt;span class=&quot;hljs-number&quot;&gt;20&lt;/span&gt;
@@ -60,10 +60,16 @@
 &lt;li&gt;A和B分别是两个类型, A可以做左值和右值, B只做右值. 毕竟B带着m, c, p去做左值确实不太好. 但是这样就有个问题, 想要支持直接用数字配置的时候, B怎么表达? 用AnyObject么? &lt;/li&gt;
 &lt;li&gt;A和B分别是两个protocol, 这样避免了AnyObject的问题, 并且能对参数进行约束. 加上swift也是可以给已有类型写extension的, 所以用protocol抽象比较好, 参数不用是AnyObject那么宽泛.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id=&quot;接口的规划&quot;&gt;&lt;a href=&quot;#接口的规划&quot; class=&quot;headerlink&quot; title=&quot;接口的规划&quot;&gt;&lt;/a&gt;接口的规划&lt;/h4&gt;&lt;p&gt;&lt;code&gt;RelationMakeable&lt;/code&gt;和&lt;code&gt;AttributeContainer&lt;/code&gt;就分别是A和B, 并且A继承B. &lt;code&gt;RelationMakeable&lt;/code&gt;有equal, lessOrEqual 和 greatOrEqual方法. &lt;code&gt;AttributeContainer&lt;/code&gt;有 m, c, p的方法, 并且有一个&lt;code&gt;generateX&lt;/code&gt;方法来生成一个真正保存信息的数据&lt;code&gt;XAttributeX&lt;/code&gt;来参与生成约束. &lt;/p&gt;
-&lt;p&gt;调用m, c, p, 以及建立关系的行为可以用protocol默认实现来简化其他类型的extension. 这样一个类型仅需声明一下extension, 再添加&lt;code&gt;generateX&lt;/code&gt;方法就可以加入这个体系了, 比如iOS提供的&lt;code&gt;NSLayoutAnchor&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&quot;接口的规划&quot;&gt;&lt;a href=&quot;#接口的规划&quot; class=&quot;headerlink&quot; title=&quot;接口的规划&quot;&gt;&lt;/a&gt;接口的规划&lt;/h4&gt;&lt;p&gt;swift可以给&lt;code&gt;protocol&lt;/code&gt;写&lt;code&gt;extension&lt;/code&gt;来添加方法, Lib里面有一些逻辑不想暴露, 因为protocol extension里面一些方法调用了内部private的API, 并且这些调用会影响实现逻辑.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;XLeftItem&lt;/code&gt;和&lt;code&gt;XRightItem&lt;/code&gt;就分别是A和B, 并且A继承B. &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;XRightItem&lt;/code&gt;有一个&lt;code&gt;xGenerateX&lt;/code&gt;方法生成&lt;code&gt;XAttributeX&lt;/code&gt;, 用来包含可选的&lt;code&gt;item&lt;/code&gt;, &lt;code&gt;attr&lt;/code&gt;以及&lt;code&gt;multiplier&lt;/code&gt;,&lt;code&gt;constant&lt;/code&gt;和&lt;code&gt;priority&lt;/code&gt;. 这些属性都不对外暴露, 尽量让调用和接入简单. 况且暴露了的话, 亲不调我的API也能自己玩儿了, 那就没意思啦. 另外通过protocol extension添加了 &lt;code&gt;xm&lt;/code&gt;, &lt;code&gt;xc&lt;/code&gt;, &lt;code&gt;xp&lt;/code&gt;三个方法的默认实现.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;XLeftItem&lt;/code&gt;有一个&lt;code&gt;xGenerate&lt;/code&gt;方法生成&lt;code&gt;XAttribute&lt;/code&gt;, 用来包含不为空的&lt;code&gt;item&lt;/code&gt;加&lt;code&gt;attr&lt;/code&gt;. 也通过protocol extension添加了&lt;code&gt;xEqual&lt;/code&gt;, &lt;code&gt;xLessOrEqual&lt;/code&gt; 和 &lt;code&gt;xGreatOrEqual&lt;/code&gt;方法的实现. 这三个方法就是调用了必须调用的内部private API, 嘿嘿.&lt;/li&gt;
+&lt;li&gt;那个私有API其实就是调用了&lt;code&gt;XFirstItem&lt;/code&gt;的&lt;code&gt;xGenerate&lt;/code&gt;生成&lt;code&gt;XAtrribute&lt;/code&gt;, 以及&lt;code&gt;XSecondItem&lt;/code&gt;的&lt;code&gt;xGenerateX&lt;/code&gt;生成&lt;code&gt;XAttributeX&lt;/code&gt;, 然后读取两者的信息并做一些调整来生成约束.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;虽然我已经为一些常用的类和protocol写好了extension, 比如&lt;code&gt;NSLayoutAnchor&lt;/code&gt;, &lt;code&gt;UILayoutSupport&lt;/code&gt;还有各种数字类型. 如果亲还有自己想要加入体系的类型, 只需要选择实现&lt;code&gt;XFirstItem&lt;/code&gt;或者&lt;code&gt;XSecondItem&lt;/code&gt;, 再添加&lt;code&gt;xGenerate&lt;/code&gt;或者&lt;code&gt;xGenerateX&lt;/code&gt;方法就可以了. &lt;code&gt;XAttribute&lt;/code&gt;和&lt;code&gt;XAttributeX&lt;/code&gt;都提供了初始化方法, 但是不暴露任何属性. 比如&lt;code&gt;NSLayoutAnchor&lt;/code&gt;的扩展:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-meta&quot;&gt;@available&lt;/span&gt;(iOS &lt;span class=&quot;hljs-number&quot;&gt;9.0&lt;/span&gt;, *)
-&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;NSLayoutAnchor&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;RelationMakeable&lt;/span&gt; &lt;/span&gt;{
+&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;NSLayoutAnchor&lt;/span&gt;: &lt;span class=&quot;hljs-title&quot;&gt;XLeftItem&lt;/span&gt; &lt;/span&gt;{
     &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;generateX&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; -&amp;gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttributeX&lt;/span&gt; {
         &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; item = valueForKey(&lt;span class=&quot;hljs-string&quot;&gt;&quot;item&quot;&lt;/span&gt;)!
         &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; attr = &lt;span class=&quot;hljs-type&quot;&gt;NSLayoutAttribute&lt;/span&gt;(rawValue: valueForKey(&lt;span class=&quot;hljs-string&quot;&gt;&quot;attr&quot;&lt;/span&gt;) &lt;span class=&quot;hljs-keyword&quot;&gt;as&lt;/span&gt;! &lt;span class=&quot;hljs-type&quot;&gt;Int&lt;/span&gt;)!
@@ -71,22 +77,22 @@
     }
 }
 
-v1.xTop =/ v2.bottomAnchor.&lt;span class=&quot;hljs-built_in&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后UIView这样的主角需要的是一些property来表达&lt;code&gt;item + attr&lt;/code&gt;:&lt;/p&gt;
+v1.xTop =/ v2.bottomAnchor.xc(&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后给UIView这样的主角需要的是一些property来表达&lt;code&gt;item + attr&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;UIView&lt;/span&gt; &lt;/span&gt;{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xLeft: &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Left&lt;/span&gt;) }
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xRight: &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Right&lt;/span&gt;) }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xLeft: &lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Left&lt;/span&gt;) }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xRight: &lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Right&lt;/span&gt;) }
     ... some more
 }&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后&lt;code&gt;UILayoutSupport&lt;/code&gt;也可以轻松加入:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;UILayoutSupport&lt;/span&gt; &lt;/span&gt;{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xTop: &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Top&lt;/span&gt;) }
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xBottom: &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Bottom&lt;/span&gt;) }
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xHeight: &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Height&lt;/span&gt;) }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xTop: &lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Top&lt;/span&gt;) }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xBottom: &lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Bottom&lt;/span&gt;) }
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xHeight: &lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt; { &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;XAttribute&lt;/span&gt;(item: &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;, attr: .&lt;span class=&quot;hljs-type&quot;&gt;Height&lt;/span&gt;) }
 }&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;因为一开始就考虑了要支持Array, 所以给UIView也加上了几个复合属性:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;UIView&lt;/span&gt; &lt;/span&gt;{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xSize: [&lt;span class=&quot;hljs-type&quot;&gt;RelationMakeable&lt;/span&gt;] {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xSize: [&lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt;] {
         &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; [xWidth, xHeight]
     }
-    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xCenter: [&lt;span class=&quot;hljs-type&quot;&gt;RelationMakeable&lt;/span&gt;] {
+    &lt;span class=&quot;hljs-keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;var&lt;/span&gt; xCenter: [&lt;span class=&quot;hljs-type&quot;&gt;XLeftItem&lt;/span&gt;] {
         &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; [xCenterX, xCenterY]
     }
     ... some more
@@ -109,13 +115,13 @@ v.xHeight =/ &lt;span class=&quot;hljs-number&quot;&gt;200&lt;/span&gt;&lt;/code
 &lt;p&gt;当然也不是遇到就转换, 条件还是有的. 再看看系统可能的行为: VFL可以指定方向, 但是受影响的约束的两个attribute肯定是水平方向的Leading/Trailing. 不用VFL时, 可以随意一些, 水平方向的属性可以和垂直方向的或者center等做约束. 也就是不用都是水平方向的属性. 同时iOS针对了少量的几种不配对情况抛出异常.&lt;/p&gt;
 &lt;p&gt;为了最大程度和系统行为一致, 创建约束时要先检查attribute是否能配对, lib里面主动抛出的异常就一个, 就是方向不为LeadingToTrailing并且只有一个属性是leading/trailing, 另一个不是水平方向属性. 这种情况下我不知道该不该转换, 而且这种情况用原生API是构造不出来的. 其他不配对的情况lib不处理, 留给iOS来让抛异常提醒你吧.&lt;/p&gt;
 &lt;p&gt;如果配对检查过了, 受RightToLeft方向影响的约束需要把constant 乘 -1. &lt;/p&gt;
-&lt;h2 id=&quot;扩展数字类型&quot;&gt;&lt;a href=&quot;#扩展数字类型&quot; class=&quot;headerlink&quot; title=&quot;扩展数字类型&quot;&gt;&lt;/a&gt;扩展数字类型&lt;/h2&gt;&lt;p&gt;为了方便, 在设置位置类型的属性时, 可以直接设置数字, 这样secondItem就默认是firstItem的superView, 只要firstItem是一个UIview的话. 这就意味着数字也是&lt;code&gt;AttributeContainer&lt;/code&gt;. &lt;/p&gt;
-&lt;p&gt;swift里面有很多种数字类型, 我不得不对每一种都声明extension. 声明一个extension就需要写一次&lt;code&gt;generateX&lt;/code&gt;方法, 看起来好繁琐. 于是沿着这些数字实现的协议链往上找, 最终选择了扩展&lt;code&gt;SignedNumberType&lt;/code&gt; 和 &lt;code&gt;UnsignedIntegerType&lt;/code&gt;来实现&lt;code&gt;generateX&lt;/code&gt;. 这样所有的数字类型就都有了&lt;code&gt;generateX&lt;/code&gt;实现. &lt;/p&gt;
+&lt;h2 id=&quot;扩展数字类型&quot;&gt;&lt;a href=&quot;#扩展数字类型&quot; class=&quot;headerlink&quot; title=&quot;扩展数字类型&quot;&gt;&lt;/a&gt;扩展数字类型&lt;/h2&gt;&lt;p&gt;为了方便, 在设置位置类型的属性时, 可以直接设置数字, 这样secondItem就默认是firstItem的superView, 只要firstItem是一个UIview的话. 这就意味着数字也是&lt;code&gt;XRightItem&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;swift里面有很多种数字类型, 我不得不对每一种都声明extension. 声明一个extension就需要写一次&lt;code&gt;xGenerateX&lt;/code&gt;方法, 看起来好繁琐. 于是沿着这些数字实现的协议链往上找, 最终选择了扩展&lt;code&gt;SignedNumberType&lt;/code&gt; 和 &lt;code&gt;UnsignedIntegerType&lt;/code&gt;来实现&lt;code&gt;xGenerateX&lt;/code&gt;. 这样所有的数字类型就都有了&lt;code&gt;xGenerateX&lt;/code&gt;实现. &lt;/p&gt;
 &lt;h2 id=&quot;吐槽Masonry&quot;&gt;&lt;a href=&quot;#吐槽Masonry&quot; class=&quot;headerlink&quot; title=&quot;吐槽Masonry&quot;&gt;&lt;/a&gt;吐槽Masonry&lt;/h2&gt;&lt;p&gt;说实话, 第一次看这个库就觉得做复杂了. 而且一些想法挺奇怪的, 代码中还有一些欠考虑的地方, 分分钟出bug.&lt;/p&gt;
 &lt;p&gt;它创建约束的分组想法和我不一样, 它是针对每个view去写一组这个view作为firstItem的约束, 并且制约了裸写约束的可能性, 这样的好处是不用care嵌套的问题, 但是会导致书写的闭包很多.&lt;/p&gt;
 &lt;p&gt;它有个&lt;code&gt;MASLayoutConstraint&lt;/code&gt;的类继承自&lt;code&gt;NSLayoutConstraint&lt;/code&gt;,  make时生成的约束全都是这个子类. update和remake方法都只跟自己的体系玩儿, 这些操作只认这个类, 也就是说除非你关于这个view的所有约束都是用Masonry做, 否则update和remake方法没用. 对于有用到storyboard而只想用一个lib来简化部分约束编写的人来说, 只有make那个方法敢用. &lt;/p&gt;
 &lt;p&gt;update这个方法会去查询&lt;strong&gt;相似&lt;/strong&gt;的约束, 然后更新这个相似约束的constant而不是激活新的约束. 看Masonry的逻辑, 它把这个概念定义为除了constant以外其他属性全都相同的两个约束是相似的. 但是在AutoLayout里面根本就没有相似这个概念, 所以我觉得不应该生造出这么个概念. 而且约束是双向影响, 下面的两个约束是完全等价的:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;v1.xTop =/ v2.xBottom.&lt;span class=&quot;hljs-built_in&quot;&gt;c&lt;/span&gt;(&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;)
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;v1.xTop =/ v2.xBottom.xc(&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;)
 v2.xBottom =/ v1.xTop(-&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这在Masonry里面却会被判定为&lt;strong&gt;不相似&lt;/strong&gt;的约束.&lt;/p&gt;
 &lt;p&gt; 它的ReadMe里面有这么一句话:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -133,7 +139,7 @@ v2.xBottom =/ v1.xTop(-&lt;span class=&quot;hljs-number&quot;&gt;10&lt;/span&gt;
 &lt;span class=&quot;hljs-comment&quot;&gt;// can be called like readonly property&lt;/span&gt;
 xxx.test();&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;BlockType如果有参数和返回值, 这个&lt;code&gt;.()&lt;/code&gt;调用的操作就能继续下去. 不过依赖这种编译器的tricky特性总觉得不安全.&lt;/p&gt;
 &lt;p&gt;仍然只支持iOS7, 导致不能用8才有的active属性来激活约束. 不过看Masonry的实现, 体系里面对最低公共父view依赖比较多, 就算到8也省不了多少代码.&lt;/p&gt;
-&lt;h2 id=&quot;写在最后&quot;&gt;&lt;a href=&quot;#写在最后&quot; class=&quot;headerlink&quot; title=&quot;写在最后&quot;&gt;&lt;/a&gt;写在最后&lt;/h2&gt;&lt;p&gt;我的想法也不一定对, 不一定好. 我只是客观地分析了Masonry, 吐槽不对的地方还请看客谅解. 我自己的库也不一定很好用, 虽然我自己一直在用~ &lt;/p&gt;
+&lt;h2 id=&quot;写在最后&quot;&gt;&lt;a href=&quot;#写在最后&quot; class=&quot;headerlink&quot; title=&quot;写在最后&quot;&gt;&lt;/a&gt;写在最后&lt;/h2&gt;&lt;p&gt;everyting start with &lt;code&gt;X&lt;/code&gt;! 好吧, 我的想法也不一定对, 不一定好. 我只是客观地分析了Masonry, 吐槽不对的地方还请看客谅解. 我自己的库也不一定很好用, 虽然我自己一直在用~ &lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -234,7 +240,7 @@ xxx.test();&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;BlockType如果有参数和返回�
 &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;]?.flatMap{$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;} &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里用&lt;code&gt;flatMap&lt;/code&gt;只是一种对两层&lt;code&gt;Optional&lt;/code&gt;剥壳的手段, 用 &lt;code&gt;xx ?? nil&lt;/code&gt; 也能剥壳. 剥壳虽然比较丑, 但是却不会引起崩溃.&lt;/p&gt;
 &lt;p&gt;如果要继续深入keyPath的话......&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; content = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;person&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;})?[&lt;span class=&quot;hljs-string&quot;&gt;&quot;id&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;}) &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不过我觉得最好还是用&lt;code&gt;objectForKey&lt;/code&gt;来从JSON获取信息, 并做好类型检查.&lt;/p&gt;
-&lt;h2 id=&quot;总结-6&quot;&gt;&lt;a href=&quot;#总结-6&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
+&lt;h2 id=&quot;总结-5&quot;&gt;&lt;a href=&quot;#总结-5&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -434,7 +440,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
 
 } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; {
     &lt;span class=&quot;hljs-comment&quot;&gt;// will got here&lt;/span&gt;
-}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;总结-5&quot;&gt;&lt;a href=&quot;#总结-5&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;写的时候尽量注意吧, 不要以为build过了就没事, 一些转换的坑在runtime等你呢(看上边的报错的注释吧). 拿不准就主动做个map吧.&lt;/p&gt;
+}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;总结-4&quot;&gt;&lt;a href=&quot;#总结-4&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;写的时候尽量注意吧, 不要以为build过了就没事, 一些转换的坑在runtime等你呢(看上边的报错的注释吧). 拿不准就主动做个map吧.&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -493,7 +499,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/XLYAutoLayoutEasy/"/>
     <id>/2014/12/08/XLYAutoLayoutEasy/</id>
     <published>2014-12-08T08:00:00.000Z</published>
-    <updated>2016-04-04T10:07:09.000Z</updated>
+    <updated>2016-04-24T00:27:08.000Z</updated>
     
     <content type="html">&lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.&lt;/p&gt;
 &lt;h2 id=&quot;如何创建一个约束&quot;&gt;&lt;a href=&quot;#如何创建一个约束&quot; class=&quot;headerlink&quot; title=&quot;如何创建一个约束&quot;&gt;&lt;/a&gt;如何创建一个约束&lt;/h2&gt;&lt;p&gt;苹果在NSLayoutConstraint中提供了一个类方法&lt;/p&gt;
@@ -569,7 +575,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
 - (XLYConstraint *)equalTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)greaterThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)lessThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;也专门弄了一个给swift bridge header用的&lt;code&gt;XLYAutoLayoutEasy-swift.h&lt;/code&gt;以区分import的头文件.&lt;/p&gt;
-&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
+&lt;h2 id=&quot;总结-6&quot;&gt;&lt;a href=&quot;#总结-6&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
 &lt;p&gt;写代码, 多思考, 想清楚了需要什么再写. 多画图有助于思考.&lt;/p&gt;
 &lt;p&gt;另外, 感谢我的她对我的包容和支持.&lt;/p&gt;
 </content>
@@ -632,7 +638,7 @@ NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7�
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;吐槽的基本上都是代码中编写AutoLayout相关代码的部分, 实际项目中也确实有不少需求是需要比较动态的布局的. 如果app比较简单, 使用storyboard就能完成布局描述的话就最好了, 那样将省掉非常多的编辑和调试约束的时间, 并且以后的维护也相对方便.&lt;/p&gt;
-&lt;h2 id=&quot;总结-4&quot;&gt;&lt;a href=&quot;#总结-4&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
+&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
 &lt;p&gt;另外, 本人开发了一个用于简化代码编写AutoLayout约束的小库 &lt;a href=&quot;https://github.com/kaizeiyimi/XLYAutoLayoutEasy&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYAutoLayoutEasy&lt;/a&gt;, 个人感觉更具有可读性和可维护性, 还支持swift哦.&lt;/p&gt;
 </content>
     

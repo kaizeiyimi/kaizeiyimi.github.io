@@ -18,12 +18,12 @@ date: 2016-04-17 11:34:24
 反正好麻烦, 然后开源社区出现了一个库**Masonry**, 目的是简化代码写约束, 提供了链式语法以及一些helper方法. 当然本文不是要介绍它, 也不是要批评它, 只是吐槽而已, 后文再说. 本文主要是介绍我写的**XAutoLayout**😃. 
 
 ## demo code
-使用起来还是比较方便的. 我定义了几个操作符`=/`,`<=/`和`>=/`, 分别与**Equal**, **lessOrEqual**, **greaterOrEqual**这几个方法等价, array仅支持`=/`, 对应的方法是`compositeEqual` 内部实现都没有使用重载的操作符.
+使用起来还是比较方便的. 我定义了几个操作符`=/`,`<=/`和`>=/`, 分别与**xEqual**, **xLessOrEqual**, **xGreaterOrEqual**这几个方法等价, array仅支持`=/`, 对应的方法是`xEqual`的另一重载. 所有内部实现都没有使用定义的操作符.
 
 ```swift
 xmakeConstraints(.RightToLeft, autoActive = true) {  // autoActive has a default value true
     v1.xEdge =/ [10,5,-10,-20] // can directly use number, the second view will be superview
-    v2.xSize =/ [50, view.heightAnchor.c(-50)] // can use iOS9 API
+    v2.xSize =/ [50, view.heightAnchor.xc(-50)] // can use iOS9 API
 
     // [v2.xTop, v2.xLeading] =/ [20, 10]  same as the below two lines
     v2.xTop =/ 20
@@ -85,13 +85,18 @@ A relation B
 2. A和B分别是两个protocol, 这样避免了AnyObject的问题, 并且能对参数进行约束. 加上swift也是可以给已有类型写extension的, 所以用protocol抽象比较好, 参数不用是AnyObject那么宽泛.
 
 #### 接口的规划
-`RelationMakeable`和`AttributeContainer`就分别是A和B, 并且A继承B. `RelationMakeable`有equal, lessOrEqual 和 greatOrEqual方法. `AttributeContainer`有 m, c, p的方法, 并且有一个`generateX`方法来生成一个真正保存信息的数据`XAttributeX`来参与生成约束. 
+swift可以给`protocol`写`extension`来添加方法, Lib里面有一些逻辑不想暴露, 因为protocol extension里面一些方法调用了内部private的API, 并且这些调用会影响实现逻辑.
 
-调用m, c, p, 以及建立关系的行为可以用protocol默认实现来简化其他类型的extension. 这样一个类型仅需声明一下extension, 再添加`generateX`方法就可以加入这个体系了, 比如iOS提供的`NSLayoutAnchor`.
+1. `XLeftItem`和`XRightItem`就分别是A和B, 并且A继承B. 
+2. `XRightItem`有一个`xGenerateX`方法生成`XAttributeX`, 用来包含可选的`item`, `attr`以及`multiplier`,`constant`和`priority`. 这些属性都不对外暴露, 尽量让调用和接入简单. 况且暴露了的话, 亲不调我的API也能自己玩儿了, 那就没意思啦. 另外通过protocol extension添加了 `xm`, `xc`, `xp`三个方法的默认实现.
+3. `XLeftItem`有一个`xGenerate`方法生成`XAttribute`, 用来包含不为空的`item`加`attr`. 也通过protocol extension添加了`xEqual`, `xLessOrEqual` 和 `xGreatOrEqual`方法的实现. 这三个方法就是调用了必须调用的内部private API, 嘿嘿.
+4. 那个私有API其实就是调用了`XFirstItem`的`xGenerate`生成`XAtrribute`, 以及`XSecondItem`的`xGenerateX`生成`XAttributeX`, 然后读取两者的信息并做一些调整来生成约束.
+
+虽然我已经为一些常用的类和protocol写好了extension, 比如`NSLayoutAnchor`, `UILayoutSupport`还有各种数字类型. 如果亲还有自己想要加入体系的类型, 只需要选择实现`XFirstItem`或者`XSecondItem`, 再添加`xGenerate`或者`xGenerateX`方法就可以了. `XAttribute`和`XAttributeX`都提供了初始化方法, 但是不暴露任何属性. 比如`NSLayoutAnchor`的扩展:
 
 ```swift
 @available(iOS 9.0, *)
-extension NSLayoutAnchor: RelationMakeable {
+extension NSLayoutAnchor: XLeftItem {
     public func generateX() -> XAttributeX {
         let item = valueForKey("item")!
         let attr = NSLayoutAttribute(rawValue: valueForKey("attr") as! Int)!
@@ -99,15 +104,15 @@ extension NSLayoutAnchor: RelationMakeable {
     }
 }
 
-v1.xTop =/ v2.bottomAnchor.c(10)
+v1.xTop =/ v2.bottomAnchor.xc(10)
 ```
 
-然后UIView这样的主角需要的是一些property来表达`item + attr`:
+然后给UIView这样的主角需要的是一些property来表达`item + attr`:
 
 ```swift
 extension UIView {
-    public var xLeft: XAttribute { return XAttribute(item: self, attr: .Left) }
-    public var xRight: XAttribute { return XAttribute(item: self, attr: .Right) }
+    public var xLeft: XLeftItem { return XAttribute(item: self, attr: .Left) }
+    public var xRight: XLeftItem { return XAttribute(item: self, attr: .Right) }
     ... some more
 }
 
@@ -117,9 +122,9 @@ extension UIView {
 
 ```swift
 extension UILayoutSupport {
-    public var xTop: XAttribute { return XAttribute(item: self, attr: .Top) }
-    public var xBottom: XAttribute { return XAttribute(item: self, attr: .Bottom) }
-    public var xHeight: XAttribute { return XAttribute(item: self, attr: .Height) }
+    public var xTop: XLeftItem { return XAttribute(item: self, attr: .Top) }
+    public var xBottom: XLeftItem { return XAttribute(item: self, attr: .Bottom) }
+    public var xHeight: XLeftItem { return XAttribute(item: self, attr: .Height) }
 }
 ```
 
@@ -127,10 +132,10 @@ extension UILayoutSupport {
 
 ```swift
 extension UIView {
-    public var xSize: [RelationMakeable] {
+    public var xSize: [XLeftItem] {
         return [xWidth, xHeight]
     }
-    public var xCenter: [RelationMakeable] {
+    public var xCenter: [XLeftItem] {
         return [xCenterX, xCenterY]
     }
     ... some more
@@ -180,9 +185,9 @@ v.xHeight =/ 200
 如果配对检查过了, 受RightToLeft方向影响的约束需要把constant 乘 -1. 
 
 ## 扩展数字类型
-为了方便, 在设置位置类型的属性时, 可以直接设置数字, 这样secondItem就默认是firstItem的superView, 只要firstItem是一个UIview的话. 这就意味着数字也是`AttributeContainer`. 
+为了方便, 在设置位置类型的属性时, 可以直接设置数字, 这样secondItem就默认是firstItem的superView, 只要firstItem是一个UIview的话. 这就意味着数字也是`XRightItem`. 
 
-swift里面有很多种数字类型, 我不得不对每一种都声明extension. 声明一个extension就需要写一次`generateX`方法, 看起来好繁琐. 于是沿着这些数字实现的协议链往上找, 最终选择了扩展`SignedNumberType` 和 `UnsignedIntegerType`来实现`generateX`. 这样所有的数字类型就都有了`generateX`实现. 
+swift里面有很多种数字类型, 我不得不对每一种都声明extension. 声明一个extension就需要写一次`xGenerateX`方法, 看起来好繁琐. 于是沿着这些数字实现的协议链往上找, 最终选择了扩展`SignedNumberType` 和 `UnsignedIntegerType`来实现`xGenerateX`. 这样所有的数字类型就都有了`xGenerateX`实现. 
 
 ## 吐槽Masonry
 说实话, 第一次看这个库就觉得做复杂了. 而且一些想法挺奇怪的, 代码中还有一些欠考虑的地方, 分分钟出bug.
@@ -194,7 +199,7 @@ swift里面有很多种数字类型, 我不得不对每一种都声明extension.
 update这个方法会去查询**相似**的约束, 然后更新这个相似约束的constant而不是激活新的约束. 看Masonry的逻辑, 它把这个概念定义为除了constant以外其他属性全都相同的两个约束是相似的. 但是在AutoLayout里面根本就没有相似这个概念, 所以我觉得不应该生造出这么个概念. 而且约束是双向影响, 下面的两个约束是完全等价的:
 
 ```swift
-v1.xTop =/ v2.xBottom.c(10)
+v1.xTop =/ v2.xBottom.xc(10)
 v2.xBottom =/ v1.xTop(-10)
 ``` 
 
@@ -226,5 +231,5 @@ BlockType如果有参数和返回值, 这个`.()`调用的操作就能继续下�
 仍然只支持iOS7, 导致不能用8才有的active属性来激活约束. 不过看Masonry的实现, 体系里面对最低公共父view依赖比较多, 就算到8也省不了多少代码.
 
 ## 写在最后
-我的想法也不一定对, 不一定好. 我只是客观地分析了Masonry, 吐槽不对的地方还请看客谅解. 我自己的库也不一定很好用, 虽然我自己一直在用~ 
+everyting start with `X`! 好吧, 我的想法也不一定对, 不一定好. 我只是客观地分析了Masonry, 吐槽不对的地方还请看客谅解. 我自己的库也不一定很好用, 虽然我自己一直在用~ 
 
