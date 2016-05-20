@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-04-24T07:34:01.000Z</updated>
+  <updated>2016-05-20T15:21:50.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,141 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>复用内部公用代码的几种方式</title>
+    <link href="/2016/05/19/reuse-internal-codes/"/>
+    <id>/2016/05/19/reuse-internal-codes/</id>
+    <published>2016-05-19T13:20:43.000Z</published>
+    <updated>2016-05-20T15:21:50.000Z</updated>
+    
+    <content type="html">&lt;p&gt;一般来讲, 总是会有一些内部私有代码是有复用价值的, 比如一些Utils方法, 一些公用的UI组件, 一些对各种框架或者库的封装. 本文介绍几种复用的方式, 分别是使用多target, 使用workspace集成多个project, 以及利用cocoapods来集成私有代码. 每种方式都各有利弊, 没有最好, 只有合适.
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;假设我们已经知道哪些代码是公用的, 并且已经拆分完毕, 现在我们有多个逻辑模块, 一个是&lt;code&gt;Common&lt;/code&gt;表示公用的代码, 其他是&lt;code&gt;A&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;等, 表示依赖&lt;code&gt;Common&lt;/code&gt;的模块. 为了方便, &lt;code&gt;Common&lt;/code&gt;简写为&lt;code&gt;C&lt;/code&gt;, 而且假设上层模块只有&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;, 公用代码只有一个&lt;code&gt;C&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;稍微有点儿样子的工程, &lt;code&gt;C&lt;/code&gt;一般都是有第三库依赖的, 也就是说&lt;code&gt;A&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;, &lt;code&gt;C&lt;/code&gt;都有各自的第三方库依赖, 如何处理依赖冲突也是需要考虑的.&lt;/p&gt;
+&lt;h1 id=&quot;一个repo管理&quot;&gt;&lt;a href=&quot;#一个repo管理&quot; class=&quot;headerlink&quot; title=&quot;一个repo管理&quot;&gt;&lt;/a&gt;一个repo管理&lt;/h1&gt;&lt;p&gt;一个project多target, 和一个workspace多project没有太大区别, 这里讨论放在一个repo里面管理的情况. 多个repo的情况就需要用git submodule, 更新比较麻烦, 后文再谈.&lt;/p&gt;
+&lt;h3 id=&quot;多target&quot;&gt;&lt;a href=&quot;#多target&quot; class=&quot;headerlink&quot; title=&quot;多target&quot;&gt;&lt;/a&gt;多target&lt;/h3&gt;&lt;p&gt;XCode支持在一个project中创建多个target, 我们可以把&lt;code&gt;C&lt;/code&gt;的代码放置到&lt;code&gt;targetC&lt;/code&gt;中, &lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;的代码分别放置到&lt;code&gt;targetA&lt;/code&gt;和&lt;code&gt;targetB&lt;/code&gt;中. &lt;code&gt;targetC&lt;/code&gt;配置为输出framework或者static lib, 而&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;都链接&lt;code&gt;targetC&lt;/code&gt;. &lt;/p&gt;
+&lt;h3 id=&quot;多project&quot;&gt;&lt;a href=&quot;#多project&quot; class=&quot;headerlink&quot; title=&quot;多project&quot;&gt;&lt;/a&gt;多project&lt;/h3&gt;&lt;p&gt;Xcode也提供了多个工程整合的方式, 即使用workspace. 我们把3个模块的代码放置到3个不同的工程, 然后都添加到同一个workspace中, &lt;code&gt;C&lt;/code&gt;仍然输出framework或者static lib, &lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;需要动点儿手脚才能正确添加&lt;code&gt;C.framework&lt;/code&gt;作为其embed framework.&lt;/p&gt;
+&lt;p&gt;估计是xcode的bug, 添加embed framework时路径是绝对路径, 不过可以直接编辑工程文件来修改, 也可以绕一下, 让&lt;code&gt;C&lt;/code&gt;编译完成后copy包到某一个相对路径, 比如&lt;code&gt;C&lt;/code&gt;的工程目录下, 然后再引入此包. 这样不管什么scheme编译完成都会直接覆盖此包, 保持最新. &lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;还需要配置一下scheme来保证每次build前都要先build &lt;code&gt;C&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h3&gt;&lt;p&gt;此种方法最简单, 更新代码的时候非常方便, &lt;code&gt;C&lt;/code&gt;中开发了新代码, 可单元测试, 也可立即和&lt;code&gt;A&lt;/code&gt;或者&lt;code&gt;B&lt;/code&gt;联调, 因为它们在一个repo里面, 所有改动都是立即可见的. 这一点对代码持续演进和集成非常友好.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;C&lt;/code&gt;有自己的第三库依赖, 我们一般采用cocoapods管理, 这里比较特殊的一点是&lt;code&gt;C&lt;/code&gt;自己也是个lib, 当我们用framework时不能在&lt;code&gt;C.framework&lt;/code&gt;中嵌套embed的framework, 可以观察&lt;code&gt;targetC&lt;/code&gt;的build phase, 并没有&lt;code&gt;Embed Pods Frameworks&lt;/code&gt;. 就算我们手动加上, 也就模拟器能正常, build到设备上依然要挂, 提示&lt;code&gt;no suitable image found&lt;/code&gt;, 然后巴拉巴拉. 所以我们需要考虑解决依赖的问题. 目前cocoapods已经发布1.0版本, 我的解决办法是使用&lt;code&gt;abstract_target&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;ruby hljs&quot;&gt;abstract_target &lt;span class=&quot;hljs-string&quot;&gt;&#39;common&#39;&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;do&lt;/span&gt;
+    pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;Alamofire&#39;&lt;/span&gt;
+    pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;RxSwift&#39;&lt;/span&gt; 
+
+    target &lt;span class=&quot;hljs-string&quot;&gt;&#39;A&#39;&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;do&lt;/span&gt;
+      workspace &lt;span class=&quot;hljs-string&quot;&gt;&#39;my.workspace&#39;&lt;/span&gt;
+      project &lt;span class=&quot;hljs-string&quot;&gt;&#39;A/A.xcodeproj&#39;&lt;/span&gt;
+      pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;RxCocoa&#39;&lt;/span&gt;
+      pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;XAutoLayout&#39;&lt;/span&gt;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;end&lt;/span&gt;
+
+    target &lt;span class=&quot;hljs-string&quot;&gt;&#39;B&#39;&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;do&lt;/span&gt;
+      workspace &lt;span class=&quot;hljs-string&quot;&gt;&#39;my.workspace&#39;&lt;/span&gt;
+      project &lt;span class=&quot;hljs-string&quot;&gt;&#39;B/B.xcodeproj&#39;&lt;/span&gt;
+      pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;Socket.IO-Client-Swift&#39;&lt;/span&gt;
+      pod &lt;span class=&quot;hljs-string&quot;&gt;&#39;XAutoLayout&#39;&lt;/span&gt;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;end&lt;/span&gt;
+
+    target &lt;span class=&quot;hljs-string&quot;&gt;&#39;C&#39;&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;do&lt;/span&gt;
+      workspace &lt;span class=&quot;hljs-string&quot;&gt;&#39;my.workspace&#39;&lt;/span&gt;
+      project &lt;span class=&quot;hljs-string&quot;&gt;&#39;C/C.xcodeproj&#39;&lt;/span&gt;
+    &lt;span class=&quot;hljs-keyword&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;hljs-keyword&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;common&lt;/code&gt;作为parent target并且是个抽象的, 也就是说不会真正有这么个target存在, 但是parent的身份让内部的&lt;code&gt;A&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;和&lt;code&gt;C&lt;/code&gt;这几个target都继承pod配置. 因此, 这里&lt;code&gt;common&lt;/code&gt;描写&lt;code&gt;C&lt;/code&gt;需要的库, 而不是在C那里单独配置, 否则&lt;code&gt;A&lt;/code&gt;将不能正确处理&lt;code&gt;C&lt;/code&gt;的依赖. &lt;/p&gt;
+&lt;p&gt;这里还涉及到依赖的冲突, &lt;code&gt;A&lt;/code&gt;依赖的&lt;code&gt;RxCocoa&lt;/code&gt;依赖了&lt;code&gt;RxSwift&lt;/code&gt;, &lt;code&gt;common&lt;/code&gt;里面也描述了依赖&lt;code&gt;RxSwift&lt;/code&gt;, 继承后只要pod能正确处理冲突就没什么问题.&lt;/p&gt;
+&lt;p&gt;最终编译出来的&lt;code&gt;C.framework&lt;/code&gt;只会包含&lt;code&gt;C&lt;/code&gt;这个模块的代码, 依赖的第三方库会在&lt;code&gt;A&lt;/code&gt;或者&lt;code&gt;B&lt;/code&gt;引入.&lt;/p&gt;
+&lt;p&gt;如果是使用static lib, 那么&lt;code&gt;C.a&lt;/code&gt;就会包含第三方库的符号表, 再以此集成到其他target, 这样就不能用abstract_target, 而应该小心地避免符号表冲突. 而当遇到类似&lt;code&gt;A&lt;/code&gt;依赖的&lt;code&gt;RxCocoa&lt;/code&gt;需要依赖&lt;code&gt;RxSwift&lt;/code&gt;, 而&lt;code&gt;C&lt;/code&gt;也要依赖&lt;code&gt;RxSwift&lt;/code&gt;时, 就只能把&lt;code&gt;RxCocoa&lt;/code&gt;作为&lt;code&gt;C&lt;/code&gt;的依赖来处理, 否则&lt;code&gt;RxSwift&lt;/code&gt;将出现符号表冲突. 所以还是用framework吧.&lt;/p&gt;
+&lt;h3 id=&quot;开发流程&quot;&gt;&lt;a href=&quot;#开发流程&quot; class=&quot;headerlink&quot; title=&quot;开发流程&quot;&gt;&lt;/a&gt;开发流程&lt;/h3&gt;&lt;p&gt;大家都在一个repo, 原则上我们提交一个patch需要保证每个模块都正常编译, 因此当&lt;code&gt;C&lt;/code&gt;有改动要提交, 我们需要所有模块上都能测试通过. 当&lt;code&gt;A&lt;/code&gt;要开发新需求, 我们创建一个&lt;code&gt;devA&lt;/code&gt;的branch, 然后&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;C&lt;/code&gt;都有改动, 甚至一些&lt;code&gt;C&lt;/code&gt;的改动还导致&lt;code&gt;B&lt;/code&gt;也需要改动, 虽然这个时候并不是为了开发&lt;code&gt;B&lt;/code&gt;. &lt;code&gt;B&lt;/code&gt;也有&lt;code&gt;devB&lt;/code&gt;在开发, 改动&lt;code&gt;C&lt;/code&gt;时也有可能导致&lt;code&gt;A&lt;/code&gt;被改动. &lt;/p&gt;
+&lt;p&gt;合并需要及时, 如果&lt;code&gt;devA&lt;/code&gt;开发完毕了应尽早合并回主分支, 然后再继续从主分支合并到&lt;code&gt;devB&lt;/code&gt;, 此时需要解决一些冲突. 这些冲突里面就会包含在&lt;code&gt;devA&lt;/code&gt;和&lt;code&gt;devB&lt;/code&gt;中对&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;进行的不同的修改, 哪怕只是当时为了编译通过的修改都有可能和另一个分支冲突.&lt;/p&gt;
+&lt;p&gt;如果在同一个&lt;code&gt;dev&lt;/code&gt;分支上进行&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;的开发, 只要任何时候有实验性质的feature要尝试, 就需要多个分支, 实际上现实生活中不可能只有一个dev分支的, 因此上述合并分支的问题总是需要考虑的. &lt;/p&gt;
+&lt;p&gt;导致冲突增加, 合并复杂的原因主要是3个模块在一个repo相互不独立, 提交patch时是同时影响多个模块, 而且我们要贯彻提交patch保证编译通过的原则, 因此一些可以滞后的合并和修改就被提前了, 并且这种提前并不总是有效的.&lt;/p&gt;
+&lt;p&gt;如果不贯彻编译通过再提交的原则将引起更多的问题, 这个就不用多解释了.&lt;/p&gt;
+&lt;h2 id=&quot;多个repo管理&quot;&gt;&lt;a href=&quot;#多个repo管理&quot; class=&quot;headerlink&quot; title=&quot;多个repo管理&quot;&gt;&lt;/a&gt;多个repo管理&lt;/h2&gt;&lt;p&gt;如果将这些模块分散到多个repo, 各自提交patch, 则需要一些手段才能将他们相互关联起来. 这里讨论使用cocoapods和git submodule. 使用cocoapods又分为两种用法, 分别是用私有spec repo来记录&lt;code&gt;C&lt;/code&gt;的各个tag版本, 以及直接指定&lt;code&gt;C&lt;/code&gt;的branch和commit.&lt;/p&gt;
+&lt;h3 id=&quot;私有spec-repo-tag发版&quot;&gt;&lt;a href=&quot;#私有spec-repo-tag发版&quot; class=&quot;headerlink&quot; title=&quot;私有spec repo + tag发版&quot;&gt;&lt;/a&gt;私有spec repo + tag发版&lt;/h3&gt;&lt;p&gt;如果&lt;code&gt;C&lt;/code&gt;比较独立, 真的不涉及多少业务逻辑, 变化频率不高, 和&lt;code&gt;A&lt;/code&gt; &lt;code&gt;B&lt;/code&gt;的联调需求很小, 我觉得可以考虑让&lt;code&gt;C&lt;/code&gt;单独开发, 并在需要的时候发版. 不用完全跟着&lt;code&gt;A&lt;/code&gt;或者&lt;code&gt;B&lt;/code&gt;的节奏走.&lt;/p&gt;
+&lt;p&gt;第一次创建的流程如下:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;C&lt;/code&gt;要先写好一个&lt;code&gt;podspec&lt;/code&gt;文件, 描述了自己如何被集成, 并指定了source为某一个tag号. &lt;/li&gt;
+&lt;li&gt;发布&lt;code&gt;C&lt;/code&gt;到私有spec repo中.&lt;/li&gt;
+&lt;li&gt;所有team member更新&lt;code&gt;C&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;之后更新&lt;code&gt;C&lt;/code&gt;的时候只需给新的code打tag, 然后重复步骤2和3就好了. pod在install或者update的时候都会check缓存, 如果更新code后不更新tag将会使用cache的代码, 新代码是下不来的. 当然也可以把原来的tag删掉, 重新打一样的, 然后删掉pod的cache再update, 不过这看起来很无趣.&lt;/p&gt;
+&lt;p&gt;如果一切都像想的那么好就真的太好了. 我们肯定会遇到&lt;code&gt;C&lt;/code&gt;的更新导致&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;需要修改的情况, 如何联调测试? 他们都不在一个repo了, 所以我们需要都下载下来, 但是问题是&lt;code&gt;C&lt;/code&gt;要发版才能被pod更新, 因此我们就需要打很多无用的tag来不停地循环:提交代码 -&amp;gt; 发布&lt;code&gt;C&lt;/code&gt; -&amp;gt; 更新&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt; -&amp;gt; 调试 -&amp;gt; 修改代码 -&amp;gt; 提交代码. 终于调试完毕了, 然后删掉那一堆没用的tag. &lt;/p&gt;
+&lt;p&gt;除非用一个其他方式来在开发&lt;code&gt;C&lt;/code&gt;的电脑上集成&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;, 如何考虑到要分散到各个repo的话, 估计就只能用submodule+workspace集成了. 这个后文再谈.&lt;/p&gt;
+&lt;h3 id=&quot;直接指定branch-commit&quot;&gt;&lt;a href=&quot;#直接指定branch-commit&quot; class=&quot;headerlink&quot; title=&quot;直接指定branch + commit&quot;&gt;&lt;/a&gt;直接指定branch + commit&lt;/h3&gt;&lt;p&gt;pod支持直接指定这两者来下载code, 所以我们只要保证&lt;code&gt;C&lt;/code&gt;的repo能访问就可以了, 不需要创建私有spec repo. 这种方式的branch + commit 的作用跟tag一样, 目的都是为了指向一个不可变的代码集. 集成&lt;code&gt;C&lt;/code&gt;也很简单, 只要&lt;code&gt;C&lt;/code&gt;的repo先准备好, 并且repo里面有&lt;code&gt;podspec&lt;/code&gt;文件.&lt;/p&gt;
+&lt;p&gt;这里有个小限制, &lt;code&gt;podspec&lt;/code&gt;里面指定的source一定要能访问, 否则pod检查过不了, 但是然并卵, 我们在podfile里面指定了branch和commit, pod就会从我们指定的位置下载repo, 读取&lt;code&gt;podspec&lt;/code&gt;并忽略掉source配置.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;C&lt;/code&gt;更新代码的时候, 如果&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;需要跟进, 则更新一下branch和commit就好, 如果忽略掉commit, 将默认是HEAD. 我们可以利用这点来简化开发流程.&lt;/p&gt;
+&lt;p&gt;我们采用这种方式是考虑到&lt;code&gt;C&lt;/code&gt;的更新驱动&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;更新时, 使用tag方式带来的各种不爽. 假设基本配置都已经完成, 进入了一个稳定状态. 之后的开发流程如下:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;A&lt;/code&gt;新建branch &lt;code&gt;devA&lt;/code&gt;进行开发, 由于需要改动&lt;code&gt;C&lt;/code&gt;, &lt;code&gt;C&lt;/code&gt;也创建了branch &lt;code&gt;devC&lt;/code&gt;. &lt;/li&gt;
+&lt;li&gt;联调的次数比较多, 在&lt;code&gt;devA&lt;/code&gt;上将&lt;code&gt;podfile&lt;/code&gt;中指向的&lt;code&gt;C&lt;/code&gt;去掉commit, 仅保留branch信息指向&lt;code&gt;devC&lt;/code&gt;, 这样默认就是使用&lt;code&gt;devC&lt;/code&gt;的最新代码, 然后每次改动&lt;code&gt;C&lt;/code&gt;以后就update一下, &lt;code&gt;A&lt;/code&gt;就能获取到最新的代码.&lt;/li&gt;
+&lt;li&gt;开发完毕后, &lt;code&gt;C&lt;/code&gt;先合并回主分支, 并记录下commit, 然后&lt;code&gt;A&lt;/code&gt;再合并, 并在&lt;code&gt;podfile&lt;/code&gt;中修改branch为&lt;code&gt;C&lt;/code&gt;的主分支以及添加commit信息.&lt;/li&gt;
+&lt;li&gt;如果处于2状态的时候&lt;code&gt;B&lt;/code&gt;也要开发, 可以让&lt;code&gt;C&lt;/code&gt;从最开始的稳定状态再branch一个分支&lt;code&gt;devC2&lt;/code&gt;, 也如2那般开发.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A&lt;/code&gt;合并完成后, 需要将&lt;code&gt;C&lt;/code&gt;的主分支再合并到&lt;code&gt;devC2&lt;/code&gt;以跟进最新改动.&lt;/li&gt;
+&lt;li&gt;步骤4中也可不创建新分支, 而直接引用&lt;code&gt;devC&lt;/code&gt;进行开发.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这里着重讨论一下4和6的问题. 如果&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;引用同一个&lt;code&gt;C&lt;/code&gt;的dev分支, 就能够非常及时地用上新code并且不用重新开发, 不过这又会导致&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;B&lt;/code&gt;互相推着对方走. 如果引用不同的分支, 则&lt;code&gt;devC&lt;/code&gt;上开发的新功能想要在&lt;code&gt;devC2&lt;/code&gt;上用, 就需要merge或者cherry-pick一下, 但如果这样做会引入新问题的话, 则只能重新实现一下了. &lt;/p&gt;
+&lt;p&gt;引用不同的&lt;code&gt;C&lt;/code&gt;的分支, 则整个结构和用workspace的方案很像, 分支的管理也基本一样. 区别就是workspace方案不能单独让&lt;code&gt;C&lt;/code&gt;的代码回退, 换个说法就是没办法指定使用某个版本的&lt;code&gt;C&lt;/code&gt;, 因为大家的patch是交叠在一起的, 回退某一个模块几乎是不可能的.&lt;/p&gt;
+&lt;p&gt;依赖的解决比较简单, &lt;code&gt;podspec&lt;/code&gt;中描述好依赖就好, pod会自动解决.&lt;/p&gt;
+&lt;h3 id=&quot;git-submodule&quot;&gt;&lt;a href=&quot;#git-submodule&quot; class=&quot;headerlink&quot; title=&quot;git submodule&quot;&gt;&lt;/a&gt;git submodule&lt;/h3&gt;&lt;p&gt;&lt;code&gt;A&lt;/code&gt;的repo用submodule引用&lt;code&gt;C&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;也一样. 然后用子工程或者workspace来集成&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;C&lt;/code&gt;的工程. 这样做并没有解决太多问题, 因为用submodule, &lt;code&gt;C&lt;/code&gt;的更新每次都需要&lt;code&gt;A&lt;/code&gt;或者&lt;code&gt;B&lt;/code&gt;提交一个跟进的patch, 切换分支和更新&lt;code&gt;C&lt;/code&gt;什么的也挺麻烦. 而且还需要多考虑一个依赖的问题. &lt;/p&gt;
+&lt;p&gt;如果不用pod来集成&lt;code&gt;C&lt;/code&gt;, 那么&lt;code&gt;C&lt;/code&gt;的依赖怎么添加到&lt;code&gt;A&lt;/code&gt;中? 手动解决将十分麻烦了. 仅剩的一个方案就是用&lt;code&gt;development Pod&lt;/code&gt;, 让&lt;code&gt;podfile&lt;/code&gt;里面的&lt;code&gt;C&lt;/code&gt;使用path指向submodule的路径, 这样仍然需要写一个&lt;code&gt;podspec&lt;/code&gt;文件来描述&lt;code&gt;C&lt;/code&gt;的集成. pod在引用development pod时有点儿tricky, 它没有copy而是引用, 因此当更新&lt;code&gt;C&lt;/code&gt;里面的代码时是立即可以用的, 不需要update. 只有当创建或者删除了文件时才需要update一下. 另外因为是用submodule, 每次&lt;code&gt;C&lt;/code&gt;更新后都需要尽快到&lt;code&gt;A&lt;/code&gt;中提交一个patch以记录&lt;code&gt;C&lt;/code&gt;的更新, 还有一系列submodule的坑等在后面, 就不多说了. 总之是不推荐使用submodule.&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;一张表概述一下:&lt;/p&gt;
+&lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方案&lt;/th&gt;
+&lt;th&gt;优点&lt;/th&gt;
+&lt;th&gt;缺点&lt;/th&gt;
+&lt;th&gt;建议&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;targets &amp;amp; workspace&lt;/td&gt;
+&lt;td&gt;代码更新和调试友好&lt;/td&gt;
+&lt;td&gt;所有模块共进退&lt;/td&gt;
+&lt;td&gt;适合模块数量少, 更新较频繁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;private pod using tags&lt;/td&gt;
+&lt;td&gt;版本控制良好&lt;/td&gt;
+&lt;td&gt;代码更新和调试较麻烦&lt;/td&gt;
+&lt;td&gt;适合模块数量多, 更新不那么频繁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;private pod using branch &amp;amp; commit&lt;/td&gt;
+&lt;td&gt;版本控制良好&lt;/td&gt;
+&lt;td&gt;代码更新和调试还能忍受&lt;/td&gt;
+&lt;td&gt;适合模块数量多, 更新频率一般&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;p&gt;文中的规模是很容扩展的, 比如有多个上层模块和多个公共模块, 需要思考的点都是一样的:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如何集成&lt;/li&gt;
+&lt;li&gt;如何开发和联调&lt;/li&gt;
+&lt;li&gt;如何将公共模块的改动恰当地同步到各个上层模块&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当然, 如果模块数量很少, 代码量也不大, 模块共进退在项目早期也是可以接受的, 采用上述的各种方案都是可以很方便地迁移到其他方案的. 还有一点, 毕竟公共代码存在的目的就是为了被公用, 如果不是所有代码都公用那公共代码为什么还叫公共代码? 所以大家在考虑如何选择复用方案的时候一定不要忘了这点, 不要把问题想得过于复杂.&lt;/p&gt;
+&lt;p&gt;本文主要是记录一下我自己的思考过程, 总结不到位或者有错的地方还请见谅.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一般来讲, 总是会有一些内部私有代码是有复用价值的, 比如一些Utils方法, 一些公用的UI组件, 一些对各种框架或者库的封装. 本文介绍几种复用的方式, 分别是使用多target, 使用workspace集成多个project, 以及利用cocoapods来集成私有代码. 每种方式都各有利弊, 没有最好, 只有合适.
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="cocoapods" scheme="/tags/cocoapods/"/>
+    
+      <category term="workspace" scheme="/tags/workspace/"/>
+    
+  </entry>
   
   <entry>
     <title>make AutoLayout X</title>
@@ -817,86 +952,6 @@ A-&gt;B-&gt;C
     
     
       <category term="iOS" scheme="/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XLYMultiCastDelegate 多播代理</title>
-    <link href="/2014/10/10/XLYMultiCastDelegate/"/>
-    <id>/2014/10/10/XLYMultiCastDelegate/</id>
-    <published>2014-10-10T08:00:00.000Z</published>
-    <updated>2016-04-04T10:12:18.000Z</updated>
-    
-    <content type="html">&lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机remove observer. 虽然按照规范去编写代码不容易出错, 但是仍然有很多麻烦, selector的使用错误不容易在编译时检查, 通知和userInfo都是使用字符串, 需要大量定义和维护字符串常量. 这点有时候着实会让人很烦恼. 本文介绍一种利用&lt;strong&gt;消息转发&lt;/strong&gt;和&lt;strong&gt;代理&lt;/strong&gt;来做广播的想法.&lt;/p&gt;
-&lt;p&gt;记得做第一个项目时(一年多前...), 需要做聊天, 当时因为很多原因没有重新开发, 而是使用了之前项目的聊天模块代码, 结构十分混乱, 大量的使用了Notification并且很多地方的用法是错误的. 虽然开发得很不爽, 总之是硬扛下去了, 不堪回首. 期间积累了一些想法, 也写过一些demo验证了一些, 其中一个就是本文介绍的&lt;code&gt;MultiCastDelegate&lt;/code&gt;. &lt;/p&gt;
-&lt;p&gt;我们遇到了一类问题, 当某个数据发生变化时, 可能有多个对象期望得到通知, 但是各自所处的线程或者Queue是不一样的. NSNotificationCenter除了在发送通知时的一些常量定义的问题外还有一个重要的特性: 通知的调用是在postNotification的调用线程中同步执行. 如果我们有主线程和后台的对象同时监听通知, NSNotificationCenter就无法满足需求了, 总是至少有一个observer不是在自己所属的线程或者Queue调起. 难道还要自己再次dispatch一下?&lt;/p&gt;
-&lt;h2 id=&quot;XLYMultiCastDelegate&quot;&gt;&lt;a href=&quot;#XLYMultiCastDelegate&quot; class=&quot;headerlink&quot; title=&quot;XLYMultiCastDelegate&quot;&gt;&lt;/a&gt;XLYMultiCastDelegate&lt;/h2&gt;&lt;h3 id=&quot;使用简介&quot;&gt;&lt;a href=&quot;#使用简介&quot; class=&quot;headerlink&quot; title=&quot;使用简介&quot;&gt;&lt;/a&gt;使用简介&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://github.com/kaizeiyimi/XLYMultiCastDelegate&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYMultiCastDelegate&lt;/a&gt;&lt;/strong&gt;来拯救你. 它的中文名字叫多播代理? 其实是广播. 它的作用跟通知中心NSNotificationCenter很像, 要做的事情也是一对多的通知. 实现的思路严重依赖Objective-C的消息转发机制. 它不是完全的通知中心的代替实现, multiCastDelegate 其实需要使用一个protocol来初始化. 之后添加的observer或者说delegate必须要实现这个protocol, 否则将不能添加. 先看看基本使用, 再继续介绍.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;@protocol&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;SimpleProtocol&lt;/span&gt; &amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;NSObject&lt;/span&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;hljs-keyword&quot;&gt;@optional&lt;/span&gt;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)someOptionalMethod;
-&lt;span class=&quot;hljs-keyword&quot;&gt;@end&lt;/span&gt;
-
-&lt;span class=&quot;hljs-comment&quot;&gt;//创建&lt;/span&gt;
-XLYMultiCastDelegate *multiDelegate = [[XLYMultiCastDelegate alloc] initWithConformingProtocol:&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;@protocol&lt;/span&gt;(&lt;span class=&quot;hljs-title&quot;&gt;SimpleProtocol&lt;/span&gt;)];&lt;/span&gt;
-&lt;span class=&quot;hljs-comment&quot;&gt;//添加代理&lt;/span&gt;
-[multiDelegate addDelegate:&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt; dispatchQueue:dispatch_get_main_queue()];
-&lt;span class=&quot;hljs-comment&quot;&gt;//需要有一个地方来保存multiCastDelegate实例&lt;/span&gt;
-&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.multiDelegate = (&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;SimpleProtocol&amp;gt;)multiDelegate;
-&lt;span class=&quot;hljs-comment&quot;&gt;//可以检查是否实现了协议&lt;/span&gt;
-&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt; result = [&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.multiDelegate conformsToProtocol:&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;@protocol&lt;/span&gt;(&lt;span class=&quot;hljs-title&quot;&gt;SimpleProtocol&lt;/span&gt;)];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;调用其实很简单, 首先需要创建一个multiDelegate对象, SimpleProtocol真的很simple, 只有一个可选方法. 添加代理时可以指定dispatchQueue参数, 这个Queue将是代理方法被调起的Queue, 解决了通知中心不能往不同的线程或Queue发送通知的问题. 创建了multiDelegate对象当然需要找个地方存起来. 以后也可以随时添加或者移除delegate. 当然你可以检查multiDelegate是否实现了协议, 结果是YES.&lt;/p&gt;
-&lt;h3 id=&quot;原理说明&quot;&gt;&lt;a href=&quot;#原理说明&quot; class=&quot;headerlink&quot; title=&quot;原理说明&quot;&gt;&lt;/a&gt;原理说明&lt;/h3&gt;&lt;p&gt;下面详细说明一下实现的细节和需要注意的问题, 会涉及到一些runtime的知识, 这里不做详细的介绍, 需要了解的请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;苹果的文档&lt;/a&gt;. 这里先仅对OC环境进行说明, swift的后面单独说明.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;协议检查&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;协议是一个&lt;code&gt;Protocol *&lt;/code&gt;类型. 代码中可以这样声明变量和获取协议:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-comment&quot;&gt;//声明为property&lt;/span&gt;
-&lt;span class=&quot;hljs-keyword&quot;&gt;@property&lt;/span&gt; (&lt;span class=&quot;hljs-keyword&quot;&gt;nonatomic&lt;/span&gt;, &lt;span class=&quot;hljs-keyword&quot;&gt;strong&lt;/span&gt;) Protocol *protocol;
-
-&lt;span class=&quot;hljs-comment&quot;&gt;//获取&lt;/span&gt;
-&lt;span class=&quot;hljs-built_in&quot;&gt;NSString&lt;/span&gt; *protocolName = &lt;span class=&quot;hljs-string&quot;&gt;@&quot;SimpleProtocol&quot;&lt;/span&gt;;
-Protocol *protocol = objc_getProtocol(protocolName.UTF8String);
-
-&lt;span class=&quot;hljs-comment&quot;&gt;//或者&lt;/span&gt;
-Protocol *protocol = &lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;@protocol&lt;/span&gt;(&lt;span class=&quot;hljs-title&quot;&gt;SimpleProtocol&lt;/span&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们需要记录下当前多播代理所支持的协议, 协议在runtime环境里面应该是单例的形式存在的. 在添加新的delegate到多播代理中时进行的检查很简单 &lt;code&gt;[delegate conformsToProtocol:self.protocol]&lt;/code&gt;, 如果通过则允许添加. 内部会创建一个delegateNode对象来weak持有添加的delegate, 并记录对应的delegateQueue. 还有一些添加删除的管理delegate的方法就不多说, 都是些简单逻辑.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;runtime支持&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject conformsToProtocol:]&lt;/code&gt;方法, 判定是否实现了某个协议. &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject respondsToSelector:]&lt;/code&gt;方法, 遍历现有的代理, 只要任何一个能够响应则认为能够响应.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject methodSignatureForSelector:]&lt;/code&gt;方法, 详细文档说明参考apple的runtime文档, 我们这里的场景是multiDelegate自己不能响应方法调用, 因此需要做调用转发, 这个时候该方法会被调用来给&lt;code&gt;NSInvocation&lt;/code&gt;对象设置方法签名. 是为自己不能响应的方法寻找方法签名, 仍然遍历现有的代理, 找到一个正确地签名即可. 签名记录了这个方法的返回值类型, receiver的类型, 以及参数个数等信息. 如果没有delegate能够提供签名, 则默认提供doNothing的方法签名, 正如其名, 啥也不做, 只是为了不崩溃. 这个行为也可以理解为消息没有接受者则丢弃.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重写 &lt;code&gt;-[NSObject forwardInvocation:]&lt;/code&gt;方法, 这里就是最重要的地方. 当一个对象不能相应一个selector调用时, 满足一些条件的情况下最终会走到这里, 条件如何达成请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;苹果文档&lt;/a&gt;, 当然我们这里是达成了, 现在我们得到了一个invocation对象, 它包含了方法签名, 参数等信息, 是对一个对象进行方法调用的一个封装. NSInvocation对象有一个方法&lt;code&gt;-[NSInvocation invokeWithTarget:]&lt;/code&gt;, 其作用就是将target作为方法调用的receiver进行调用, 参数不变. 所以我们将遍历所有的delegate, 并在它们的delegateQueue里面进行调用, 这样就完成了消息调用的转发.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;需要注意的问题&quot;&gt;&lt;a href=&quot;#需要注意的问题&quot; class=&quot;headerlink&quot; title=&quot;需要注意的问题&quot;&gt;&lt;/a&gt;需要注意的问题&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;创建XLYMultiCastDelegate实例, 添加移除delegate等管理操作都是线程不安全的, 需要使用者维护.&lt;/li&gt;
-&lt;li&gt;本质上是想用代理方法调用来完成通知, 因此应该将其应用于没有返回值的代理方法. 如果一定要发送带返回值的方法调用, 内部逻辑会在发送调用的线程中同步寻找第一个能够响应此方法的delegate并调用. 这里不能使用dispatch_async, 必须同步调用, 否则调用者会立即得到nil的返回值.&lt;/li&gt;
-&lt;li&gt;遍历delegate并进行方法调用的for循环使用了信号量来进行同步. Invocation不支持copy, 并且有一个问题: 如果在不同的线程同时对同一个invocation对象调用&lt;code&gt;-[NSInvocation invokeWithTarget:]&lt;/code&gt;, 可能会出错, 这个错误不是崩溃, 而是target的处理错误. 比如对A,B同时进行调用, invoke调用时应该会记录当前的receiver(根据结果现象推断的), 中间还会经过一些步骤才会真正发起调用, A先被记录, 在发起调用前, B又被记录, 则两次调用的结果会是调用了两次B. 因此需要同步一下, 保证invocation对象的串行使用.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;swift支持&quot;&gt;&lt;a href=&quot;#swift支持&quot; class=&quot;headerlink&quot; title=&quot;swift支持&quot;&gt;&lt;/a&gt;swift支持&lt;/h3&gt;&lt;p&gt;很不巧, 苹果发布的新的编程语言swift对runtime, KVO, KVC的支持很不友好. swift加入了模块的概念来解决OC多年的全局符号表的痛, 还有可选值什么的一些新概念. 其他的特性就是5仁月饼. 如果能够习惯OC中的block, 闭包, 那么swift里面的东西就没啥问题了, 都是些语言细节, 底层依然是runtime来支撑, 可以和OC混合编译. 细节请参阅&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;swift&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;本来想直接用swift重新实现的, 结果被直接拒绝了. swift中不允许使用NSInvocation对象, 只能混编了. 获取协议对象时需要注意是否是swift中定义的协议:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-comment&quot;&gt;//使用oc中定义的协议没有模块&lt;/span&gt;
-&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;XLYMultiCastDelegate&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(protocolName: &lt;span class=&quot;hljs-string&quot;&gt;&quot;SimpleProtocol&quot;&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&quot;hljs-comment&quot;&gt;//使用 swift定义的协议需要加上模块信息, 否则无法获取&lt;/span&gt;
-&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-title&quot;&gt;XLYMultiCastDelegate&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;(protocolName: &lt;span class=&quot;hljs-string&quot;&gt;&quot;XLYMultiCastDelegateDemo.SimpleSwiftProtocol&quot;&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后在调用时需要用as进行类型转换才能调用方法. &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-symbol&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;hljs-keyword&quot;&gt;multiDelegate &lt;/span&gt;= &lt;span class=&quot;hljs-keyword&quot;&gt;multiDelegateUsingOCProtocol &lt;/span&gt;as SimpleProtocol&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;运行时会使用&lt;code&gt;-[NSObject respondsToSelector:]&lt;/code&gt;来进行检查是否可以转换. 转换成功后就可以进行调用了.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;null hljs&quot;&gt;&lt;span class=&quot;hljs-selector-tag&quot;&gt;multiDelegate&lt;/span&gt;&lt;span class=&quot;hljs-selector-class&quot;&gt;.someOptionalMethod&lt;/span&gt;!()&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;总结-1&quot;&gt;&lt;a href=&quot;#总结-1&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;消息转发机制由语言支持, 应该是受到了smalltalk的影响, ruby也有类似的机制. swift想要做成一个类型安全的语言, 支持太多动态的特性会让很多东西失去保证. 总之, 工欲善其事, 必先利其器. 多了解一些语言的特性, 能够学到一些技术的设计思路, 还能帮助简化程序设计, 同时提高逼格😜.&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;通知中心NSNotificationCenter, 大家都知道怎么用. 需要add observer, 指定selector, 指定监听的通知(字符串), 在selector对应的方法中获取userInfo字典, 根据key获取value进行操作, 最后还得在某个时机rem
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="iOS" scheme="/tags/iOS/"/>
-    
-      <category term="GitHub" scheme="/tags/GitHub/"/>
     
   </entry>
   

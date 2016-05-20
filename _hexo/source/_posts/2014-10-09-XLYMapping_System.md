@@ -3,7 +3,7 @@ layout: post
 title:  "XLYMapping System"
 date:   2014-10-09 18:00:00 +0800
 categories: 技术
-tags: [GitHub,iOS]
+tags: [Github,iOS]
 ---
 
 [XLYMapping]: https://github.com/kaizeiyimi/XLYMapping/

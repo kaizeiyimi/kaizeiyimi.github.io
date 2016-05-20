@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="kaizeiの日常"><title>复用内部公用代码的几种方式 | kaizeiとyimi</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/3.0.3/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="/blog/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="/blog/css/highlight.css?v=0.0.0"><script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script><link rel="shortcut icon" href="/blog/favicon.ico"><link rel="apple-touch-icon" href="/blog/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/blog/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/blog/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">复用内部公用代码的几种方式</h1><a id="logo" href="/blog/.">kaizeiとyimi</a><p class="description">kaizeiの日常</p></div><div id="nav-menu"><a href="/blog/." class="current"><i class="fa fa-home"> </i><span>首页</span></a><a href="/blog/archives/"><i class="fa fa-archive"> </i><span>归档</span></a><a href="/blog/about/"><i class="fa fa-user"> </i><span>关于</span></a><a href="/blog/atom.xml"><i class="fa fa-rss"> </i><span>订阅</span></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">复用内部公用代码的几种方式</h1><div class="post-meta">May 19, 2016<span> | </span><span class="category"><a href="/blog/categories/技术/">技术</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="post-content"><p>一般来讲, 总是会有一些内部私有代码是有复用价值的, 比如一些Utils方法, 一些公用的UI组件, 一些对各种框架或者库的封装. 本文介绍几种复用的方式, 分别是使用多target, 使用workspace集成多个project, 以及利用cocoapods来集成私有代码. 每种方式都各有利弊, 没有最好, 只有合适.
+<a id="more"></a></p>
+<p>假设我们已经知道哪些代码是公用的, 并且已经拆分完毕, 现在我们有多个逻辑模块, 一个是<code>Common</code>表示公用的代码, 其他是<code>A</code>, <code>B</code>等, 表示依赖<code>Common</code>的模块. 为了方便, <code>Common</code>简写为<code>C</code>, 而且假设上层模块只有<code>A</code>和<code>B</code>, 公用代码只有一个<code>C</code>.</p>
+<p>稍微有点儿样子的工程, <code>C</code>一般都是有第三库依赖的, 也就是说<code>A</code>, <code>B</code>, <code>C</code>都有各自的第三方库依赖, 如何处理依赖冲突也是需要考虑的.</p>
+<h1 id="一个repo管理"><a href="#一个repo管理" class="headerlink" title="一个repo管理"></a>一个repo管理</h1><p>一个project多target, 和一个workspace多project没有太大区别, 这里讨论放在一个repo里面管理的情况. 多个repo的情况就需要用git submodule, 更新比较麻烦, 后文再谈.</p>
+<h3 id="多target"><a href="#多target" class="headerlink" title="多target"></a>多target</h3><p>XCode支持在一个project中创建多个target, 我们可以把<code>C</code>的代码放置到<code>targetC</code>中, <code>A</code>和<code>B</code>的代码分别放置到<code>targetA</code>和<code>targetB</code>中. <code>targetC</code>配置为输出framework或者static lib, 而<code>A</code>和<code>B</code>都链接<code>targetC</code>. </p>
+<h3 id="多project"><a href="#多project" class="headerlink" title="多project"></a>多project</h3><p>Xcode也提供了多个工程整合的方式, 即使用workspace. 我们把3个模块的代码放置到3个不同的工程, 然后都添加到同一个workspace中, <code>C</code>仍然输出framework或者static lib, <code>A</code>和<code>B</code>需要动点儿手脚才能正确添加<code>C.framework</code>作为其embed framework.</p>
+<p>估计是xcode的bug, 添加embed framework时路径是绝对路径, 不过可以直接编辑工程文件来修改, 也可以绕一下, 让<code>C</code>编译完成后copy包到某一个相对路径, 比如<code>C</code>的工程目录下, 然后再引入此包. 这样不管什么scheme编译完成都会直接覆盖此包, 保持最新. <code>A</code>和<code>B</code>还需要配置一下scheme来保证每次build前都要先build <code>C</code>.</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>此种方法最简单, 更新代码的时候非常方便, <code>C</code>中开发了新代码, 可单元测试, 也可立即和<code>A</code>或者<code>B</code>联调, 因为它们在一个repo里面, 所有改动都是立即可见的. 这一点对代码持续演进和集成非常友好.</p>
+<p><code>C</code>有自己的第三库依赖, 我们一般采用cocoapods管理, 这里比较特殊的一点是<code>C</code>自己也是个lib, 当我们用framework时不能在<code>C.framework</code>中嵌套embed的framework, 可以观察<code>targetC</code>的build phase, 并没有<code>Embed Pods Frameworks</code>. 就算我们手动加上, 也就模拟器能正常, build到设备上依然要挂, 提示<code>no suitable image found</code>, 然后巴拉巴拉. 所以我们需要考虑解决依赖的问题. 目前cocoapods已经发布1.0版本, 我的解决办法是使用<code>abstract_target</code>:</p>
+<pre><code class="ruby hljs">abstract_target <span class="hljs-string">'common'</span> <span class="hljs-keyword">do</span>
+    pod <span class="hljs-string">'Alamofire'</span>
+    pod <span class="hljs-string">'RxSwift'</span> 
+
+    target <span class="hljs-string">'A'</span> <span class="hljs-keyword">do</span>
+      workspace <span class="hljs-string">'my.workspace'</span>
+      project <span class="hljs-string">'A/A.xcodeproj'</span>
+      pod <span class="hljs-string">'RxCocoa'</span>
+      pod <span class="hljs-string">'XAutoLayout'</span>
+    <span class="hljs-keyword">end</span>
+
+    target <span class="hljs-string">'B'</span> <span class="hljs-keyword">do</span>
+      workspace <span class="hljs-string">'my.workspace'</span>
+      project <span class="hljs-string">'B/B.xcodeproj'</span>
+      pod <span class="hljs-string">'Socket.IO-Client-Swift'</span>
+      pod <span class="hljs-string">'XAutoLayout'</span>
+    <span class="hljs-keyword">end</span>
+
+    target <span class="hljs-string">'C'</span> <span class="hljs-keyword">do</span>
+      workspace <span class="hljs-string">'my.workspace'</span>
+      project <span class="hljs-string">'C/C.xcodeproj'</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre><p><code>common</code>作为parent target并且是个抽象的, 也就是说不会真正有这么个target存在, 但是parent的身份让内部的<code>A</code>, <code>B</code>和<code>C</code>这几个target都继承pod配置. 因此, 这里<code>common</code>描写<code>C</code>需要的库, 而不是在C那里单独配置, 否则<code>A</code>将不能正确处理<code>C</code>的依赖. </p>
+<p>这里还涉及到依赖的冲突, <code>A</code>依赖的<code>RxCocoa</code>依赖了<code>RxSwift</code>, <code>common</code>里面也描述了依赖<code>RxSwift</code>, 继承后只要pod能正确处理冲突就没什么问题.</p>
+<p>最终编译出来的<code>C.framework</code>只会包含<code>C</code>这个模块的代码, 依赖的第三方库会在<code>A</code>或者<code>B</code>引入.</p>
+<p>如果是使用static lib, 那么<code>C.a</code>就会包含第三方库的符号表, 再以此集成到其他target, 这样就不能用abstract_target, 而应该小心地避免符号表冲突. 而当遇到类似<code>A</code>依赖的<code>RxCocoa</code>需要依赖<code>RxSwift</code>, 而<code>C</code>也要依赖<code>RxSwift</code>时, 就只能把<code>RxCocoa</code>作为<code>C</code>的依赖来处理, 否则<code>RxSwift</code>将出现符号表冲突. 所以还是用framework吧.</p>
+<h3 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h3><p>大家都在一个repo, 原则上我们提交一个patch需要保证每个模块都正常编译, 因此当<code>C</code>有改动要提交, 我们需要所有模块上都能测试通过. 当<code>A</code>要开发新需求, 我们创建一个<code>devA</code>的branch, 然后<code>A</code>和<code>C</code>都有改动, 甚至一些<code>C</code>的改动还导致<code>B</code>也需要改动, 虽然这个时候并不是为了开发<code>B</code>. <code>B</code>也有<code>devB</code>在开发, 改动<code>C</code>时也有可能导致<code>A</code>被改动. </p>
+<p>合并需要及时, 如果<code>devA</code>开发完毕了应尽早合并回主分支, 然后再继续从主分支合并到<code>devB</code>, 此时需要解决一些冲突. 这些冲突里面就会包含在<code>devA</code>和<code>devB</code>中对<code>A</code>和<code>B</code>进行的不同的修改, 哪怕只是当时为了编译通过的修改都有可能和另一个分支冲突.</p>
+<p>如果在同一个<code>dev</code>分支上进行<code>A</code>和<code>B</code>的开发, 只要任何时候有实验性质的feature要尝试, 就需要多个分支, 实际上现实生活中不可能只有一个dev分支的, 因此上述合并分支的问题总是需要考虑的. </p>
+<p>导致冲突增加, 合并复杂的原因主要是3个模块在一个repo相互不独立, 提交patch时是同时影响多个模块, 而且我们要贯彻提交patch保证编译通过的原则, 因此一些可以滞后的合并和修改就被提前了, 并且这种提前并不总是有效的.</p>
+<p>如果不贯彻编译通过再提交的原则将引起更多的问题, 这个就不用多解释了.</p>
+<h2 id="多个repo管理"><a href="#多个repo管理" class="headerlink" title="多个repo管理"></a>多个repo管理</h2><p>如果将这些模块分散到多个repo, 各自提交patch, 则需要一些手段才能将他们相互关联起来. 这里讨论使用cocoapods和git submodule. 使用cocoapods又分为两种用法, 分别是用私有spec repo来记录<code>C</code>的各个tag版本, 以及直接指定<code>C</code>的branch和commit.</p>
+<h3 id="私有spec-repo-tag发版"><a href="#私有spec-repo-tag发版" class="headerlink" title="私有spec repo + tag发版"></a>私有spec repo + tag发版</h3><p>如果<code>C</code>比较独立, 真的不涉及多少业务逻辑, 变化频率不高, 和<code>A</code> <code>B</code>的联调需求很小, 我觉得可以考虑让<code>C</code>单独开发, 并在需要的时候发版. 不用完全跟着<code>A</code>或者<code>B</code>的节奏走.</p>
+<p>第一次创建的流程如下:</p>
+<ol>
+<li><code>C</code>要先写好一个<code>podspec</code>文件, 描述了自己如何被集成, 并指定了source为某一个tag号. </li>
+<li>发布<code>C</code>到私有spec repo中.</li>
+<li>所有team member更新<code>C</code>.</li>
+</ol>
+<p>之后更新<code>C</code>的时候只需给新的code打tag, 然后重复步骤2和3就好了. pod在install或者update的时候都会check缓存, 如果更新code后不更新tag将会使用cache的代码, 新代码是下不来的. 当然也可以把原来的tag删掉, 重新打一样的, 然后删掉pod的cache再update, 不过这看起来很无趣.</p>
+<p>如果一切都像想的那么好就真的太好了. 我们肯定会遇到<code>C</code>的更新导致<code>A</code>和<code>B</code>需要修改的情况, 如何联调测试? 他们都不在一个repo了, 所以我们需要都下载下来, 但是问题是<code>C</code>要发版才能被pod更新, 因此我们就需要打很多无用的tag来不停地循环:提交代码 -&gt; 发布<code>C</code> -&gt; 更新<code>A</code>和<code>B</code> -&gt; 调试 -&gt; 修改代码 -&gt; 提交代码. 终于调试完毕了, 然后删掉那一堆没用的tag. </p>
+<p>除非用一个其他方式来在开发<code>C</code>的电脑上集成<code>A</code>和<code>B</code>, 如何考虑到要分散到各个repo的话, 估计就只能用submodule+workspace集成了. 这个后文再谈.</p>
+<h3 id="直接指定branch-commit"><a href="#直接指定branch-commit" class="headerlink" title="直接指定branch + commit"></a>直接指定branch + commit</h3><p>pod支持直接指定这两者来下载code, 所以我们只要保证<code>C</code>的repo能访问就可以了, 不需要创建私有spec repo. 这种方式的branch + commit 的作用跟tag一样, 目的都是为了指向一个不可变的代码集. 集成<code>C</code>也很简单, 只要<code>C</code>的repo先准备好, 并且repo里面有<code>podspec</code>文件.</p>
+<p>这里有个小限制, <code>podspec</code>里面指定的source一定要能访问, 否则pod检查过不了, 但是然并卵, 我们在podfile里面指定了branch和commit, pod就会从我们指定的位置下载repo, 读取<code>podspec</code>并忽略掉source配置.</p>
+<p><code>C</code>更新代码的时候, 如果<code>A</code>和<code>B</code>需要跟进, 则更新一下branch和commit就好, 如果忽略掉commit, 将默认是HEAD. 我们可以利用这点来简化开发流程.</p>
+<p>我们采用这种方式是考虑到<code>C</code>的更新驱动<code>A</code>和<code>B</code>更新时, 使用tag方式带来的各种不爽. 假设基本配置都已经完成, 进入了一个稳定状态. 之后的开发流程如下:</p>
+<ol>
+<li><code>A</code>新建branch <code>devA</code>进行开发, 由于需要改动<code>C</code>, <code>C</code>也创建了branch <code>devC</code>. </li>
+<li>联调的次数比较多, 在<code>devA</code>上将<code>podfile</code>中指向的<code>C</code>去掉commit, 仅保留branch信息指向<code>devC</code>, 这样默认就是使用<code>devC</code>的最新代码, 然后每次改动<code>C</code>以后就update一下, <code>A</code>就能获取到最新的代码.</li>
+<li>开发完毕后, <code>C</code>先合并回主分支, 并记录下commit, 然后<code>A</code>再合并, 并在<code>podfile</code>中修改branch为<code>C</code>的主分支以及添加commit信息.</li>
+<li>如果处于2状态的时候<code>B</code>也要开发, 可以让<code>C</code>从最开始的稳定状态再branch一个分支<code>devC2</code>, 也如2那般开发.</li>
+<li><code>A</code>合并完成后, 需要将<code>C</code>的主分支再合并到<code>devC2</code>以跟进最新改动.</li>
+<li>步骤4中也可不创建新分支, 而直接引用<code>devC</code>进行开发.</li>
+</ol>
+<p>这里着重讨论一下4和6的问题. 如果<code>A</code>和<code>B</code>引用同一个<code>C</code>的dev分支, 就能够非常及时地用上新code并且不用重新开发, 不过这又会导致<code>A</code>和<code>B</code>互相推着对方走. 如果引用不同的分支, 则<code>devC</code>上开发的新功能想要在<code>devC2</code>上用, 就需要merge或者cherry-pick一下, 但如果这样做会引入新问题的话, 则只能重新实现一下了. </p>
+<p>引用不同的<code>C</code>的分支, 则整个结构和用workspace的方案很像, 分支的管理也基本一样. 区别就是workspace方案不能单独让<code>C</code>的代码回退, 换个说法就是没办法指定使用某个版本的<code>C</code>, 因为大家的patch是交叠在一起的, 回退某一个模块几乎是不可能的.</p>
+<p>依赖的解决比较简单, <code>podspec</code>中描述好依赖就好, pod会自动解决.</p>
+<h3 id="git-submodule"><a href="#git-submodule" class="headerlink" title="git submodule"></a>git submodule</h3><p><code>A</code>的repo用submodule引用<code>C</code>, <code>B</code>也一样. 然后用子工程或者workspace来集成<code>A</code>和<code>C</code>的工程. 这样做并没有解决太多问题, 因为用submodule, <code>C</code>的更新每次都需要<code>A</code>或者<code>B</code>提交一个跟进的patch, 切换分支和更新<code>C</code>什么的也挺麻烦. 而且还需要多考虑一个依赖的问题. </p>
+<p>如果不用pod来集成<code>C</code>, 那么<code>C</code>的依赖怎么添加到<code>A</code>中? 手动解决将十分麻烦了. 仅剩的一个方案就是用<code>development Pod</code>, 让<code>podfile</code>里面的<code>C</code>使用path指向submodule的路径, 这样仍然需要写一个<code>podspec</code>文件来描述<code>C</code>的集成. pod在引用development pod时有点儿tricky, 它没有copy而是引用, 因此当更新<code>C</code>里面的代码时是立即可以用的, 不需要update. 只有当创建或者删除了文件时才需要update一下. 另外因为是用submodule, 每次<code>C</code>更新后都需要尽快到<code>A</code>中提交一个patch以记录<code>C</code>的更新, 还有一系列submodule的坑等在后面, 就不多说了. 总之是不推荐使用submodule.</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一张表概述一下:</p>
+<div><div class="table_container">
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>缺点</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>targets &amp; workspace</td>
+<td>代码更新和调试友好</td>
+<td>所有模块共进退</td>
+<td>适合模块数量少, 更新较频繁</td>
+</tr>
+<tr>
+<td>private pod using tags</td>
+<td>版本控制良好</td>
+<td>代码更新和调试较麻烦</td>
+<td>适合模块数量多, 更新不那么频繁</td>
+</tr>
+<tr>
+<td>private pod using branch &amp; commit</td>
+<td>版本控制良好</td>
+<td>代码更新和调试还能忍受</td>
+<td>适合模块数量多, 更新频率一般</td>
+</tr>
+</tbody>
+</table>
+</div></div><p>文中的规模是很容扩展的, 比如有多个上层模块和多个公共模块, 需要思考的点都是一样的:</p>
+<ol>
+<li>如何集成</li>
+<li>如何开发和联调</li>
+<li>如何将公共模块的改动恰当地同步到各个上层模块</li>
+</ol>
+<p>当然, 如果模块数量很少, 代码量也不大, 模块共进退在项目早期也是可以接受的, 采用上述的各种方案都是可以很方便地迁移到其他方案的. 还有一点, 毕竟公共代码存在的目的就是为了被公用, 如果不是所有代码都公用那公共代码为什么还叫公共代码? 所以大家在考虑如何选择复用方案的时候一定不要忘了这点, 不要把问题想得过于复杂.</p>
+<p>本文主要是记录一下我自己的思考过程, 总结不到位或者有错的地方还请见谅.</p>
+</div><div class="article-share"><script type="text/javascript" src="/blog/js/share.js?v=0.0.0" async></script><a data-url="" data-id="cioebsito0013r4pg7zpdexve" class="article-share-link">分享</a><div class="article-share-box"><div class="article-share-links"><a target="_blank" title="Twitter" class="article-share-twitter"></a><a target="_blank" title="Facebook" class="article-share-facebook"></a><a target="_blank" title="Sina Weibo" class="article-share-sinaweibo"></a><a target="_blank" title="Wechat" class="article-share-wechat"></a></div></div></div><div class="tags"><a href="/blog/tags/iOS/">iOS</a><a href="/blog/tags/cocoapods/">cocoapods</a><a href="/blog/tags/workspace/">workspace</a></div><div class="post-nav"><a href="/blog/2016/04/17/make-AutoLayout-X/" class="next">make AutoLayout X</a></div></div></div></div><div class="pure-u-1-4"><div id="sidebar-placeholder"> </div><div id="sidebar-container"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Google"/><input type="hidden" name="sitesearch"/><script>var input=document.getElementsByName('sitesearch')[0];if(input){input.setAttribute('value', window.location.host);}</script></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/blog/categories/技术/">技术</a></li><li class="category-list-item"><a class="category-list-link" href="/blog/categories/日常/">日常</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/blog/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/blog/tags/GitHub/" style="font-size: 15px;">GitHub</a> <a href="/blog/tags/XCode/" style="font-size: 15px;">XCode</a> <a href="/blog/tags/NativeScript/" style="font-size: 15px;">NativeScript</a> <a href="/blog/tags/swift/" style="font-size: 15px;">swift</a> <a href="/blog/tags/JS/" style="font-size: 15px;">JS</a> <a href="/blog/tags/cocoapods/" style="font-size: 15px;">cocoapods</a> <a href="/blog/tags/workspace/" style="font-size: 15px;">workspace</a> <a href="/blog/tags/年终总结/" style="font-size: 15px;">年终总结</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/blog/2016/05/19/reuse-internal-codes/">复用内部公用代码的几种方式</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/04/17/make-AutoLayout-X/">make AutoLayout X</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/04/13/改用hexo了/">改用hexo了!</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/04/13/swift-AnyObject-little-tips/">swift AnyObject little tips</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/04/11/nativescript/">集成NativeScript iOSRuntime到已有工程</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/03/28/swift_type_convert/">swift 2.2 类型转换小坑</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2016/03/15/年后小总结/">2016 年后小总结</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2014/12/08/XLYAutoLayoutEasy/">XLYAutoLayoutEasy</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2014/12/08/talk_about_autolayout/">AutoLayout的小吐槽</a></li><li class="post-list-item"><a class="post-list-link" href="/blog/2014/10/14/iOS_present_introduce_and_points/">iOS present 场景切换的演化和要点</a></li></ul></div></div><script type="text/javascript" src="/blog/js/sidebar.js?v=0.0.0"></script></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/blog/." rel="nofollow">kaizei.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div></div></body></html>

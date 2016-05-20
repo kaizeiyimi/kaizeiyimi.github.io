@@ -1,14 +1,14 @@
 ---
 title: make AutoLayout X
 categories: 技术
-tags:
-  - iOS
-  - swift
+tags: [iOS, Github, swift]
 date: 2016-04-17 11:34:24
 ---
 
 
 其实挺不好意思的, 2年前的知识, 半年前的库, 现在才写下来. sigh...
+
+简单说来就是一个小库: [XAutoLayout](https://github.com/kaizeiyimi/XAutoLayout).
 
 <!-- more -->
 

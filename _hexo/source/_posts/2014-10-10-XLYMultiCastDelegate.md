@@ -3,7 +3,7 @@ layout: post
 title:  "XLYMultiCastDelegate 多播代理"
 date:   2014-10-10 16:00:00 +0800
 categories: 技术
-tags: [GitHub,iOS]
+tags: [Github,iOS]
 ---
 
 [XLYMultiCastDelegate]: https://github.com/kaizeiyimi/XLYMultiCastDelegate
