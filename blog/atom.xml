@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-05-20T15:21:50.000Z</updated>
+  <updated>2016-05-20T16:24:41.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>the Twenty of May</title>
+    <link href="/2016/05/20/the-Twenty-of-May/"/>
+    <id>/2016/05/20/the-Twenty-of-May/</id>
+    <published>2016-05-20T15:32:27.000Z</published>
+    <updated>2016-05-20T16:24:41.000Z</updated>
+    
+    <content type="html">&lt;p&gt;一首歌叫&lt;strong&gt;first of may&lt;/strong&gt;, 讲述一个爱情故事, 学友翻唱出来别有滋味. 今天是20th of May, 520的日子, 却有另一番滋味.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;不要乱猜, 我刚办完婚礼, 去了趟普吉岛也回来了. 晚上和媳妇吃了个团购的日料, 小酌了一杯梅酒, 日子滋润着呢. 然后也聊了一下那另有的一番滋味: 公司挂了. &lt;/p&gt;
+&lt;p&gt;去年8月来, 虽然是个小创业公司, 但一直工作得很开心, 今天CEO跟我们说因为各种原因, 资金不给力了, 我们要散了.&lt;/p&gt;
+&lt;p&gt;其实没有特别震惊, 最近这一个月也发生了一些事情, 让我们多少也有些心理准备, 就是觉得挺可惜的, 产品上有不错的点, 团队的技术也挺棒的, 虽然8月才来, 也学到了许多, 也创造了许多, 总之还是很感谢公司的.&lt;/p&gt;
+&lt;p&gt;晚上跟我的小伙伴们说了这一情况后真是足足地感受到了温暖, 大家非常关心我, 对我真的太好了. 真是人间有真情, 人间有真爱啊~&lt;/p&gt;
+&lt;p&gt;我的人生多了这么一个经历, 我的心情是什么? 叹口气: 可惜了.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;一首歌叫&lt;strong&gt;first of may&lt;/strong&gt;, 讲述一个爱情故事, 学友翻唱出来别有滋味. 今天是20th of May, 520的日子, 却有另一番滋味.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="日常" scheme="/categories/%E6%97%A5%E5%B8%B8/"/>
+    
+    
+      <category term="心情" scheme="/tags/%E5%BF%83%E6%83%85/"/>
+    
+  </entry>
   
   <entry>
     <title>复用内部公用代码的几种方式</title>
@@ -91,7 +120,7 @@
 &lt;p&gt;依赖的解决比较简单, &lt;code&gt;podspec&lt;/code&gt;中描述好依赖就好, pod会自动解决.&lt;/p&gt;
 &lt;h3 id=&quot;git-submodule&quot;&gt;&lt;a href=&quot;#git-submodule&quot; class=&quot;headerlink&quot; title=&quot;git submodule&quot;&gt;&lt;/a&gt;git submodule&lt;/h3&gt;&lt;p&gt;&lt;code&gt;A&lt;/code&gt;的repo用submodule引用&lt;code&gt;C&lt;/code&gt;, &lt;code&gt;B&lt;/code&gt;也一样. 然后用子工程或者workspace来集成&lt;code&gt;A&lt;/code&gt;和&lt;code&gt;C&lt;/code&gt;的工程. 这样做并没有解决太多问题, 因为用submodule, &lt;code&gt;C&lt;/code&gt;的更新每次都需要&lt;code&gt;A&lt;/code&gt;或者&lt;code&gt;B&lt;/code&gt;提交一个跟进的patch, 切换分支和更新&lt;code&gt;C&lt;/code&gt;什么的也挺麻烦. 而且还需要多考虑一个依赖的问题. &lt;/p&gt;
 &lt;p&gt;如果不用pod来集成&lt;code&gt;C&lt;/code&gt;, 那么&lt;code&gt;C&lt;/code&gt;的依赖怎么添加到&lt;code&gt;A&lt;/code&gt;中? 手动解决将十分麻烦了. 仅剩的一个方案就是用&lt;code&gt;development Pod&lt;/code&gt;, 让&lt;code&gt;podfile&lt;/code&gt;里面的&lt;code&gt;C&lt;/code&gt;使用path指向submodule的路径, 这样仍然需要写一个&lt;code&gt;podspec&lt;/code&gt;文件来描述&lt;code&gt;C&lt;/code&gt;的集成. pod在引用development pod时有点儿tricky, 它没有copy而是引用, 因此当更新&lt;code&gt;C&lt;/code&gt;里面的代码时是立即可以用的, 不需要update. 只有当创建或者删除了文件时才需要update一下. 另外因为是用submodule, 每次&lt;code&gt;C&lt;/code&gt;更新后都需要尽快到&lt;code&gt;A&lt;/code&gt;中提交一个patch以记录&lt;code&gt;C&lt;/code&gt;的更新, 还有一系列submodule的坑等在后面, 就不多说了. 总之是不推荐使用submodule.&lt;/p&gt;
-&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;一张表概述一下:&lt;/p&gt;
+&lt;h2 id=&quot;总结-7&quot;&gt;&lt;a href=&quot;#总结-7&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;一张表概述一下:&lt;/p&gt;
 &lt;div&gt;&lt;div class=&quot;table_container&quot;&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -155,9 +184,10 @@
     <link href="/2016/04/17/make-AutoLayout-X/"/>
     <id>/2016/04/17/make-AutoLayout-X/</id>
     <published>2016-04-17T03:34:24.000Z</published>
-    <updated>2016-04-24T07:34:01.000Z</updated>
+    <updated>2016-05-20T15:27:29.000Z</updated>
     
     <content type="html">&lt;p&gt;其实挺不好意思的, 2年前的知识, 半年前的库, 现在才写下来. sigh...&lt;/p&gt;
+&lt;p&gt;简单说来就是一个小库: &lt;a href=&quot;https://github.com/kaizeiyimi/XAutoLayout&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XAutoLayout&lt;/a&gt;.&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;陈年旧事&quot;&gt;&lt;a href=&quot;#陈年旧事&quot; class=&quot;headerlink&quot; title=&quot;陈年旧事&quot;&gt;&lt;/a&gt;陈年旧事&lt;/h2&gt;&lt;p&gt;以前我吐槽了约束写起来太费劲, 布局很手动化, 几乎需要非常详细地指明每一个约束的每一个条件. 而这样的结果就是代码非常长, 阅读和理解都好困难, 看着打瞌睡. VFL? no kidding me again. &lt;/p&gt;
 &lt;p&gt;反正好麻烦, 然后开源社区出现了一个库&lt;strong&gt;Masonry&lt;/strong&gt;, 目的是简化代码写约束, 提供了链式语法以及一些helper方法. 当然本文不是要介绍它, 也不是要批评它, 只是吐槽而已, 后文再说. 本文主要是介绍我写的&lt;strong&gt;XAutoLayout&lt;/strong&gt;😃. &lt;/p&gt;
@@ -280,6 +310,7 @@ xxx.test();&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;BlockType如果有参数和返回�
     <summary type="html">
     
       &lt;p&gt;其实挺不好意思的, 2年前的知识, 半年前的库, 现在才写下来. sigh...&lt;/p&gt;
+&lt;p&gt;简单说来就是一个小库: &lt;a href=&quot;https://github.com/kaizeiyimi/XAutoLayout&quot;&gt;XAutoLayout&lt;/a&gt;.&lt;/p&gt;
     
     </summary>
     
@@ -287,6 +318,8 @@ xxx.test();&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;BlockType如果有参数和返回�
     
     
       <category term="iOS" scheme="/tags/iOS/"/>
+    
+      <category term="Github" scheme="/tags/Github/"/>
     
       <category term="swift" scheme="/tags/swift/"/>
     
@@ -375,7 +408,7 @@ xxx.test();&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;BlockType如果有参数和返回�
 &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; name = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;name&quot;&lt;/span&gt;]?.flatMap{$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;} &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里用&lt;code&gt;flatMap&lt;/code&gt;只是一种对两层&lt;code&gt;Optional&lt;/code&gt;剥壳的手段, 用 &lt;code&gt;xx ?? nil&lt;/code&gt; 也能剥壳. 剥壳虽然比较丑, 但是却不会引起崩溃.&lt;/p&gt;
 &lt;p&gt;如果要继续深入keyPath的话......&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; content = value[&lt;span class=&quot;hljs-string&quot;&gt;&quot;person&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;})?[&lt;span class=&quot;hljs-string&quot;&gt;&quot;id&quot;&lt;/span&gt;]?.flatMap({$&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;}) &lt;span class=&quot;hljs-comment&quot;&gt;// will be &#39;AnyObject?&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不过我觉得最好还是用&lt;code&gt;objectForKey&lt;/code&gt;来从JSON获取信息, 并做好类型检查.&lt;/p&gt;
-&lt;h2 id=&quot;总结-5&quot;&gt;&lt;a href=&quot;#总结-5&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
+&lt;h2 id=&quot;总结-6&quot;&gt;&lt;a href=&quot;#总结-6&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -575,7 +608,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
 
 } &lt;span class=&quot;hljs-keyword&quot;&gt;else&lt;/span&gt; {
     &lt;span class=&quot;hljs-comment&quot;&gt;// will got here&lt;/span&gt;
-}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;总结-4&quot;&gt;&lt;a href=&quot;#总结-4&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;写的时候尽量注意吧, 不要以为build过了就没事, 一些转换的坑在runtime等你呢(看上边的报错的注释吧). 拿不准就主动做个map吧.&lt;/p&gt;
+}&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;总结-5&quot;&gt;&lt;a href=&quot;#总结-5&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;写的时候尽量注意吧, 不要以为build过了就没事, 一些转换的坑在runtime等你呢(看上边的报错的注释吧). 拿不准就主动做个map吧.&lt;/p&gt;
 </content>
     
     <summary type="html">
@@ -634,7 +667,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     <link href="/2014/12/08/XLYAutoLayoutEasy/"/>
     <id>/2014/12/08/XLYAutoLayoutEasy/</id>
     <published>2014-12-08T08:00:00.000Z</published>
-    <updated>2016-04-24T00:27:08.000Z</updated>
+    <updated>2016-05-20T15:29:40.000Z</updated>
     
     <content type="html">&lt;p&gt;开发AutoLayoutEasy的目的是为了让代码编写AutoLayout更加方便直观, 提高可读性和可维护性. 因为我个人觉得iOS提供的创建约束的方式真心不敢恭维, NSLayoutConstraint的类方法写起来好长, VFL又不好操作具体约束, 写出来的代码可读性也不是很高.&lt;/p&gt;
 &lt;h2 id=&quot;如何创建一个约束&quot;&gt;&lt;a href=&quot;#如何创建一个约束&quot; class=&quot;headerlink&quot; title=&quot;如何创建一个约束&quot;&gt;&lt;/a&gt;如何创建一个约束&lt;/h2&gt;&lt;p&gt;苹果在NSLayoutConstraint中提供了一个类方法&lt;/p&gt;
@@ -710,7 +743,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
 - (XLYConstraint *)equalTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)greaterThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;
 - (XLYConstraint *)lessThanOrEqualTo:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)attr;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;也专门弄了一个给swift bridge header用的&lt;code&gt;XLYAutoLayoutEasy-swift.h&lt;/code&gt;以区分import的头文件.&lt;/p&gt;
-&lt;h2 id=&quot;总结-6&quot;&gt;&lt;a href=&quot;#总结-6&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
+&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;用helper方法配合简化约束的写法, 就能用较短的代码量写出我认为更加清晰可读的布局代码. 更新重建的操作也能更加容易. &lt;/p&gt;
 &lt;p&gt;写代码, 多思考, 想清楚了需要什么再写. 多画图有助于思考.&lt;/p&gt;
 &lt;p&gt;另外, 感谢我的她对我的包容和支持.&lt;/p&gt;
 </content>
@@ -726,7 +759,7 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
     
       <category term="iOS" scheme="/tags/iOS/"/>
     
-      <category term="GitHub" scheme="/tags/GitHub/"/>
+      <category term="Github" scheme="/tags/Github/"/>
     
   </entry>
   
@@ -773,7 +806,7 @@ NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7�
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;吐槽的基本上都是代码中编写AutoLayout相关代码的部分, 实际项目中也确实有不少需求是需要比较动态的布局的. 如果app比较简单, 使用storyboard就能完成布局描述的话就最好了, 那样将省掉非常多的编辑和调试约束的时间, 并且以后的维护也相对方便.&lt;/p&gt;
-&lt;h2 id=&quot;总结-3&quot;&gt;&lt;a href=&quot;#总结-3&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
+&lt;h2 id=&quot;总结-4&quot;&gt;&lt;a href=&quot;#总结-4&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
 &lt;p&gt;另外, 本人开发了一个用于简化代码编写AutoLayout约束的小库 &lt;a href=&quot;https://github.com/kaizeiyimi/XLYAutoLayoutEasy&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYAutoLayoutEasy&lt;/a&gt;, 个人感觉更具有可读性和可维护性, 还支持swift哦.&lt;/p&gt;
 </content>
     
@@ -781,170 +814,6 @@ NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7�
     
       &lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
 &lt;h2 id=&quot;A
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="iOS" scheme="/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS present 场景切换的演化和要点</title>
-    <link href="/2014/10/14/iOS_present_introduce_and_points/"/>
-    <id>/2014/10/14/iOS_present_introduce_and_points/</id>
-    <published>2014-10-14T06:30:00.000Z</published>
-    <updated>2016-04-04T10:09:36.000Z</updated>
-    
-    <content type="html">&lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UISplitViewController的replace在storyboard也被认为是一种切换(iPad专用, too). 本文将讨论present在不同版本的iOS SDK中的变化以及present的一些需要注意的问题. 本文的测试和讲述都是在xcode6.0.1中使用SDK8版本.&lt;/p&gt;
-&lt;p&gt;present是在app中可以帮助用户理解app行为, 划分app功能模块, 是一种极其常用的场景切换方式. 最常用的方式就是:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;[ViewControllerA presentViewController:ViewControllerB animated:&lt;span class=&quot;hljs-literal&quot;&gt;YES&lt;/span&gt; completion:&lt;span class=&quot;hljs-literal&quot;&gt;nil&lt;/span&gt;];&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;调用后会在A的上方展示B, 用户需要在B中进行一些操作才能会能回到A, 在B展示的期间, A不能直接与用户交互.&lt;/p&gt;
-&lt;h2 id=&quot;segue-from-iOS5&quot;&gt;&lt;a href=&quot;#segue-from-iOS5&quot; class=&quot;headerlink&quot; title=&quot;segue from iOS5&quot;&gt;&lt;/a&gt;segue from iOS5&lt;/h2&gt;&lt;p&gt;在很久以前, present能够定制的地方很少, 展示的方式在iPhone尺寸上只能全屏, iPad有formSheet等可以进行非全屏的展示. 而动画则只能在4个默认设置中选择(直上直下, 反转, 翻页, 淡入淡出). iOS5开始提供了segue来抽象一个跳转, 可以创建自定义的segue去做动画, 但是这样的做法会导致场景切换的动画和切换的逻辑过程是分离的, viewWillAppear和viewDidAppear的调用时机是不正确的. 简单来说就是用动画模拟了切换的过程, 但其实切换是一瞬间, 一般实现是在动画结束的completion里面调用无动画的present. 先看看苹果给出的代码:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)perform
-{
-&lt;span class=&quot;hljs-comment&quot;&gt;// Add your own animation code here.&lt;/span&gt;
-    [[&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt; sourceViewController] presentModalViewController:[&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt; destinationViewController] animated:&lt;span class=&quot;hljs-literal&quot;&gt;NO&lt;/span&gt;];
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果按照苹果文档上给的代码去填上动画,  比如:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)perform
-{
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *toView = [&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.destinationViewController view];
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *sourceView = [&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.sourceViewController view];
-    &lt;span class=&quot;hljs-comment&quot;&gt;//寻找一个临时的view作为superview, 否则没有动画效果, 因为view不在window上&lt;/span&gt;
-    [sourceView.superview addSubview:toView];
-    toView.transform = &lt;span class=&quot;hljs-built_in&quot;&gt;CGAffineTransformMakeScale&lt;/span&gt;(&lt;span class=&quot;hljs-number&quot;&gt;0.5&lt;/span&gt;, &lt;span class=&quot;hljs-number&quot;&gt;0.5&lt;/span&gt;);
-    [&lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; animateWithDuration:&lt;span class=&quot;hljs-number&quot;&gt;0.5&lt;/span&gt; animations:^{
-        toView.transform = &lt;span class=&quot;hljs-built_in&quot;&gt;CGAffineTransformIdentity&lt;/span&gt;;
-    } completion:^{&lt;span class=&quot;hljs-comment&quot;&gt;/* ... */&lt;/span&gt;}];
-    [&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.sourceViewController presentViewController:&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.destinationViewController animated:&lt;span class=&quot;hljs-literal&quot;&gt;NO&lt;/span&gt; completion:&lt;span class=&quot;hljs-literal&quot;&gt;nil&lt;/span&gt;];
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;很不幸, 这个逻辑是有问题的. 问题就在addSubview那里. 为了做动画, view需要在window上, 而addSubview的时候toView进入window, 然后viewWillAppear和viewDidAppear就会立即被调用, 这中调用时机是不对的. 然后下面又立即做了present, SDK8中会得到这样一个warning: &lt;code&gt;Unbalanced calls to begin/end appearance transitions for &amp;lt;YourViewController: 0x7fc46bd7e860&amp;gt;.&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;如果把present的语句放到动画的completion中, 没有warning, 但是viewWillAppear和viewDidAppear会在addSubview处连续调用一次, 然后动画结束时调用present又被连续调用一次, 导致各被调用两次. 注意这里&lt;strong&gt;不会&lt;/strong&gt;调用disappear相关的两个生命周期方法. 是不是很无语? 而如果去掉addSubview的调用, 将没有动画效果.&lt;/p&gt;
-&lt;p&gt;网上有一些帖子里面的方法会在completion中, 在present之前多一个&lt;code&gt;[toView removeFromSuperview]&lt;/code&gt;的调用. 很不幸, 这样带来的问题更多了, 在SDK8中,会得到willAppear, didAppear, 动画结束时得到willDisappear, willAppear, 没有didAppear! 然后又得到前文提到的warning. 这真是让人沮丧的事情.&lt;/p&gt;
-&lt;p&gt;所以我的建议是不要使用自定义的segue, viewController的生命周期完全得不到保障. 使用segue去模拟的方式会导致生命周期方法的调用和视觉过程不一致. 导致开发者在不同生命周期里配置的不同的逻辑的执行顺序和时机都不正确.&lt;/p&gt;
-&lt;h2 id=&quot;Transitioning-from-iOS7&quot;&gt;&lt;a href=&quot;#Transitioning-from-iOS7&quot; class=&quot;headerlink&quot; title=&quot;Transitioning from iOS7&quot;&gt;&lt;/a&gt;Transitioning from iOS7&lt;/h2&gt;&lt;p&gt;一个真正的场景切换对于目标viewController来讲应该是viewWillAppear, 然后动画, 然后才是viewDidAppear.  iOS7中提供了transition的概念, 用于给场景切换提供自定义动画. 这套机制把场景切换的过程进行了拆分, 将其中的动画部分交由开发者提供, present调用还和以前一样, 也仍然可以使用系统提供的segue(系统内部是正确的, 只是开发者没有办法), 只是在真正开始present流程前设置一下presentedViewController.transitioningDelegate = someDelegate. 这样保证了viewController切换时的生命周期调用时机, 而且也可以创造出各种各样的动画效果. 简单看看使用方式:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)prepareForSegue:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIStoryboardSegue&lt;/span&gt; *)segue sender:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)sender
-{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; (![segue.identifier isEqualToString:&lt;span class=&quot;hljs-string&quot;&gt;@&quot;your present segue identifier&quot;&lt;/span&gt;]) {
-        &lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *viewController = segue.destinationViewController;
-        viewController.transitioningDelegate = someDelegate;        
-        &lt;span class=&quot;hljs-comment&quot;&gt;//文档要求设置为custom才会根据delegate去获取自定义动画,实际测试结果是不需要设置也OK. 而且设置了反而会在ios8中产生另外的问题, 后文描述&lt;/span&gt;
-        viewController.modalPresentationStyle = &lt;span class=&quot;hljs-built_in&quot;&gt;UIModalPresentationCustom&lt;/span&gt;;
-    }
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;苹果的文档说明:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Discussion
-  When this view controller’s &lt;em&gt;modalPresentationStyle&lt;/em&gt; property is &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;, UIKit uses the object in this property to retrieve the objects needed to present this view controller onscreen. The transitioning delegate must conform to the &lt;em&gt;UIViewControllerTransitioningDelegate&lt;/em&gt; protocol. Its job is to vend the animator objects used to animate this view controller’s view onscreen &lt;strong&gt;and an optional presentation controller to provide any additional chrome and animations&lt;/strong&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;加粗的是ios8才有的. 下面是someDelegate实现的方法:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewControllerAnimatedTransitioning&lt;/span&gt;&amp;gt;)animationControllerForPresentedController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *)presented presentingController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *)presenting sourceController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *)source
-{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; [CustomPresentAnimation new];
-}
-
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewControllerAnimatedTransitioning&lt;/span&gt;&amp;gt;)animationControllerForDismissedController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *)dismissed
-{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; [CustomDismissAnimation new];
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里只是简单列举一下方法, 使用的动画对象没有自定义的属性因此就直接new了. 动画对象需要实现&lt;em&gt;UIViewControllerAnimatedTransitioning&lt;/em&gt; 或者 &lt;em&gt;UIViewControllerInteractiveTransitioning&lt;/em&gt; 协议, 后者从名字上能看出来是交互式切换. 从屏幕左边往右滑动去触发pop操作, 并且让UI跟随手指运动的切换方式就是交互式的.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)animateTransition:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewControllerContextTransitioning&lt;/span&gt;&amp;gt;)transitionContext
-{
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *containerView = [transitionContext containerView];
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *fromView = [transitionContext viewForKey:&lt;span class=&quot;hljs-built_in&quot;&gt;UITransitionContextFromViewKey&lt;/span&gt;];
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *toView = [transitionContext viewForKey:&lt;span class=&quot;hljs-built_in&quot;&gt;UITransitionContextToViewKey&lt;/span&gt;];
-    [containerView insertSubview:toView atIndex:&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;];
-    toView.alpha = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;
-    [&lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; animateWithDuration:[&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt; transitionDuration:transitionContext] animations:^{
-        fromView.transform = &lt;span class=&quot;hljs-built_in&quot;&gt;CGAffineTransformMakeScale&lt;/span&gt;(&lt;span class=&quot;hljs-number&quot;&gt;1.5&lt;/span&gt;, &lt;span class=&quot;hljs-number&quot;&gt;1.5&lt;/span&gt;);
-        fromView.alpha = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;
-        toView.alpha = &lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;;
-    } completion:^(&lt;span class=&quot;hljs-built_in&quot;&gt;BOOL&lt;/span&gt; finished) {
-        [transitionContext completeTransition:&lt;span class=&quot;hljs-literal&quot;&gt;YES&lt;/span&gt;];
-    }];
-}
-
-- (&lt;span class=&quot;hljs-built_in&quot;&gt;NSTimeInterval&lt;/span&gt;)transitionDuration:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewControllerContextTransitioning&lt;/span&gt;&amp;gt;)transitionContext
-{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-number&quot;&gt;1.0&lt;/span&gt;;
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面这段代码对于present或者dismiss都可以使用, 效果就是当前fromView会变大并变透明, toView会从透明到完全不透明. 更深入的用法以及交互式动画的控制这里不讨论, 苹果的文档和示例代码都有很好的说明. &lt;/p&gt;
-&lt;p&gt;关于是否设置&lt;em&gt;UIModalPresentationCustom&lt;/em&gt;的问题, 虽然文档要求设置, 但是测试是不需要. 如果设置了delegate并且使用&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 会达到currentContext起作用并且自定义动画也起作用的现象. 算bug么? (关于currentContext的使用后文有介绍)&lt;/p&gt;
-&lt;p&gt;尽管在iOS7中开放了场景切换的动画控制, 对于present的一些需求仍然没有达到. 举一个简单的例子: 我不想在present调用后将presenter的View从window上移除, 因为我需要它作为一个背景, 就像iPad上的formSheet一样. 但是很遗憾, iPhone上不可以, presentingViewController的view会被移除, 当然你可以截屏, 但是无法同步内容了, 或者, 可以创建一个window, 指定一个相对较高的windowLevel, 将presentedController放到新的window中来达到需求(这也是我现在的做法...). 但是用window的麻烦就是不容易控制, app中其他的部分和这个viewController只有数据交互, viewController和view的层级结构被完全剥离了. 不是很好的解决方法.&lt;/p&gt;
-&lt;h2 id=&quot;UIPresentation-from-iOS8&quot;&gt;&lt;a href=&quot;#UIPresentation-from-iOS8&quot; class=&quot;headerlink&quot; title=&quot;UIPresentation from iOS8&quot;&gt;&lt;/a&gt;UIPresentation from iOS8&lt;/h2&gt;&lt;h3 id=&quot;UIPresentationController&quot;&gt;&lt;a href=&quot;#UIPresentationController&quot; class=&quot;headerlink&quot; title=&quot;UIPresentationController&quot;&gt;&lt;/a&gt;UIPresentationController&lt;/h3&gt;&lt;p&gt;iOS8中再次强化了present的使用. 普通的使用当然没有问题, 但是如果想更好地控制present的过程和细节, 那么iOS8中的UIPresentationController就是完成这个任务的. 它描述的是一个present从开始到结束的全过程, 这里不包含如何做过场动画, 但是有方法可以同其&lt;strong&gt;交流&lt;/strong&gt;(后文会解释), 过场动画仍然由iOS7的方式来控制. 从开始到结束是一个怎样的过程? 是从某一个viewcontroller调用present开始, 一直到dismiss掉被展示的presentedViewController. 期间的大小变化, 布局等都属于这个过程的一部分. UIPresentationController提供的信息很多, 如:正在展示的和被展示的viewController, 展示的方式, 场景切换时的containerView, 然后是一些方法提供诸如是否需要移除presentingView, 是否全屏展示, 还有布局相关的一些回调和方法. 详细的内容和用法这里不赘述了, 可以看头文件以了解更多, 另一篇博客中会单独介绍.&lt;/p&gt;
-&lt;p&gt;要想使用UIPresentationController去控制present过程, 就需要将presentedViewController的&lt;em&gt;modalPresentationStyle&lt;/em&gt; 设置为 &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;, 否则将不会尝试获取UIPresentationController的实例. 而是否有presentationController来控制present过程得到的效果也不一样, 最明显的一个就是默认不移除presenter的view. 只需要设置为&lt;em&gt;UIModalPresentationCustom&lt;/em&gt;, 不需要设置transitionDelegate就可以看到效果. 但是如果不设置transitionDelegate而跑在ios7的设备中会得到如下warning: &lt;em&gt;UIModalPresentationCustom presentation style can only be used with an animator or with unanimated presentations.&lt;/em&gt;  如果设置了delegate, 可以多实现一个方法去返回自定义的presentationController, 可以定制特别多的细节, 比如chrome和content的大小, 场景切换相关的附加动画. &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;    &lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; *dimView = [[&lt;span class=&quot;hljs-built_in&quot;&gt;UIView&lt;/span&gt; alloc] initWithFrame:&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.containerView.bounds];
-    dimView.backgroundColor = [&lt;span class=&quot;hljs-built_in&quot;&gt;UIColor&lt;/span&gt; colorWithRed:&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt; green:&lt;span class=&quot;hljs-number&quot;&gt;170&lt;/span&gt; blue:&lt;span class=&quot;hljs-number&quot;&gt;170&lt;/span&gt; alpha:&lt;span class=&quot;hljs-number&quot;&gt;0.8&lt;/span&gt;];
-    dimView.alpha = &lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;;
-    dimView.autoresizingMask = &lt;span class=&quot;hljs-built_in&quot;&gt;UIViewAutoresizingFlexibleWidth&lt;/span&gt; | &lt;span class=&quot;hljs-built_in&quot;&gt;UIViewAutoresizingFlexibleHeight&lt;/span&gt;;
-    [&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.containerView insertSubview:dimView atIndex:&lt;span class=&quot;hljs-number&quot;&gt;0&lt;/span&gt;];
-
-[&lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;.presentedViewController.transitionCoordinator animateAlongsideTransition:^(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;&amp;lt;&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewControllerTransitionCoordinatorContext&lt;/span&gt;&amp;gt; context) {
-        dimView.alpha = &lt;span class=&quot;hljs-number&quot;&gt;1&lt;/span&gt;;
-    } completion:&lt;span class=&quot;hljs-literal&quot;&gt;nil&lt;/span&gt;];&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;iPad上formSheet弹出时周围不是变黑么? 这里的代码就是变成天蓝色. 注意那个animateAlongSideTransition方法, 这个方法的意思是block里地动画是和过场动画一起执行的, 测试了一下, 效果或者说实际做法就是把这个block加到了过场动画的block后面后组成一个新的block来做动画, 这就是前文所述的&amp;quot;交流&amp;quot;. 开发中我有时候也会这样提供一些回调和设置来解决一些动画的同步问题. 还有一些关于size控制的就不多说了.&lt;/p&gt;
-&lt;p&gt; 除了开发者可以定制present过程, 苹果自己也对系统控件做了很多改造. UIPresentationController是一个父类, iOS自己实现了一些子类如私有的全屏展示Controller还有UIPopoverPresentationController, 而且将很多以前的控件进行了改造, UIAlertView, UIActionSheet, popover, searchDisplayController都被改造了. 苹果的工程师应该是这么认为的: 这些东西都是在现有的viewController上展示一些新的内容, 认为他们的行为其实就是present. 因此从iOS8开始我们多了UIAlertController来包含alert和actionSheet的展示, 并且是基于block的. popover不是提供新的viewController, 而是提供了一种展示方式&lt;code&gt;UIModalPresentationPopover&lt;/code&gt; 以及 UIPopoverPresentationController来提供管理,  UISearchDisplayController被替换为UISearchController.(wwdc的视频里面, 工程师自喷了一下以前使用的是view, 通过addsubview去添加, 却要装得好像一个viewController, 说是付出了很多, 回报很少的样子...).&lt;/p&gt;
-&lt;p&gt;看苹果的意思是要用viewController来区分所有的场景, 并用presentation来管理场景切换(不包含容器内部的切换). 以前的alert和actionSheet的自己创建window, 以及UISearchDisplayController去addsubview的方式被否定了. 的确这是很不好的, 就拿UIAlertView来说, 因其自己处在一个独立的window中, 如果调用show的viewController消失了, 却没有设置alertView消失, 就会导致一个很尴尬的现象, 内容都没了, 你alert个啥呢? 而且, 如果alertView的delegate正好是这个viewController的话, 点击alertView的按钮还会导致崩溃, 因为delegate属性是assign不是weak (要注意, assign是正确的设计). 当然可以在viewController的viewWillDisappear或者dealloc等地方添加一下干掉alertView的逻辑, 但是这样就会给viewController添加变量了, 并且有时候会添加很多... 对于UIAlertView, 系统还有一个行为比较有意思, alertView可以在上一个没有消失的情况下继续弹出, 弹出时会暂时隐藏上一个, 待这一个处理完毕后再重新显示. 在弹窗正在展示的期间如果app切到后台, 再切回前台, alertView会重新从无到有的展示一次. 而换成alertController以后, 展示的其实就是一个看起来跟alertView一样的viewController, 系统是不允许一个presentingViewController同时present两个viewController的, 因此alertView的那种允许连续弹多个alert的有趣的现象没有了, 并且也不会在前后台切换时出现前述的重新展示的现象. 如果有人以前依赖了这些逻辑就一定要小心了, UIAlertController需要依赖一个viewController才能进行展示, 不能自行创建window进行展示. 也就不存在缓存之前的alert一说了.&lt;/p&gt;
-&lt;h3 id=&quot;adaptive-自适应&quot;&gt;&lt;a href=&quot;#adaptive-自适应&quot; class=&quot;headerlink&quot; title=&quot;adaptive 自适应&quot;&gt;&lt;/a&gt;adaptive 自适应&lt;/h3&gt;&lt;p&gt;这里补充说一点adaptive. 苹果对iOS8中所作的present的改动和自适应不同屏幕尺寸是有非常大关系的. 为什么允许在iPhone环境中也能使用popover和split? 其实在启用size classes后, 苹果期望开发者能更多地关注现在的尺寸中宽度和高度有没有被压缩,  &lt;em&gt;UITraitCollection&lt;/em&gt; 描述了现在所处的环境, 包含宽度, 高度的情况, 屏幕的scale, 设备.(更多地细节看wwdc视频和文档). 在有size classes的情况下, 拿popover来举例, 同一段代码就可能允许于不同尺寸的设备中, iPad中宽度和高度都是正常, 能像期望地那样弹出popover, 效果不变. 而在iPhone中也就是宽度或者高度被压缩时, popover不能展示, 系统的UIPopoverPresentationController的默认行为是帮你改成全屏present. 如果你想再稍微定制下全屏展示时的样式比如添加一个navigationController来包含将要展示的viewController, 那么可以实现UIPresentationController的代理方法来提供调整:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;objc hljs&quot;&gt;&lt;span class=&quot;hljs-comment&quot;&gt;//viewController中&lt;/span&gt;
-- (&lt;span class=&quot;hljs-keyword&quot;&gt;void&lt;/span&gt;)prepareForSegue:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIStoryboardSegue&lt;/span&gt; *)segue sender:(&lt;span class=&quot;hljs-keyword&quot;&gt;id&lt;/span&gt;)sender
-{
-    &lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt; ([segue.identifier isEqualToString:&lt;span class=&quot;hljs-string&quot;&gt;@&quot;popover&quot;&lt;/span&gt;]) {
-        &lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *viewController = segue.destinationViewController;
-        viewController.presentationController.delegate = &lt;span class=&quot;hljs-keyword&quot;&gt;self&lt;/span&gt;;
-    }
-}
-
-&lt;span class=&quot;hljs-comment&quot;&gt;//代理方法&lt;/span&gt;
-- (&lt;span class=&quot;hljs-built_in&quot;&gt;UIModalPresentationStyle&lt;/span&gt;)adaptivePresentationStyleForPresentationController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIPresentationController&lt;/span&gt; *)controller
-{
-&lt;span class=&quot;hljs-comment&quot;&gt;//系统默认的应该是UIModalPresentationFullScreen, 没有over这个单词&lt;/span&gt;
-    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;hljs-built_in&quot;&gt;UIModalPresentationOverFullScreen&lt;/span&gt;;
-}
-
-&lt;span class=&quot;hljs-comment&quot;&gt;//must implement the above one to give a chance to call this one...&lt;/span&gt;
-- (&lt;span class=&quot;hljs-built_in&quot;&gt;UIViewController&lt;/span&gt; *)presentationController:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIPresentationController&lt;/span&gt; *)controller viewControllerForAdaptivePresentationStyle:(&lt;span class=&quot;hljs-built_in&quot;&gt;UIModalPresentationStyle&lt;/span&gt;)style
-{
-    &lt;span class=&quot;hljs-built_in&quot;&gt;UINavigationController&lt;/span&gt; *navVC = [[&lt;span class=&quot;hljs-built_in&quot;&gt;UINavigationController&lt;/span&gt; alloc] initWithRootViewController:controller.presentedViewController];
-    &lt;span class=&quot;hljs-keyword&quot;&gt;return&lt;/span&gt; navVC;
-}&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果不实现第一个方法的话就不会调用第二个代理方法, 虽然默认的也是全屏, 而且你只能返回全屏(有两个值都可以). 然后也要注意: &lt;strong&gt;如果没有使用size classes, 只保留iPhone size时, 第一个代理方法返回UIModalPresentationFullScreen, 则不会调用第二个代理方法. 需要返回UIModalPresentationOverFullScreen才行&lt;/strong&gt;. 某种程度上可以认为是个小bug. 不过带over的变量是iOS8才有的, 理论上也应该使用新的变量才对. &lt;/p&gt;
-&lt;p&gt;另外可以强制不使用adaptive, 只需要返回UIModalPresentationNone即可. 在压缩的空间内也可以展示为popover. 这点很好~&lt;/p&gt;
-&lt;h1 id=&quot;Present-的一些要点&quot;&gt;&lt;a href=&quot;#Present-的一些要点&quot; class=&quot;headerlink&quot; title=&quot;Present 的一些要点&quot;&gt;&lt;/a&gt;Present 的一些要点&lt;/h1&gt;&lt;p&gt;前面说了很多present的演化, 从segue到transition再到presentationController, 都是在加强present, 试图给开发者更多的空间. 下面说一些present的要点, 主要说一下present中viewController的层级结构以及如何修改确定层级关系.&lt;/p&gt;
-&lt;p&gt;当一个app运行起来, window上有一个rootViewController, 可能是一个NavigationController或者一个TabbarController, 我们可以进行push操作深入到一个ChildViewController中, 假如A-&amp;gt;B-&amp;gt;C, A是navigationController, push进入到C. 这时候我们在C上有一个需求需要present展示D. 这个过程需要知道一些viewController才能真正开始. &lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;presentingViewController: 这个present到底是谁在做支持?&lt;/li&gt;
-&lt;li&gt;presentedViewController: 这个present中被展示的是谁?&lt;/li&gt;
-&lt;li&gt;sourceViewController: 这个present是谁发起的?
-要注意, source和presenting往往是不一样的. 在本例中, A最终会成为presenting, C是source, 而D是presented. 表示如下:&lt;pre&gt;
-D
-|
-A-&gt;B-&gt;C
-&lt;/pre&gt;
-
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;D现在是和A进行了关联, 形成了presenting和presented的关系. viewController有两个readOnly的属性, 分别是presentingViewController和presentedViewController. 前者是指当前viewController正在被谁展示, 后者是指正在被当前viewController展示的是谁. 这两个属性其实是计算属性, 他们都是递归往parent寻找, 直到找到真正在做present的viewController. 本例中在C的presentingViewController为nil, presentedViewController为D. 这个结果对于A, B, C都是一样的, 因为B和C都是A的childViewController. D的presentingViewcontroller则是A, presentedViewController是nil. 如果D也是一个容器, 假如仍然是navigationController, 那么D也push到E.&lt;/p&gt;
-&lt;pre&gt;
-D-&gt;E
-|
-A-&gt;B-&gt;C
-&lt;/pre&gt;
-A, B, C, D的那两个属性的值都没有变化, E的presentingViewController是A, presentedViewController是nil. 我们可以在E上继续present到F, F再push到G.
-&lt;pre&gt;
-F-&gt;G
-|
-D-&gt;E
-|
-A-&gt;B-&gt;C
-&lt;/pre&gt;
-
-&lt;p&gt;这是D的presentedViewController就是F. 其余值也能响应推断出来. &lt;/p&gt;
-&lt;p&gt;从另外一个方式来理解, present意味着展示新的模块, 新模块应该在逻辑上是另外一层, 默认情况下, present新的一层由当前层的根元素来操作. 所以是A展示了D, D展示了F. 为什么说是默认情况?  因为viewController还有一个属性:&lt;em&gt;definesPresentationContext&lt;/em&gt;. 默认值为NO. 文档中描述如果值为YES, 意味着期望presentedViewController覆盖当前的view的范围. 直观地来讲, 就是viewController告诉系统, 当我或者我的childViewController做present时, presenting是我, 覆盖我的显示范围. 如果真的想要这样的效果, 还需要给presentedViewController设置&lt;em&gt;modalPresentationStyle&lt;/em&gt;的值为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 指定presentedViewController在展示时使用当前的上下文. &lt;/p&gt;
-&lt;p&gt;如果两个值都正确设置了, 当一个childViewController调用present时, 它首先检查自己, 然后递归检查parentViewController是否有谁的&lt;em&gt;definesPresentationContext&lt;/em&gt;是YES. 这样会找到一个viewController来作为presenting, 然后present就是在这个viewController上做. 注意, 它有可能不是当前层的根, 也就意味着根仍然可以present. 根present的viewController的层级在child之上. &lt;/p&gt;
-&lt;p&gt;如果没有同时达成上述的两个变量设置, 得到的结果就是默认由当前层的根进行present, 并且不以根的显示范围做控制. 这里有一个需要注意的: 如果在一个viewController (X)上设定了&lt;em&gt;definesPresentationContext&lt;/em&gt;为YES, 并且presentedViewController (Y)设置了&lt;em&gt;modalPresentationStyle&lt;/em&gt;为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 在Y上再次进行present时,  下一个presentedViewController (Z)&lt;strong&gt;没有设置&lt;/strong&gt; 为&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;的话, 展示会变成全屏, 此时的Z的presentingViewController变成了X. 更奇怪的是绑定的unwindSegue会莫名失效, 其它事件还能正确响应. 如果Z设置了&lt;em&gt;UIModalPresentationCurrentContext&lt;/em&gt;, 则present覆盖的还是X的范围, presentingViewController属性指向的是Y.&lt;/p&gt;
-&lt;h2 id=&quot;总结-2&quot;&gt;&lt;a href=&quot;#总结-2&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;很乱有木有? 我也觉得很乱. 但事实就是这样. 苹果这次的iOS8升级带来的问题不少, 添加了size class来描述用户界面的变化, 顺便一提, 因为引入size class的概念, 转屏的方法也全部废弃, 改为响应尺寸的变化. 引入UIPresentationController进行present管理, 系统控件的展示也基本上都变成了present展示, 行为发生了大幅变化. &lt;em&gt;UIModalPresentationCustom&lt;/em&gt;的设置与否会导致不同的结果. 允许adaptive特性来调整不同尺寸下地显示策略, 但是不兼容iOS7及以前的系统, 基本上都是些新的API和设计. &lt;/p&gt;
-&lt;p&gt;稍微吐槽下: autoLayout的使用仍然有些问题, 有些设置不是在所有版本中都支持的, 虽然给出了warning, 但是没有建议如何修改. 使用autoLayout后的动画也有各种各样的问题, 给使用了autolayout的viewController做过场动画, 改变view的transform来完成效果. 如果使用currentContext的方式present 并且最终显示范围和viewController的初始大小不一致时, 会看到很好玩的结果. 动画效果完全就是打脸. 也尝试过给animation加上layoutSubViews的option, 然后又得到了另外一个打脸的动画效果. 分析了一下代码, 发现上述的改动总结起来就是先改动了transform让其缩放变小, 然后动画block中重设transform, 然后改变view的frame. 是的, 就是因为改变了frame导致了各种奇葩的效果, 有兴趣的自己试试就知道了. 还有很多其他的问题这篇博客就不在吐槽了, 再写就太长了.&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;iOS中的场景切换有多种方式, container内部的切换有UINavigationController的push pop操作, UITabbarController的tab切换. 外部的转换有popover(iPad专用), 和非常常用的present. 当然, UIS
     
     </summary>
     
