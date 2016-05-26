@@ -5,7 +5,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="/"/>
-  <updated>2016-05-20T16:24:41.000Z</updated>
+  <updated>2016-05-26T09:44:28.000Z</updated>
   <id>/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>对swift中单例的init搞破坏</title>
+    <link href="/2016/05/26/break-swift-init-rule/"/>
+    <id>/2016/05/26/break-swift-init-rule/</id>
+    <published>2016-05-26T03:41:02.000Z</published>
+    <updated>2016-05-26T09:44:28.000Z</updated>
+    
+    <content type="html">&lt;p&gt;swift的init方法十分严格, 需要先初始化自己声明的属性, 然后调用super.init, 最后做其他事情. init方法中不允许对象在没有初始化所有属性之前被作为参数使用. 但是我们有办法打破这个规则.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;虽然能打破规则, 但是程序也会卡住, 所以并没有什么x用.&lt;/p&gt;
+&lt;p&gt;show you the code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift hljs&quot;&gt;&lt;span class=&quot;hljs-class&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;A&lt;/span&gt; &lt;/span&gt;{
+    &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; sharedInstance = &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;()
+    &lt;span class=&quot;hljs-keyword&quot;&gt;init&lt;/span&gt;() {
+        test()
+    }
+}
+
+&lt;span class=&quot;hljs-function&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;hljs-title&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;hljs-params&quot;&gt;()&lt;/span&gt;&lt;/span&gt; {
+    &lt;span class=&quot;hljs-built_in&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;&quot;enter&quot;&lt;/span&gt;)
+    &lt;span class=&quot;hljs-keyword&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;hljs-number&quot;&gt;_&lt;/span&gt; = &lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;.sharedInstance
+    &lt;span class=&quot;hljs-built_in&quot;&gt;print&lt;/span&gt;(&lt;span class=&quot;hljs-string&quot;&gt;&quot;exit&quot;&lt;/span&gt;)
+}
+
+&lt;span class=&quot;hljs-comment&quot;&gt;// first&lt;/span&gt;
+&lt;span class=&quot;hljs-type&quot;&gt;A&lt;/span&gt;.sharedInstance
+
+&lt;span class=&quot;hljs-comment&quot;&gt;// second&lt;/span&gt;
+test()&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;两种方式都一样, 都不会有&lt;code&gt;exit&lt;/code&gt;的输出, 只是第二种会打印两次&lt;code&gt;enter&lt;/code&gt;而已.&lt;/p&gt;
+&lt;p&gt;引发的问题的步骤是在&lt;code&gt;init&lt;/code&gt;方法中调用一个不需要传递self作为参数的方法比如&lt;code&gt;test&lt;/code&gt;, 这样就能编译通过, 然后在该方法里面访问单例. 只要调用&lt;code&gt;test&lt;/code&gt;的&lt;code&gt;init&lt;/code&gt;方法和单例初始化调用的&lt;code&gt;init&lt;/code&gt;方法是同一个就一定会出问题.&lt;/p&gt;
+&lt;p&gt;以上调用导致&lt;code&gt;A&lt;/code&gt;在初始化过程中被引用, 而引用时&lt;code&gt;A&lt;/code&gt;的初始化方法还没有返回, 对象还没有初始化完成. &lt;/p&gt;
+&lt;p&gt;然后整个线程就挂住了, CPU和内存利用率都不会有什么起伏. 在后台线程线程确认了一下, &lt;code&gt;MainRunloop&lt;/code&gt;并没有在waiting. 当然, 任何一个线程访问&lt;code&gt;A.sharedInstance&lt;/code&gt;都会导致那个线程卡住.&lt;/p&gt;
+&lt;p&gt;swift编译器对于这种问题应该不好查, 不过我倒是觉得运行时应该能检测到对象没初始化完成就被引用了, 然后给个crash, 而不是现在这样默默干等.&lt;/p&gt;
+&lt;p&gt;如果写单例, 注意一点儿哦~&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;swift的init方法十分严格, 需要先初始化自己声明的属性, 然后调用super.init, 最后做其他事情. init方法中不允许对象在没有初始化所有属性之前被作为参数使用. 但是我们有办法打破这个规则.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="swift" scheme="/tags/swift/"/>
+    
+  </entry>
   
   <entry>
     <title>the Twenty of May</title>
@@ -760,67 +809,6 @@ test(param)    &lt;span class=&quot;hljs-comment&quot;&gt;// OK&lt;/span&gt;&lt;
       <category term="iOS" scheme="/tags/iOS/"/>
     
       <category term="Github" scheme="/tags/Github/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AutoLayout的小吐槽</title>
-    <link href="/2014/12/08/talk_about_autolayout/"/>
-    <id>/2014/12/08/talk_about_autolayout/</id>
-    <published>2014-12-08T03:00:00.000Z</published>
-    <updated>2016-04-04T10:07:40.000Z</updated>
-    
-    <content type="html">&lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
-&lt;h2 id=&quot;AutoResizing-AutoLayout之前的布局&quot;&gt;&lt;a href=&quot;#AutoResizing-AutoLayout之前的布局&quot; class=&quot;headerlink&quot; title=&quot;AutoResizing -- AutoLayout之前的布局&quot;&gt;&lt;/a&gt;AutoResizing -- AutoLayout之前的布局&lt;/h2&gt;&lt;p&gt;做app必然涉及到布局, 现在改为自动布局的话, 那么以前的布局是什么, AutoLayout解决了什么问题?&lt;/p&gt;
-&lt;p&gt; 以前的布局方式我觉得可以叫做半自动布局. 因为AutoResizing是一种spring-strut方式, 仅描述了view在其superView大小变化时自身如何变化. 它可以描述一个view相对于superView的上下左右四个边距是否固定, 自身的宽高是否可以拉伸这么6个属性, 对于大部分的app来讲AutoResizing已经足够描述布局规则了. &lt;/p&gt;
-&lt;p&gt; 但是如果view的大小不好计算(依赖内容)或者有多个view有相互依赖的关系, AutoResizing就不够用了, 并且布局将变得很繁琐无聊容易出错.&lt;/p&gt;
-&lt;p&gt; 布局的方式大致如下:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;你可能需要对view调用sizeToFit 或者其他方法来将view的frame调整到一个合适的大小.&lt;/li&gt;
-&lt;li&gt;也可以在某个父view的layoutSubviews方法中根据需求调整这些view的大小并计算这些view的各种位置. &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;其中最麻烦的就是字体相关的布局计算, 因为文字渲染后的行高都略大于字号, 没法直接设定label高度, 必须用NSString的一个分类方法计算在一定条件下的渲染大小, 然后才能参与计算.&lt;/p&gt;
-&lt;h2 id=&quot;AutoLayout-解决的问题&quot;&gt;&lt;a href=&quot;#AutoLayout-解决的问题&quot; class=&quot;headerlink&quot; title=&quot;AutoLayout 解决的问题&quot;&gt;&lt;/a&gt;AutoLayout 解决的问题&lt;/h2&gt;&lt;p&gt;AutoLayout试图解决控件大小变化以及位置变化的问题. &lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;控件大小的问题: 比如label控件默认情况下会有比较低的优先级阻止自身变大, 相对较高的优先级阻止自身被压缩, 在不引起变大或者压缩的情况下, label会保持和内容一样大. 你仍然可以固定它的大小, 但是不建议. 当你改变了text, label自动就会调整大小, 不需要你再去为了label的宽高抓狂了. 当然, 有的场景仍然需要手动计算文字渲染后大小.  另外一种大小问题是相对计算的, 比如一个view的大小或者位置会影响到另一个view的大小, 当这个view变化时另一个的大小也会相应变化.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;控件位置问题: AutoLayout最直接的表现就是能够定义两个控件之间的相对位置. 比如view1相对view2保持10的间距, 那么当view1的origin改变时, view2的origin也会随之变化.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;显然用AutoLayout进行布局看起来是很好的, 事实上也是很好的, 尽管不是那么完美. storyboard和AutoLayout可以帮助开发者将绝大部分的UI逻辑和业务逻辑分离开, 并且修改和维护的复杂性也还能接受, 习惯了的话也是能很较快速地调整约束的.&lt;/p&gt;
-&lt;p&gt;AutoLayout中一次只能描述一个view的宽高或者描述两个view之间的关系. 能描述的属性很多, 但是不是随便用的, 比如不能描述一个view的宽和另一个view的leading相等, iOS直接崩溃并告诉你这两个属性不能配对. 当你描述好了一个约束后, 你需要将其激活, 怎么激活? UIView有一个addConstraint的方法, 需要你自己添加. 那么该让谁来add呢? 经过一些测试发现, 这个调用add的view必须是约束中两个view的公共父view, 不一定是最低的那个, 只要是公共父view即可. 但是建议添加在最低公共父view中. 如果不想要一个约束了怎么办? UIView也有removeConstraint的方法, 去掉你不想要的即可.&lt;/p&gt;
-&lt;h2 id=&quot;开始吐槽&quot;&gt;&lt;a href=&quot;#开始吐槽&quot; class=&quot;headerlink&quot; title=&quot;开始吐槽&quot;&gt;&lt;/a&gt;开始吐槽&lt;/h2&gt;&lt;p&gt;然后我要开始吐槽了. &lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;激活的问题.
- 这算什么? 我自己去找公共父view? kidding me? 这个过程明显可以自动搞定啊. 然后发现iOS8支持了新的API. NSLayoutConstraint中多了一个active属性, 设置为YES即激活, NO即干掉. 但是对于iOS7及以下系统仍然需要自己找view去add和remove.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;NSLayoutConstraint类方法创建约束
-NSLayoutConstraint有一个类方法用于创建一个约束, 这个方法有7个参数. 这7个参数不包含priority, 如果要设置要优先级还需要在创建约束后修改. 这个方法写起来简直就是屏幕杀手, 如果要规范一点一个参数一行,那么就是7行, 多写几个就轻松过一屏. 如果不折行, 那堆在一起的代码简直让人受不了. 那真是一坨一坨的.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;VFL
-也许苹果也觉得用一个带7个参数的方法去创建1个约束的方式有点儿不那么美观和方便, 于是开发了Visual Format Language, 目的是为了帮助开发者快速创建约束. 但是问题是, 这真的有效么? 使用VFL能一次性在一个方向上创建多个约束, 然后返回一个数组. 但是, 如果我需要根据需求调整其中一个约束呢? 我怎么获取到我想要的那个约束? 很遗憾, 你必须把VFL拆散, 对于你要的那一个约束, 要么你用NSLayoutConstraint的类方法去创建, 要么你用VFL去描述你要的那一个约束, 然后数组里面应该就只有那一个你要的约束了.
-另外一点, 用VFL要注意的就是metrics和views两个字典, 一个是记录format里面的各种标量, 另一个记录出现在format里面的view, 也挺麻烦的.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;动画
-貌似苹果还没有想好怎么比较方便地将约束和动画结合起来. 每次想动画呈现约束的变化, 都需要先改constant, 然后单独写一个动画, 在block里面找到一个view调用layoutIfNeeded. ╮(╯▽╰)╭, 为什么就不能稍微方便一点, 在animation的block里面修改约束就自动动画搞起呢? 技术上完全可行的说, 因为修改frame, alpha这些参数都是OK的.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;吐槽的基本上都是代码中编写AutoLayout相关代码的部分, 实际项目中也确实有不少需求是需要比较动态的布局的. 如果app比较简单, 使用storyboard就能完成布局描述的话就最好了, 那样将省掉非常多的编辑和调试约束的时间, 并且以后的维护也相对方便.&lt;/p&gt;
-&lt;h2 id=&quot;总结-4&quot;&gt;&lt;a href=&quot;#总结-4&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;p&gt;AutoLayout整体很强大, 而且在iOS环境中很有必要. 现在已经有多种尺寸的设备了, 使用AutoLayout会大大减少开发者适配的工作, 是时候了骚年.&lt;/p&gt;
-&lt;p&gt;另外, 本人开发了一个用于简化代码编写AutoLayout约束的小库 &lt;a href=&quot;https://github.com/kaizeiyimi/XLYAutoLayoutEasy&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;XLYAutoLayoutEasy&lt;/a&gt;, 个人感觉更具有可读性和可维护性, 还支持swift哦.&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;突然有一天, 苹果还在ios6的时候, 它发布了新的布局方式, 取名叫&lt;strong&gt;AutoLayout&lt;/strong&gt;, 听着很高大上--自动布局. 但是我这篇文章除了简单介绍一下它以外更多的是要吐槽的, 其实也就稍微吐一点点它的使用问题.&lt;/p&gt;
-&lt;h2 id=&quot;A
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="iOS" scheme="/tags/iOS/"/>
     
   </entry>
   
