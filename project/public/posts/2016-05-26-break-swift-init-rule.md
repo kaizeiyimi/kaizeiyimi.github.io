@@ -1,7 +1,7 @@
 ---
 title: 对swift中单例的init搞破坏
 date: 2016-05-26 11:41:02
-tags: [swift]
+tags: swift,iOS
 ---
 
 swift的init方法十分严格, 需要先初始化自己声明的属性, 然后调用super.init, 最后做其他事情. init方法中不允许对象在没有初始化所有属性之前被作为参数使用. 但是我们有办法打破这个规则.

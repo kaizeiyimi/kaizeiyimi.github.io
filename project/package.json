@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "glob": "^8.0.3",
+    "highlight.js": "^11.6.0",
+    "marked": "^4.0.18",
     "vue": "^3.2.37"
   },
   "devDependencies": {

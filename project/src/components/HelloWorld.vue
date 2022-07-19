@@ -1,40 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { parse } from '../api'
 
 defineProps({
   msg: String
 })
+const post = ref(null)
 
-const count = ref(0)
+onMounted(() => {
+  fetch('/blog/posts/2016-05-26-break-swift-init-rule.md')
+    .then(res => res.text())
+    .then(text => post.value = parse(text))
+})
+
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
-
-  <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
-    <p>
-      Edit
-      <code>components/HelloWorld.vue</code> to test HMR.
-    </p>
+  <div v-if="post != null">
+    <div v-html="post.content"></div>
   </div>
-
-  <p>
-    Check out
-    <a href="https://vuejs.org/guide/quick-start.html#local" target="_blank"
-      >create-vue</a
-    >, the official Vue + Vite starter
-  </p>
-  <p>
-    Install
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-    in your IDE for a better DX
-  </p>
-  <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
-}
+
 </style>
