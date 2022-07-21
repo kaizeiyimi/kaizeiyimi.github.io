@@ -1,29 +1,25 @@
-import hljs from "highlight.js"
-import { marked } from "marked"
 import path from 'path'
 import fs from 'fs'
 import glob from 'glob'
 import {fileURLToPath} from 'url'
-import { parse } from "./src/api/index.js"
+import parse from "./src/api/parse.js"
 
 const __dirname = path.resolve(path.dirname(fileURLToPath(import.meta.url)))
 
-// marked config
-marked.setOptions({
-  highlight: function(code, lang) {
-    return hljs.highlightAuto(code, [lang]).value
-  }
-})
+const siteBasePath = '/blog/'
+const projectDir = __dirname
+const publicDir = path.join(projectDir, 'public')
+const postsDir = path.join(projectDir, 'public/posts')
 
 // load all posts
-function loadAllPosts(dir) {
-  const posts = glob.sync(path.join(dir, '/**/*.md')).map(p => {
-    let post = parse(fs.readFileSync(p, 'utf8'))
+function loadAllPosts() {
+  const posts = glob.sync(path.join(postsDir, '/**/*.md')).map(p => {
+    let post = parse(fs.readFileSync(p, 'utf8'), path.dirname(p).replace(publicDir, siteBasePath))
     post.isDraft = path.basename(p).startsWith('_')
-    post.filePath = p
+    post.url = p.replace(publicDir, siteBasePath).replaceAll('//', '/')
+    post.content = undefined
     return post
   })
   return posts
 }
-
-console.log(loadAllPosts(path.join(__dirname, 'public/posts')));
+fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify(loadAllPosts()))

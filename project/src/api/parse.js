@@ -9,9 +9,22 @@ marked.setOptions({
 })
 
 // parse post at path
-function parse(markdown) {
+function parse(markdown, basePath) {
+  // refine relative urls for siteBase & basePath
+  function refineUrl(markdown) {
+    return markdown.replace(/\[.+?\]\(.+?\)/g, t => {
+      return t.replace(/\(.+?\)/, url => {
+        if (url.startsWith('(http') || url.startsWith('(/')) {
+          return url
+        }
+        const result = `(/${basePath}/${url.substring(1)}`.replaceAll('//', '/')
+        return result
+      })
+    })
+  }
+
   var [_, meta, ...content] = markdown.split('---').map(t => t.trim())
-  content = marked.parse(content.join()).trim()
+  content = marked.parse(refineUrl(content.join())).trim()
   
   var summary = content.includes('\n<!--more-->') ? content.split('\n<!--more-->')[0] : content.split('\n')[0]
   summary = summary.trim()
@@ -55,4 +68,4 @@ function parse(markdown) {
   }
 }
 
-export { parse }
+export default parse
