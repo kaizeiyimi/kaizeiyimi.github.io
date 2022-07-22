@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^8.9.4",
     "element-plus": "^2.2.9",
     "glob": "^8.0.3",
     "highlight.js": "^11.6.0",
     "marked": "^4.0.18",
-    "vue": "^3.2.37"
+    "normalize.css": "^8.0.1",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",

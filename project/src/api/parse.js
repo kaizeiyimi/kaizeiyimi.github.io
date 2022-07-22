@@ -30,7 +30,6 @@ function parse(markdown, basePath) {
   summary = summary.trim()
   
   /*
-  name: break-swift-init-rule
   title: 对swift中单例的init搞破坏
   date: 2016-05-26 11:41:02 +0800
   tags: swift, iOS

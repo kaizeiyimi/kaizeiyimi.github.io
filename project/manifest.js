@@ -17,9 +17,14 @@ function loadAllPosts() {
     let post = parse(fs.readFileSync(p, 'utf8'), path.dirname(p).replace(publicDir, siteBasePath))
     post.isDraft = path.basename(p).startsWith('_')
     post.url = p.replace(publicDir, siteBasePath).replaceAll('//', '/')
+    post.name = path.basename(p).slice(0,-3).replace(/\d{4}-\d{2}-\d{2}-/, '')
     post.content = undefined
     return post
   })
   return posts
 }
-fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify(loadAllPosts()))
+
+let manifest = {
+  posts: loadAllPosts()
+}
+fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify(manifest))
