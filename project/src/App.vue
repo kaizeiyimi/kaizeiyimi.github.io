@@ -29,6 +29,9 @@ watch(() => route.path, () => {
 <div class="content">
   <div><router-view></router-view></div>
 </div>
+<footer>
+  <div>copyleft by kaizei 2022</div>
+</footer>
 </template>
 
 <style scoped>
@@ -41,12 +44,13 @@ header {
   padding: 24px 16px;
 }
 .title {
-  color: white;
   font-size: 3rem;
   font-weight: 600;
+  color: white;
 }
 .desc {
   font-size: 0.8rem;
+  color: white;
 }
 ul {
   border-radius: 8px;
@@ -54,7 +58,7 @@ ul {
 }
 ul > li {
   display: inline-block;
-  padding: 4px 0;
+  padding: 6px 0;
   width: 72px;
   text-align: center;
   color: var(--el-color-primary);
@@ -65,6 +69,10 @@ li[highlighted], li:hover {
   opacity: 0.68;
   transition: 0.2s;
 }
+li a {
+  color: var(--el-color-primary);
+  transition: 0.2s;
+}
 li[highlighted] a, li:hover a {
   color: white;
   transition: 0.2s;
@@ -72,5 +80,13 @@ li[highlighted] a, li:hover a {
 .content {
   max-width: 960px;
   margin: 0 auto;
+}
+footer {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  color: var(--text-color-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 24px 0;
 }
 </style>

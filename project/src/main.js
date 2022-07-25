@@ -1,4 +1,4 @@
-import { createApp, getCurrentInstance } from 'vue'
+import { createApp } from 'vue'
 import { useDark } from '@vueuse/core'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import ElementPlus from 'element-plus'
@@ -10,12 +10,14 @@ import './style.css'
 import App from './App.vue'
 
 // router
-import Home from './pages/Home/Home.vue'
-import About from './pages/About/About.vue'
+import Home from './pages/Home.vue'
+import About from './pages/About.vue'
+import Post from './pages/Post.vue'
 
 const routes = [
   { path: '/', component: Home },
   { path: '/about', component: About },
+  { path: '/posts/:name', component: Post },
 ]
 
 const router = createRouter({

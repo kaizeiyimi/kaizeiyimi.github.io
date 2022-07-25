@@ -1,18 +1,17 @@
 <script setup>
 import { getCurrentInstance } from 'vue'
+import PostList from '@/components/PostList.vue'
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
 </script>
 
 <template>
 <div class="home">
-  <ul>
-    <li v-for="post in manifest.posts">
-      <div v-html="post.summary"></div>
-    </li>
-  </ul>
+  <PostList :posts="manifest.posts"></PostList>
 </div>
 </template>
 
 <style scoped>
-
+.home {
+  margin: 20px;
+}
 </style>
