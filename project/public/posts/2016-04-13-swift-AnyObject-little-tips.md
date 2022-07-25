@@ -1,6 +1,6 @@
 ---
 title: swift AnyObject little tips
-date: 2016-04-13 10:44:37
+date: 2016-04-13
 tags: swift
 ---
 

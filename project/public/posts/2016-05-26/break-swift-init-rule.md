@@ -1,6 +1,6 @@
 ---
 title: 对swift中单例的init搞破坏
-date: 2016-05-26 11:41:02
+date: 2016-05-26
 tags: swift,iOS
 ---
 

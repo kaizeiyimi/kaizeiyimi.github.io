@@ -48,9 +48,9 @@ function parse(markdown, basePath) {
     meta.tags = (meta.tags || '').split(',').map(t => t.trim())
   
     if(meta.date) {
-      const parsed = /^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}(?::\d{2})?)\s*([+-]\d{4})?$/.exec(meta.date)
+      const parsed = /^(\d{4}-\d{2}-\d{2})$/.exec(meta.date)
       if (parsed) {
-        const ts = new Date(parsed[3] ? meta.date : `${meta.date} +0800`).getTime()
+        const ts = new Date(meta.date).getTime()
         meta.date = ts ? ts : undefined
       } else {
         meta.date = undefined

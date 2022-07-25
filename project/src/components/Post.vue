@@ -5,7 +5,6 @@ const props = defineProps({
   card: Boolean
 })
 const date = (new Date(props.post.meta.date)).toLocaleDateString()
-
 function tagColor(tag) {
   let hash = Array.from(tag).reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)
   let order = hash%4 + 1
