@@ -1,4 +1,6 @@
 <script setup>
+import { onMounted } from 'vue';
+
 const props = defineProps({
   post: Object,
   html: String,
@@ -14,9 +16,9 @@ function tagColor(tag) {
 
 <template>
 <div class="post" :card="card || undefined">
-  <div class="title">
+  <h1 class="title">
     <router-link :to="`/posts/${post.name}`">{{post.meta.title}}</router-link>
-  </div>
+  </h1>
   <ul><li v-for="tag in post.meta.tags" class="tag" :style="`background-color: ${tagColor(tag)}`">{{tag}}</li></ul>
   <div class="date">{{date}}</div>
   <div class="markdown" v-html="html"></div>
@@ -27,15 +29,19 @@ function tagColor(tag) {
 .title {
   font-size: 1.8rem;
   font-weight: 500;
+  margin-top: 2rem;
+  margin-bottom: 8px;
+}
+.post[card] > .title {
+  margin-top: 0;
 }
 ul {
   display: flex;
   gap: 8px;
-  margin: 8px 0;
 }
 .tag {
   display: inline-block;
-  background-color: var(--el-color-primary);
+  background-color: var(--color-primary);
   color: white;
   padding: 4px 8px;
   font-size: 0.8rem;
@@ -46,15 +52,6 @@ ul {
   font-size: 0.8rem;
   font-weight: 300;
   color: var(--text-color-muted);
-}
-.markdown {
-  line-height: 1.7;
-}
-.markdown:deep(p) {
-  margin: 16px 0;
-}
-
-.markdown:deep(p:last-child) {
-  margin-bottom: 0;
+  margin: 12px 0 16px;
 }
 </style>

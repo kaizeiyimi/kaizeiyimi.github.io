@@ -40,7 +40,7 @@ header {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  background-color: var(--el-color-primary);
+  background-color: var(--color-primary);
   padding: 24px 16px;
 }
 .title {
@@ -61,21 +61,19 @@ ul > li {
   padding: 6px 0;
   width: 72px;
   text-align: center;
-  color: var(--el-color-primary);
+  color: var(--color-primary);
   font-weight: 500;
 }
 li[highlighted], li:hover {
-  background-color: var(--el-color-primary);
+  background-color: var(--color-primary);
   opacity: 0.68;
   transition: 0.2s;
 }
 li a {
-  color: var(--el-color-primary);
-  transition: 0.2s;
+  color: var(--color-primary);
 }
 li[highlighted] a, li:hover a {
   color: white;
-  transition: 0.2s;
 }
 .content {
   max-width: 960px;

@@ -2,11 +2,16 @@ import hljs from "highlight.js"
 import { marked } from "marked"
 
 // marked config
-marked.setOptions({
-  highlight: function(code, lang) {
-    return hljs.highlightAuto(code, [lang]).value
-  }
-})
+const renderer = new marked.Renderer()
+renderer.code = function(code, lang) {
+  return `
+  <div class="code-container">
+    <div class="lang">${lang}</div>
+    <pre><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>
+  </div>`
+}
+
+marked.setOptions({ renderer })
 
 // parse post at path
 function parse(markdown, basePath) {

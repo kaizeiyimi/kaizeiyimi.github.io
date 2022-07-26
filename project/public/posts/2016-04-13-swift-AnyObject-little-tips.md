@@ -9,11 +9,12 @@ tags: swift
 
 <!-- more -->
 
-> The protocol to which all classes implicitly conform.
-
-> When used as a concrete type, all known **@objc** methods and
- properties are available, as implicitly-unwrapped-optional methods
- and properties respectively, on each instance of **AnyObject**. 
+> The `protocol` to which all classes implicitly conform.
+  <br/>
+  <br/>
+  When used as a concrete type, all known **@objc** methods and
+  properties are available, as implicitly-unwrapped-optional methods
+  and properties respectively, on each instance of **AnyObject**. 
 
 因此, 在强类型中就混入了弱类型的不安定因素.
 
