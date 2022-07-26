@@ -7,6 +7,9 @@ import {fileURLToPath} from 'url'
 export default defineConfig({
   plugins: [vue()],
   base: '/blog/',
+  server: {
+    host: true
+  },
   build: {
     outDir: '../blog'
   },

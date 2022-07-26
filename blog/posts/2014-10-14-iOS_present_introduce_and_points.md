@@ -1,6 +1,6 @@
 ---
 title: iOS present 场景切换的演化和要点
-date: 2014-10-14 14:30:00 +0800
+date: 2014-10-14
 tags: iOS
 ---
 

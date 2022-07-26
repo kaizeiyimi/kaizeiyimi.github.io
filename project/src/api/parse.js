@@ -27,9 +27,14 @@ function parse(markdown, basePath) {
       })
     })
   }
-
-  var [_, meta, ...content] = markdown.split('---').map(t => t.trim())
-  content = marked.parse(refineUrl(content.join())).trim()
+  var markdown = '\n' + markdown.split('\n').map(line => line.trimEnd()).join('\n')
+  var [_, meta, ...content] = markdown.split('\n---\n').map(t => t.trim())
+  if (markdown.startsWith('\n---\n')) {
+    content = marked.parse(refineUrl(content.join())).trim()
+  } else {
+    meta = null
+    content = marked.parse(refineUrl(markdown)).trim()
+  }
   
   var summary = content.includes('\n<!--more-->') ? content.split('\n<!--more-->')[0] : content.split('\n')[0]
   summary = summary.trim()
@@ -63,7 +68,7 @@ function parse(markdown, basePath) {
     }
     return meta
   }
-
+  
   //
   return {
     meta: parseMeta(meta),

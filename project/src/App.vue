@@ -85,6 +85,6 @@ footer {
   color: var(--text-color-muted);
   font-size: 0.8rem;
   font-weight: 600;
-  margin: 24px 0;
+  margin: 40px 0 16px;
 }
 </style>

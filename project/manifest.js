@@ -24,7 +24,7 @@ function loadAllPosts() {
   return posts
 }
 
-let manifest = {
-  posts: loadAllPosts()
-}
-fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify(manifest))
+const allPosts = loadAllPosts()
+const about = allPosts.filter(p => p.name == 'about')[0]
+const posts = allPosts.filter(p => p.name != 'about')
+fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify({posts, about}))
