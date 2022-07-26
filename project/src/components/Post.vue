@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import Tag from './Tag.vue'
 
 const props = defineProps({
   post: Object,
@@ -7,19 +7,15 @@ const props = defineProps({
   card: Boolean
 })
 const date = (new Date(props.post.meta.date)).toLocaleDateString()
-function tagColor(tag) {
-  let hash = Array.from(tag).reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)
-  let order = hash%4 + 1
-  return `var(--bg-color-tag-${order})`
-}
 </script>
 
 <template>
 <div class="post" :card="card || undefined">
-  <h1 class="title">
+  <h1 v-if="card" class="title">
     <router-link :to="`/posts/${post.name}`">{{post.meta.title}}</router-link>
   </h1>
-  <ul><li v-for="tag in post.meta.tags" class="tag" :style="`background-color: ${tagColor(tag)}`">{{tag}}</li></ul>
+  <h1 v-else class="title">{{post.meta.title}}</h1>
+  <ul><li v-for="tag in post.meta.tags"><Tag :tag="tag"></Tag></li></ul>
   <div class="date">{{date}}</div>
   <div class="markdown" v-html="html"></div>
 </div>

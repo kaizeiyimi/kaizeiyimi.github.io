@@ -1,7 +1,7 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
-import parse from '@/api/parse'
+import { parse } from '@/utils/utils.js'
 import Post from '@/components/Post.vue'
 
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest

@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import glob from 'glob'
 import {fileURLToPath} from 'url'
-import parse from "./src/api/parse.js"
+import { parse } from "./src/utils/utils.js"
 
 const __dirname = path.resolve(path.dirname(fileURLToPath(import.meta.url)))
 

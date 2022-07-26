@@ -7,11 +7,11 @@
   --text-color-muted: #555;
   --text-color-anti: #ddd; 
   --color-primary: #9499ff;
-
-  --bg-color-tag-1: #54549c;
-  --bg-color-tag-2: #ca4a44;
-  --bg-color-tag-3: #497d97;
-  --bg-color-tag-4: #388466;
+  
+  --bg-color-tag-1: #ca4a44;  
+  --bg-color-tag-2: #F39C12;
+  --bg-color-tag-3: #388466;
+  --bg-color-tag-4: #3498DB;
 }
 @media (prefers-color-scheme: dark) {
   :root {

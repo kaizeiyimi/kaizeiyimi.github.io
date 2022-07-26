@@ -1,6 +1,7 @@
 <script setup>
 import { getCurrentInstance } from 'vue'
 import PostList from '@/components/PostList.vue'
+
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
 </script>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
-import parse from '@/api/parse'
+import { parse } from '@/utils/utils.js'
 
 const html = ref(null)
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
