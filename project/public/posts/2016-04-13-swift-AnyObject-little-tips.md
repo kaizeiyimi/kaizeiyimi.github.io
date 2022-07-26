@@ -89,5 +89,3 @@ let content = value["person"]?.flatMap({$0})?["id"]?.flatMap({$0}) // will be 'A
 
 ## 总结
 呵呵哒... 总结就是不要乱用, 少年, 除非你真的知道自己在做什么
-
-

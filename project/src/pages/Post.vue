@@ -1,6 +1,6 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { parse } from '@/utils/utils.js'
 import Post from '@/components/Post.vue'
 
@@ -8,15 +8,18 @@ const manifest = getCurrentInstance().appContext.config.globalProperties.$manife
 const post = ref(null)
 
 function reload(name) {
+  if (manifest.posts.findIndex(p => p.name == name) == -1) {
+    router.replace({name: 'not-found'})
+    return;
+  }
   const url = manifest.posts.filter(p => p.name == name)[0].url
   fetch(url)
     .then(res => res.text())
     .then(text => post.value = parse(text, url.split('/').slice(0, -1).join('/')))
 }
 
-onBeforeRouteUpdate((to) => {
-  reload(to.params.name)
-})
+const router = useRouter()
+onBeforeRouteUpdate((to) => reload(to.params.name))
 reload(useRoute().params.name)
 </script>
 

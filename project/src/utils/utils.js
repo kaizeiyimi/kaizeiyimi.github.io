@@ -6,4 +6,10 @@ function tagColor(tag) {
   return `var(--bg-color-tag-${order})`
 }
 
-export { parse, tagColor }
+function extractContent(html) {
+  const span = document.createElement('span')
+  span.innerHTML = html
+  return span.textContent || span.innerText
+}
+
+export { parse, tagColor, extractContent }
