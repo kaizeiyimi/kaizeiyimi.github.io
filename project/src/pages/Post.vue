@@ -13,7 +13,7 @@ function reload(name) {
     return;
   }
   const url = manifest.posts.filter(p => p.name == name)[0].url
-  fetch(url)
+  fetch(url, {cache: 'reload'})
     .then(res => res.text())
     .then(text => post.value = parse(text, url.split('/').slice(0, -1).join('/')))
 }
