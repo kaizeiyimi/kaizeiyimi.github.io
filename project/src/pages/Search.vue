@@ -5,7 +5,7 @@ import PostList from '@/components/PostList.vue'
 import searchIcon from '@/assets/search.png'
 
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
-const desc = parse('通过`标题`, `标签`, `日期`, `缩略`搜索:', '/').content
+const desc = parse('通过`标题`, `标签`, `日期`, `预览`搜索:', '/').content
 const key = ref('')
 const posts = computed(() => {
   if (!key.value) return []
