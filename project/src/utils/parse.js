@@ -3,6 +3,9 @@ import { marked } from "marked"
 
 // marked config
 const renderer = new marked.Renderer()
+renderer.codespan = function(code) {
+  return `<code class="codespan">${code}</code>`
+}
 renderer.code = function(code, lang) {
   return `
   <div class="code-container">
@@ -27,6 +30,7 @@ function parse(markdown, basePath) {
       })
     })
   }
+
   var markdown = '\n' + markdown.split('\n').map(line => line.trimEnd()).join('\n')
   var [_, meta, ...content] = markdown.split('\n---\n').map(t => t.trim())
   if (markdown.startsWith('\n---\n')) {
