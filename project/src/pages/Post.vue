@@ -1,7 +1,7 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-import { parse } from '@/utils/utils.js'
+import { parse, request } from '@/utils/utils.js'
 import Post from '@/components/Post.vue'
 
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
@@ -13,7 +13,7 @@ function reload(name) {
     return;
   }
   const url = manifest.posts.filter(p => p.name == name)[0].url
-  fetch(url, {cache: 'reload'})
+  request(url)
     .then(res => res.text())
     .then(text => post.value = parse(text, url.split('/').slice(0, -1).join('/')))
 }
