@@ -33,7 +33,7 @@ const router = createRouter({
 const app = createApp(App)
 app.use(router)
   
-fetch(('/blog/' + '/manifest.json').replaceAll('//', '/'))
+fetch(('/blog/' + '/manifest.json').replaceAll('//', '/'), {cache: 'reload'})
   .then(res => res.json())
   .then(res => {
     res.posts.forEach(p => {

@@ -5,7 +5,7 @@ import { parse } from '@/utils/utils.js'
 const html = ref(null)
 const manifest = getCurrentInstance().appContext.config.globalProperties.$manifest
 const url = manifest.about.url
-  fetch(url)
+  fetch(url, {cache: 'reload'})
     .then(res => res.text())
     .then(text => { 
       html.value = parse(text, url.split('/').slice(0, -1).join('/')).content
