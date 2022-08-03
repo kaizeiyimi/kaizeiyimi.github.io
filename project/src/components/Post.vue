@@ -12,7 +12,7 @@ const date = (new Date(props.post.meta.date)).toLocaleDateString()
 <template>
 <div class="post" :card="card || undefined">
   <h1 v-if="card" class="title">
-    <router-link :to="`/posts/${post.name}`">{{post.meta.title}}</router-link>
+    <router-link :to="`/posts/${post.name.toLowerCase()}`">{{post.meta.title}}</router-link>
   </h1>
   <h1 v-else class="title">{{post.meta.title}}</h1>
   <ul><li v-for="tag in post.meta.tags"><Tag :tag="tag"></Tag></li></ul>
