@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { useDark } from '@vueuse/core'
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { extractContent } from '@/utils/utils.js'
+import { extractContent, request } from '@/utils/utils.js'
 import 'normalize.css'
 import 'highlight.js/styles/atom-one-dark.css'
 import './style.css'
@@ -33,7 +33,7 @@ const router = createRouter({
 const app = createApp(App)
 app.use(router)
   
-fetch(('/blog/' + '/manifest.json').replaceAll('//', '/'), {cache: 'reload'})
+request(('/blog/' + '/manifest.json').replaceAll('//', '/'))
   .then(res => res.json())
   .then(res => {
     res.posts.forEach(p => {

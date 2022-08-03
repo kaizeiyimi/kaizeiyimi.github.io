@@ -84,6 +84,10 @@ ol, ul {
   border-top: 1px solid var(--color-primary);
   opacity: 0.2;
 }
+.markdown strong {
+  color: var(--color-primary);
+  font-weight: 500;
+}
 .markdown blockquote {
   border-left-width: 4px;
   border-left-color: var(--color-primary);
@@ -94,7 +98,6 @@ ol, ul {
 }
 .markdown code {
   font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-  padding: 0.15rem 0.5rem;
   margin: 0 2px;
   border-radius: 4px;
   font-size: 0.9rem;
@@ -105,6 +108,7 @@ ol, ul {
 }
 .markdown .codespan {
   vertical-align: 5%;
+  padding: 0.15rem 0.3rem;
 }
 .markdown .code-container {
   position: relative;
