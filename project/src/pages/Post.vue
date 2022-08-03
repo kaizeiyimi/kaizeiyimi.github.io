@@ -8,11 +8,11 @@ const manifest = getCurrentInstance().appContext.config.globalProperties.$manife
 const post = ref(null)
 
 function reload(name) {
-  if (manifest.posts.findIndex(p => p.name == name) == -1) {
+  if (manifest.posts.findIndex(p => p.name.toLowerCase() == name.toLowerCase()) == -1) {
     router.replace({name: 'not-found'})
     return;
   }
-  const url = manifest.posts.filter(p => p.name == name)[0].url
+  const url = manifest.posts.filter(p => p.name.toLowerCase() == name.toLowerCase())[0].url
   request(url)
     .then(res => res.text())
     .then(text => post.value = parse(text, url.split('/').slice(0, -1).join('/')))
