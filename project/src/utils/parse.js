@@ -13,6 +13,11 @@ renderer.code = function(code, lang) {
     <pre><code class="language-${lang}">${hljs.highlightAuto(code, [lang]).value}</code></pre>
   </div>`
 }
+renderer.link = function(href, title, text) {
+  let targetAttr = href.startsWith('/') ? '' : 'target=_blank'
+  let titleAttr = title ? `title="${title}"` : ''
+  return `<a href="${href}" ${titleAttr} ${targetAttr}>${text}</a>`
+}
 
 marked.setOptions({ renderer })
 
