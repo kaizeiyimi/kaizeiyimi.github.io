@@ -1,7 +1,7 @@
 :root {
   --bg-color-page: white;
-  --bg-color-card: #f3f3f3;
-  --bg-color-code-inline: #e2e2e2;
+  --bg-color-card: #f5f5f5;
+  --bg-color-code-inline: #ededed;
   --bg-color-code: #1a1a1a;
   --bg-color-input: #e2e2e2;
   --text-color: #262626;
@@ -101,14 +101,14 @@ ol, ul {
   margin: 0 2px;
   border-radius: 4px;
   font-size: 0.9rem;
-  background-color: var(--bg-color-code-inline);
 }
-.markdown blockquote code {
+.markdown blockquote .codespan {
   background-color: var(--bg-color-page);
 }
 .markdown .codespan {
   vertical-align: 5%;
-  padding: 0.15rem 0.3rem;
+  padding: 0.15rem 0.25rem;
+  background-color: var(--bg-color-code-inline);
 }
 .markdown .code-container {
   position: relative;

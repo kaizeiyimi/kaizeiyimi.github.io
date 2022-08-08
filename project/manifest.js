@@ -26,5 +26,5 @@ function loadAllPosts() {
 
 const allPosts = loadAllPosts()
 const about = allPosts.filter(p => p.name == 'about')[0]
-const posts = allPosts.filter(p => p.name != 'about')
+const posts = allPosts.filter(p => p.name != 'about').sort((a,b) => b.meta.date - a.meta.date)
 fs.writeFileSync(path.join(publicDir, 'manifest.json'), JSON.stringify({posts, about}))
